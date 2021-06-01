@@ -31,5 +31,7 @@ class ResPartner(models.Model):
         return super(ResPartner, self).search(args=args, offset=offset, limit=limit,
                                               order=order, count=count)
 
-    branch_id = fields.Many2one('company.branch', string="Branch",
-                                default=lambda self: self.env.user.branch_id)
+    # branch_id = fields.Many2one('company.branch', string="Branch",
+    #                             default=lambda self: self.env.user.branch_id)
+
+    branch_id = fields.Many2many('company.branch', string="Branch", required=True)
