@@ -21,5 +21,6 @@ from . import account_partner_ledger
 from . import account_general_ledger
 from . import account_aged_partner_balance
 from . import account_report
+from . import product
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

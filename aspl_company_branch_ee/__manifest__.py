@@ -33,6 +33,7 @@
         'views/account_view.xml',
         'views/mrp_view.xml',
         'views/fleet_vehicle_view.xml',
+        'views/product_view.xml',
         'views/res_company_view.xml',
         'report/sale_report_views.xml',
         'report/purchase_report_views.xml',
