@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record model='ir.ui.view' id='fleet_vehicle_model_form_custom'>
+        <field name="name">fleet.vehicle.model.form.extended</field>
+        <field name="model">fleet.vehicle</field>
+        <field name="inherit_id" ref="fleet.fleet_vehicle_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='acquisition_date']" position="after">
+                <field name="serial_number"/>
+                <field name="vehicle_type"/>
+                <field name="registration_type"/>
+                <field name="insurance_expiry"/>
+                <field name="registration_expiry"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_account_asset_custom_form">
+        <field name="name">account.asset.custom.form</field>
+        <field name="model">account.asset</field>
+        <field name="inherit_id" ref="account_asset.view_account_asset_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet/group" position="inside">
+                <group string="Additional Info">
+                    <field name="model_date"
+                           attrs="{'invisible': [('state', '=', 'model')], 'readonly': ['|', ('state','!=','draft'), ('original_move_line_ids', '!=', [])], 'readonly': [('state', '!=', 'draft')]}"/>
+                    <field name="branch_id"
+                           attrs="{'invisible': [('state', '=', 'model')], 'readonly': ['|', ('state','!=','draft'), ('original_move_line_ids', '!=', [])], 'readonly': [('state', '!=', 'draft')]}"/>
+                     <field name="code"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>
