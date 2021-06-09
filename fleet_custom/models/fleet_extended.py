@@ -43,7 +43,7 @@ class RegistrationType(models.Model):
 class AccountAsset(models.Model):
     _inherit = 'account.asset'
 
-    model_date = fields.Date('Model Date')
+    model_date = fields.Char('Model Date')
     branch_id = fields.Many2one('company.branch', string='Branch',
                                 default=lambda self: self.env.user.branch_id)
     code = fields.Char('Code')
