@@ -11,6 +11,7 @@
                 <field name="registration_type"/>
                 <field name="insurance_expiry"/>
                 <field name="registration_expiry"/>
+                <field name="code"/>
             </xpath>
         </field>
     </record>

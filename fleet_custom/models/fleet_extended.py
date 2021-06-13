@@ -18,6 +18,7 @@ class FleetOperations(models.Model):
     registration_type = fields.Many2one('fleet.registration.type',string='Registration Type')
     insurance_expiry = fields.Date('Insurance Expiry')
     registration_expiry = fields.Date('Registration Expiry')
+    code = fields.Char('Code')
 
 class VehicleType(models.Model):
     _name = 'fleet.vehicle.type'
