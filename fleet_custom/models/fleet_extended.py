@@ -19,6 +19,7 @@ class FleetOperations(models.Model):
     insurance_expiry = fields.Date('Insurance Expiry')
     registration_expiry = fields.Date('Registration Expiry')
     code = fields.Char('Code')
+    map_link = fields.Char('Map Link')
 
 class VehicleType(models.Model):
     _name = 'fleet.vehicle.type'
@@ -48,3 +49,14 @@ class AccountAsset(models.Model):
     branch_id = fields.Many2one('company.branch', string='Branch',
                                 default=lambda self: self.env.user.branch_id)
     code = fields.Char('Code')
+
+class CompanyBranch(models.Model):
+    _inherit = 'company.branch'
+
+    code = fields.Char('Code')
+    map_link = fields.Char('Map Link')
+
+class AccountAnalyticAccount(models.Model):
+    _inherit = 'account.analytic.account'
+
+    branch_id = fields.Many2one('company.branch', 'Branch')

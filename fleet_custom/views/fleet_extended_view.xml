@@ -13,6 +13,9 @@
                 <field name="registration_expiry"/>
                 <field name="code"/>
             </xpath>
+            <xpath expr="//field[@name='location']" position="after">
+                <field name="map_link"/>
+            </xpath>
         </field>
     </record>
 
@@ -63,6 +66,36 @@
         </field>
     </record>
 
-
+    <record model="ir.ui.view" id="company_branch_form_view">
+        <field name="name">company.branch.form.inherit</field>
+        <field name="model">company.branch</field>
+        <field name="inherit_id" ref="aspl_company_branch_ee.company_branch_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="code"/>
+                <field name="map_link"/>
+            </xpath>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="company_branch_tree_view">
+        <field name="name">company.branch.tree.inherit</field>
+        <field name="model">company.branch</field>
+        <field name="inherit_id" ref="aspl_company_branch_ee.company_branch_tree_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='company_id']" position="after">
+                <field name="code"/>
+            </xpath>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="analytic_branch_form_view">
+        <field name="name">account.analytic.account.form.inherit</field>
+        <field name="model">account.analytic.account</field>
+        <field name="inherit_id" ref="analytic.view_account_analytic_account_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='company_id']" position="after">
+                <field name="branch_id"/>
+            </xpath>
+        </field>
+    </record>
 
 </odoo>
