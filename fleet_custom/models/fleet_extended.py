@@ -49,6 +49,7 @@ class AccountAsset(models.Model):
     branch_id = fields.Many2one('company.branch', string='Branch',
                                 default=lambda self: self.env.user.branch_id)
     code = fields.Char('Code')
+    market_value =  fields.Float('Market Value')
 
 class CompanyBranch(models.Model):
     _inherit = 'company.branch'
