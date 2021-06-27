@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record model="ir.ui.view" id="view_account_asset_custom_form">
+        <field name="name">account.asset.custom.form</field>
+        <field name="model">account.asset</field>
+        <field name="inherit_id" ref="account_asset.view_account_asset_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='book_value']" position="after">
+                <field name="market_value"
+                       attrs="{'invisible': [('state', '=', 'model')], 'readonly': ['|', ('state','!=','draft'), ('original_move_line_ids', '!=', [])], 'readonly': [('state', '!=', 'draft')]}"/>
+            </xpath>
+            <xpath expr="//field[@name='acquisition_date']" position="after">
+                <field name="purchased_date"
+                       attrs="{'invisible': [('state', '=', 'model')], 'readonly': ['|', ('state','!=','draft'), ('original_move_line_ids', '!=', [])], 'readonly': [('state', '!=', 'draft')]}"/>
+                <field name="purchased_value"
+                       attrs="{'invisible': [('state', '=', 'model')], 'readonly': ['|', ('state','!=','draft'), ('original_move_line_ids', '!=', [])], 'readonly': [('state', '!=', 'draft')]}"/>
+            </xpath>
+            <xpath expr="//sheet/group" position="inside">
+                <group string="Additional Info">
+                    <field name="model_date"
+                           attrs="{'invisible': [('state', '=', 'model')], 'readonly': ['|', ('state','!=','draft'), ('original_move_line_ids', '!=', [])], 'readonly': [('state', '!=', 'draft')]}"/>
+                    <field name="branch_id"
+                           attrs="{'invisible': [('state', '=', 'model')], 'readonly': ['|', ('state','!=','draft'), ('original_move_line_ids', '!=', [])], 'readonly': [('state', '!=', 'draft')]}"/>
+                    <field name="code"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="account_asset.view_account_asset_search" model="ir.ui.view">
+        <field name="name">account.asset.search</field>
+        <field name="model">account.asset</field>
+        <field name="arch" type="xml">
+            <search string="Asset Account">
+                <field name="name" string="Asset"/>
+                <field name="model_date" string="Model Date"/>
+                <field name="branch_id"/>
+                <field name="code"/>
+                <filter string="Current" name="current" domain="[('state','in', ('draft','open'))]"
+                        help="Assets in draft and open states"/>
+                <filter string="Closed" name="closed" domain="[('state','=', 'close')]" help="Assets in closed state"/>
+                <field name="model_id" string="Asset Model"/>
+                <separator/>
+                <filter invisible="1" string="Late Activities" name="activities_overdue"
+                        domain="[('activity_ids.date_deadline', '&lt;', context_today().strftime('%Y-%m-%d'))]"
+                        help="Show all records which has next action date is before today"/>
+                <filter invisible="1" string="Today Activities" name="activities_today"
+                        domain="[('activity_ids.date_deadline', '=', context_today().strftime('%Y-%m-%d'))]"/>
+                <filter invisible="1" string="Future Activities" name="activities_upcoming_all"
+                        domain="[('activity_ids.date_deadline', '&gt;', context_today().strftime('%Y-%m-%d'))]"/>
+                <separator/>
+                <filter name="archived" string="Archived" domain="[('active', '=', False)]"/>
+                <group expand="0" string="Group By...">
+                    <filter string="Date" name="month" domain="[]" context="{'group_by':'first_depreciation_date'}"/>
+                    <filter string="Asset Model" name="model" domain="[]" context="{'group_by':'model_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+</odoo>

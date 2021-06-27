@@ -20,6 +20,13 @@ class FleetOperations(models.Model):
     registration_expiry = fields.Date('Registration Expiry')
     code = fields.Char('Code')
     map_link = fields.Char('Map Link')
+    employee_driver = fields.Many2one('hr.employee','Driver')
+
+    @api.onchange('employee_driver')
+    def _onchange_employee_driver(self):
+        if self.employee_driver and not self.employee_driver.address_home_id:
+            raise ValidationError('Please add Address in Employee form to link with partner account.')
+        self.driver_id = self.employee_driver.address_home_id.id
 
 class VehicleType(models.Model):
     _name = 'fleet.vehicle.type'
@@ -49,7 +56,9 @@ class AccountAsset(models.Model):
     branch_id = fields.Many2one('company.branch', string='Branch',
                                 default=lambda self: self.env.user.branch_id)
     code = fields.Char('Code')
-    market_value =  fields.Float('Market Value')
+    market_value = fields.Float('Market Value')
+    purchased_date = fields.Date('Purchased Date')
+    purchased_value = fields.Date('Purchased Value')
 
 class CompanyBranch(models.Model):
     _inherit = 'company.branch'

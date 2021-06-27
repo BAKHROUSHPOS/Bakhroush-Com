@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-# See LICENSE file for full copyright and licensing details.
 
 {
     # Module Information
@@ -13,10 +12,15 @@
     # Website
     'author': 'Aneesh.AV',
     # Dependencies
-    'depends': ['fleet','account_asset'],
+    'depends': ['fleet','account_asset','hr'],
     # Data
     'data': [
         'security/ir.model.access.csv',
+        'views/analytic_view.xml',
+        'views/asset_view.xml',
+        'views/branch_view.xml',
+        'views/contacts_view.xml',
+        'views/employee_view.xml',
         'views/fleet_extended_view.xml',
         'views/fleet_config.xml',
          ],
