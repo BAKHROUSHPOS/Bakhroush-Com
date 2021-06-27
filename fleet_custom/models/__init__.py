@@ -3,7 +3,7 @@
 
 from . import fleet_extended
 from . import employee
-from . import contact
+#from . import contact
 from . import analytic
 from . import asset
 from . import branch
