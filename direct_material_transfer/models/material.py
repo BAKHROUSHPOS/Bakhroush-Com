@@ -25,15 +25,20 @@ class DirectMaterial(models.Model):
     )
     source_location_id = fields.Many2one(
         'stock.location',
-        string="Source Location",
+        string="From",
+        required=True,
+        states={'done': [('readonly', True)]}
+    )
+    to_location = fields.Many2one(
+        'stock.expense.location',
+        string="To",
         required=True,
         states={'done': [('readonly', True)]}
     )
     destination_location_id = fields.Many2one(
-        'stock.location',
+        related='to_location.location',
         string="Destination Location",
-        required=True,
-        states={'done': [('readonly', True)]}
+        store=True
     )
     source_partner_id = fields.Many2one(
         'res.partner',
@@ -91,8 +96,9 @@ class DirectMaterial(models.Model):
                                states={'done': [('readonly', True)]}
                                )
     expense_account = fields.Many2one(
-        'account.account',
+        related='to_location.expense_account',
         string="Expense Account",
+        store=True
     )
     stock_journal = fields.Many2one(
         'account.journal',
@@ -106,11 +112,10 @@ class DirectMaterial(models.Model):
         copy=False
     )
 
-    @api.onchange('destination_location_id')
-    def _onchange_destination_location_id(self):
-        if self.destination_location_id and not self.destination_location_id.expense_account:
-            raise ValidationError("Please Select the Expense account in the Destination Location")
-        self.expense_account = self.destination_location_id.expense_account.id
+    @api.onchange('to_location')
+    def _onchange_to_location(self):
+        if self.to_locatio and not self.to_location.expense_account or not self.to_location.location:
+            raise ValidationError("Please add the Expense account or Location to To location")
 
     @api.model
     def create(self, vals):
@@ -132,10 +137,10 @@ class DirectMaterial(models.Model):
         for rec in self:
             rec.state = 'approve'
 
-    def _prepare_move_line_vals(self, move, line, quantity):
+    def _prepare_move_line_vals(self, move, line, quantity,new_move):
         self.ensure_one()
         vals = {
-            'move_id': move.id,
+            'move_id': new_move.id,
             'product_id': line.product_id.id,
             'product_uom_id': line.product_uom.id,
             'location_id': move.source_location_id.id,
@@ -154,6 +159,7 @@ class DirectMaterial(models.Model):
                 vals = dict(vals, qty_done=quantity)
             else:
                 vals = dict(vals, qty_done=quantity, product_uom_id=line.product_id.uom_id.id)
+        print(vals)
         return vals
 
     def act_done(self):
@@ -170,11 +176,12 @@ class DirectMaterial(models.Model):
                     'company_id': rec.company_id.id,
                     'state': 'done'
                 })
+
                 new_move._action_confirm()
                 new_move._action_assign()
                 new_move._action_done()
                 self.env['stock.move.line'].create(
-                    self._prepare_move_line_vals(rec, line, quantity=line.product_qty, ))
+                    self._prepare_move_line_vals(rec, line, line.product_qty,new_move))
                 line.move_id = new_move.id
                 # new_move.write({'state': 'done'})
             rec.transferred_date = fields.Date.today()
