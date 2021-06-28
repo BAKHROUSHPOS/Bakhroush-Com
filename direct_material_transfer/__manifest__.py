@@ -13,6 +13,7 @@
         'security/ir.model.access.csv',
         'data/ir_sequence.xml',
         'views/direct_material_view.xml',
+        'views/stock_expense_setting.xml',
     ],
     'installable': True,
     'application': True,

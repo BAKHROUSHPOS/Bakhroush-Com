@@ -25,8 +25,9 @@
                         </div>
                         <group name="asset_info">
                             <group string="Location Information" name="location" attrs="{'readonly': [('state', '=', 'done')]}">
-                                <field name="source_location_id"/>
-                                <field name="destination_location_id"/>
+                                <field name="source_location_id" domain="[('usage','=','internal')]"/>
+                                <field name="to_location"/>
+                                <field name="destination_location_id" readonly="1" invisible="1"/>
                                 <field name="source_partner_id"/>
                                 <field name="destination_partner_id"/>
                                 <field name="id" invisible="1"/>
@@ -35,7 +36,7 @@
                                 <field name="company_id"/>
                                 <field name="analytic_account_id"/>
                                 <field name="received_user_id"/>
-                                <field name="expense_account"/>
+                                <field name="expense_account" readonly="1" invisible="1"/>
                                 <field name="stock_journal"/>
                             </group>
                             <group name="transfer_create" attrs="{'readonly': [('state', '=', 'done')]}">
