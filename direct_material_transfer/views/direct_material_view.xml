@@ -26,7 +26,7 @@
                         <group name="asset_info">
                             <group string="Location Information" name="location" attrs="{'readonly': [('state', '=', 'done')]}">
                                 <field name="source_location_id"/>
-                                <field name="destination_location_id"/>
+                                <field name="destination_location_id" domain="[('expense_account','!=',False)]"/>
                                 <field name="source_partner_id"/>
                                 <field name="destination_partner_id"/>
                                 <field name="id" invisible="1"/>
