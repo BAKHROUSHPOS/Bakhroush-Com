@@ -114,7 +114,7 @@ class DirectMaterial(models.Model):
 
     @api.onchange('to_location')
     def _onchange_to_location(self):
-        if self.to_locatio and not self.to_location.expense_account or not self.to_location.location:
+        if self.to_location and not self.to_location.expense_account or not self.to_location.location:
             raise ValidationError("Please add the Expense account or Location to To location")
 
     @api.model
@@ -159,7 +159,6 @@ class DirectMaterial(models.Model):
                 vals = dict(vals, qty_done=quantity)
             else:
                 vals = dict(vals, qty_done=quantity, product_uom_id=line.product_id.uom_id.id)
-        print(vals)
         return vals
 
     def act_done(self):

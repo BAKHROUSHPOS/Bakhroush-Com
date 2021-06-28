@@ -8,7 +8,7 @@
             <field name="arch" type="xml">
                 <tree string="Location Expense" editable="bottom">
                     <field name="name"/>
-                    <field name="location"/>
+                    <field name="location" domain="[('usage','=','customer')]"/>
                     <field name="expense_account"/>
                 </tree>
             </field>
@@ -22,7 +22,7 @@
                     <sheet>
                         <group>
                             <field name="name"/>
-                            <field name="location"/>
+                            <field name="location" domain="[('usage','=','customer')]"/>
                             <field name="expense_account"/>
                         </group>
                     </sheet>
