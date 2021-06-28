@@ -19,7 +19,7 @@
         'views/analytic_view.xml',
         'views/asset_view.xml',
         'views/branch_view.xml',
-#         'views/contacts_view.xml',
+        # 'views/contacts_view.xml',
         'views/employee_view.xml',
         'views/fleet_extended_view.xml',
         'views/fleet_config.xml',
