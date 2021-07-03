@@ -19,4 +19,4 @@ class AccountAsset(models.Model):
     code = fields.Char('Code')
     market_value = fields.Float('Market Value')
     purchased_date = fields.Date('Purchased Date')
-    purchased_value = fields.Date('Purchased Value')
+    purchased_value = fields.Float('Purchased Value')
