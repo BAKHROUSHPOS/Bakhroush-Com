@@ -42,7 +42,8 @@ class StockPicking(models.Model):
     corresponding = fields.Char(
         'Corresponding'
     )
-    car_no = fields.Char(
+    car_no = fields.Many2one(
+        'fleet.vehicle',
         'Car No.'
     )
     driver_name = fields.Char(
@@ -53,6 +54,11 @@ class StockPicking(models.Model):
         string="Method",
         required=True,
     )
+
+    @api.onchange('car_no')
+    def _onchange_car_no(self):
+        if self.car_no:
+            self.driver_name = self.car_no.employee_driver.name
 
 class StockMoveLine(models.Model):
     _inherit = 'stock.move.line'

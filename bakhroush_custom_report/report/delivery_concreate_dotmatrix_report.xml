@@ -72,7 +72,7 @@
                             <td style="width:80mm;text-align:center;"><span t-field="o.load_time_mixer"/></td>
                             <td style="width:35mm;text-align:right;"></td>
 <!--                            Car No.-->
-                            <td colspan="2" style="width:67mm;text-align:center;"><span t-field="o.car_no"/></td>
+                            <td colspan="2" style="width:67mm;text-align:center;"><span t-field="o.car_no.license_plate"/></td>
                             <td style="width:30mm;text-align:right;"></td>
                         </tr>
 
