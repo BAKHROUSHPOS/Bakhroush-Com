@@ -16,9 +16,9 @@
     # Data
     'data': [
         # 'security/ir.model.access.csv',
+        'report/delivery_report.xml',
         'report/delivery_dotmatrix_report.xml',
         'report/delivery_concreate_dotmatrix_report.xml',
-        'report/delivery_report.xml',
         'views/stock_picking_view.xml',
         'views/res_company_view.xml',
          ],
