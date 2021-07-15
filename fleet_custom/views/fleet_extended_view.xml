@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record model='ir.ui.view' id='fleet_vehicle_model_form_custom'>
+        <field name="name">fleet.vehicle.model.form.extended</field>
+        <field name="model">fleet.vehicle</field>
+        <field name="inherit_id" ref="fleet.fleet_vehicle_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='driver_id']" position="before">
+                <field name="employee_driver"/>
+            </xpath>
+            <xpath expr="//field[@name='driver_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='acquisition_date']" position="after">
+                <field name="serial_number"/>
+                <field name="vehicle_type"/>
+                <field name="registration_type"/>
+                <field name="insurance_expiry"/>
+                <field name="registration_expiry"/>
+                <field name="code"/>
+            </xpath>
+            <xpath expr="//field[@name='location']" position="after">
+                <field name="map_link"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Vehicle Type -->
+    <record id="view_vehicle_type_tree" model="ir.ui.view">
+            <field name="name">fleet.vehicle.type.tree</field>
+            <field name="model">fleet.vehicle.type</field>
+            <field name="arch" type="xml">
+                <tree string="Vechicle Type" editable="bottom">
+                    <field name="active" invisible="1"/>
+                    <field colspan="4" name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="vehicle_type_form" model="ir.ui.view">
+            <field name="name">fleet.vehicle.type.form</field>
+            <field name="model">fleet.vehicle.type</field>
+            <field name="arch" type="xml">
+                <form string="Vehicle Type">
+                    <sheet>
+                        <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+                        <group>
+                            <field name="active" invisible="1"/>
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="fleet_vehicle_type_view_search" model="ir.ui.view">
+            <field name="name">fleet.vehicle.type.search</field>
+            <field name="model">fleet.vehicle.type</field>
+            <field name="arch" type="xml">
+                <search string="Vehicle Type">
+                    <field name="name"/>
+                    <separator/>
+                    <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_fleet_vehicle_type" model="ir.actions.act_window">
+            <field name="name">Vehicle Type</field>
+            <field name="res_model">fleet.vehicle.type</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                Create a new fleet vehicle type
+              </p><p>
+
+              </p>
+            </field>
+        </record>
+
+<!--    Registration Type-->
+    <record id="view_registration_type_tree" model="ir.ui.view">
+            <field name="name">fleet.registration.type.tree</field>
+            <field name="model">fleet.registration.type</field>
+            <field name="arch" type="xml">
+                <tree string="Registration Type" editable="bottom">
+                    <field name="active" invisible="1"/>
+                    <field colspan="4" name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="registration_type_form" model="ir.ui.view">
+            <field name="name">fleet.registration.type.form</field>
+            <field name="model">fleet.registration.type</field>
+            <field name="arch" type="xml">
+                <form string="Registration Type">
+                    <sheet>
+                        <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+                        <group>
+                            <field name="active" invisible="1"/>
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="fleet_registration_type_view_search" model="ir.ui.view">
+            <field name="name">fleet.registration.type.search</field>
+            <field name="model">fleet.registration.type</field>
+            <field name="arch" type="xml">
+                <search string="Registration Type">
+                    <field name="name"/>
+                    <separator/>
+                    <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_fleet_registration_type" model="ir.actions.act_window">
+            <field name="name">Registration Type</field>
+            <field name="res_model">fleet.registration.type</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                Create a new fleet registration type
+              </p><p>
+
+              </p>
+            </field>
+        </record>
+
+    <menuitem id="fleet_vehicle_type_menu" parent="fleet.fleet_configuration" action="action_fleet_vehicle_type" sequence="70" groups="fleet.fleet_group_manager"/>
+    <menuitem id="fleet_registration_type_menu" parent="fleet.fleet_configuration" action="action_fleet_registration_type" sequence="71" groups="fleet.fleet_group_manager"/>
+</odoo>
