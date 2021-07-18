@@ -32,7 +32,7 @@
                             <td style="width:80mm;text-align:center;"><span t-field="o.invoice_no"/></td>
                             <td style="width:40mm;text-align:right;"></td>
 
-                            <td style="width:56mm;text-align:center;font-size: 15px;font-weight:bold"></td>
+                            <td style="width:80mm;text-align:center;font-size: 15px;font-weight:bold"></td>
 <!--                            S.no-->
                             <td style="width:80mm;text-align:center;"><span t-field="o.name"/></td>
                             <td style="width:30mm;text-align:right;"></td>
@@ -42,7 +42,7 @@
                             <td style="width:80mm;text-align:center;"><span t-field="o.building_permit_no"/></td>
                             <td style="width:40mm;text-align:right;"></td>
 
-                            <td style="width:56mm;text-align:center;font-size: 15px;font-weight:bold"></td>
+                            <td style="width:80mm;text-align:center;font-size: 15px;font-weight:bold"></td>
 <!--                            Corresponding-->
                             <td style="width:80mm;text-align:center;"><span t-field="o.scheduled_date"/></td>
                             <td style="width:30mm;text-align:right;"></td>
@@ -52,7 +52,7 @@
                             <td style="width:80mm;text-align:center;"><span t-field="o.type_of_use"/></td>
                             <td style="width:40mm;text-align:right;"></td>
 
-                            <td style="width:56mm;text-align:center;font-size: 20px;font-weight:bold"/>
+                            <td style="width:80mm;text-align:center;font-size: 20px;font-weight:bold"/>
 <!--                            Delivery No.-->
                             <td style="width:80mm;text-align:center;"><span t-field="o.scheduled_date"/></td>
                             <td style="width:30mm;text-align:right;"></td>
@@ -72,7 +72,7 @@
                             <td style="width:80mm;text-align:center;"><span t-field="o.load_time_mixer"/></td>
                             <td style="width:35mm;text-align:right;"></td>
 <!--                            Car No.-->
-                            <td colspan="2" style="width:67mm;text-align:center;"><span t-field="o.car_no.license_plate"/></td>
+                            <td colspan="2" style="width:67mm;text-align:center;"><span t-field="o.car_no "/></td>
                             <td style="width:30mm;text-align:right;"></td>
                         </tr>
 
@@ -88,17 +88,17 @@
 
                     <table style="font-family:Calibri;font-size: 13px;border-collapse: collapse;">
                         <tr>
-                            <td style="width:11mm;text-align:center;"><br/><br/><br/></td>
-                            <td style="width:23mm;text-align:center;"><br/><br/><br/></td>
-                            <td style="width:34mm;text-align:center;"><br/><br/><br/></td>
-                            <td style="width:25mm;text-align:center;"><br/><br/><br/></td>
-                            <td style="width:34mm;text-align:center;"><br/><br/><br/></td>
-                            <td style="width:32mm;text-align:center;"><br/><br/><br/></td>
-                            <td style="width:34mm;text-align:center;"><br/><br/><br/></td>
-                            <td style="width:34mm;text-align:center;"><br/><br/><br/></td>
-                            <td style="width:34mm;text-align:center;"><br/><br/><br/></td>
-                            <td style="width:22mm;text-align:center;"><br/><br/><br/></td>
-                            <td style="width:22mm;text-align:center;"><br/><br/><br/></td>
+                            <td style="width:22mm;text-align:center;"><br/><br/><br/><br/><br/></td>
+                            <td style="width:46mm;text-align:center;"><br/><br/><br/><br/><br/></td>
+                            <td style="width:68mm;text-align:center;"><br/><br/><br/><br/><br/></td>
+                            <td style="width:50mm;text-align:center;"><br/><br/><br/><br/><br/></td>
+                            <td style="width:68mm;text-align:center;"><br/><br/><br/><br/><br/></td>
+                            <td style="width:64mm;text-align:center;"><br/><br/><br/><br/><br/></td>
+                            <td style="width:68mm;text-align:center;"><br/><br/><br/><br/><br/></td>
+                            <td style="width:68mm;text-align:center;"><br/><br/><br/><br/><br/></td>
+                            <td style="width:68mm;text-align:center;"><br/><br/><br/><br/><br/></td>
+                            <td style="width:44mm;text-align:center;"><br/><br/><br/><br/><br/></td>
+                            <td style="width:44mm;text-align:center;"><br/><br/><br/><br/><br/></td>
                         </tr>
 
                         <tbody>
