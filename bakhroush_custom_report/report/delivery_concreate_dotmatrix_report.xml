@@ -29,76 +29,76 @@
                     <table style="font-family:Calibri;font-size: 13px;border-collapse: collapse;">
                         <tr style="height:10mm;">
 <!--                            Invoice No.-->
-                            <td style="width:80mm;text-align:center;"><span t-field="o.invoice_no"/></td>
+                            <td style="width:80mm;text-align:left;"><span t-field="o.invoice_no"/></td>
                             <td style="width:40mm;text-align:right;"></td>
 
                             <td style="width:80mm;text-align:center;font-size: 15px;font-weight:bold"></td>
 <!--                            S.no-->
-                            <td style="width:80mm;text-align:center;"><span t-field="o.name"/></td>
+                            <td style="width:80mm;text-align:left;"><span t-field="o.name"/></td>
                             <td style="width:30mm;text-align:right;"></td>
                         </tr>
                         <tr style="height:10mm;">
 <!--                            Bulding No.-->
-                            <td style="width:80mm;text-align:center;"><span t-field="o.building_permit_no"/></td>
+                            <td style="width:80mm;text-align:left;"><span t-field="o.building_permit_no"/></td>
                             <td style="width:40mm;text-align:right;"></td>
 
                             <td style="width:80mm;text-align:center;font-size: 15px;font-weight:bold"></td>
 <!--                            Corresponding-->
-                            <td style="width:80mm;text-align:center;"><span t-field="o.scheduled_date"/></td>
+                            <td style="width:80mm;text-align:left;"><span t-field="o.scheduled_date"/></td>
                             <td style="width:30mm;text-align:right;"></td>
                         </tr>
                         <tr style="height:10mm;">
 <!--                            Mobile No.-->
-                            <td style="width:80mm;text-align:center;"><span t-field="o.type_of_use"/></td>
+                            <td style="width:80mm;text-align:left;"><span t-field="o.type_of_use"/></td>
                             <td style="width:40mm;text-align:right;"></td>
 
                             <td style="width:80mm;text-align:center;font-size: 20px;font-weight:bold"/>
 <!--                            Delivery No.-->
-                            <td style="width:80mm;text-align:center;"><span t-field="o.scheduled_date"/></td>
+                            <td style="width:80mm;text-align:left;"><span t-field="o.scheduled_date"/></td>
                             <td style="width:30mm;text-align:right;"></td>
                         </tr>
 
                         <tr style="height:10mm;">
 <!--                            Mixing Time-->
-                            <td style="width:80mm;text-align:center;"><span t-field="o.mixing_time"/></td>
+                            <td style="width:80mm;text-align:left;"><span t-field="o.mixing_time"/></td>
                             <td style="width:35mm;text-align:right;"></td>
 <!--                            Cust. Name-->
-                            <td colspan="2" style="width:67mm;text-align:center;"><span t-field="o.partner_id.name"/></td>
+                            <td colspan="2" style="width:67mm;text-align:left;"><span t-field="o.partner_id.name"/></td>
                             <td style="width:30mm;text-align:right;"></td>
                         </tr>
 
                         <tr style="height:10mm;">
 <!--                            Time Out-->
-                            <td style="width:80mm;text-align:center;"><span t-field="o.load_time_mixer"/></td>
+                            <td style="width:80mm;text-align:left;"><span t-field="o.load_time_mixer"/></td>
                             <td style="width:35mm;text-align:right;"></td>
 <!--                            Car No.-->
-                            <td colspan="2" style="width:67mm;text-align:center;"><span t-field="o.car_no "/></td>
+                            <td colspan="2" style="width:67mm;text-align:left;"><span t-field="o.car_no"/></td>
                             <td style="width:30mm;text-align:right;"></td>
                         </tr>
 
                         <tr style="height:10mm;">
 <!--                            Received Time-->
-                            <td style="width:80mm;text-align:center;"><span t-field="o.received_time"/></td>
+                            <td style="width:80mm;text-align:left;"><span t-field="o.received_time"/></td>
                             <td style="width:35mm;text-align:right;"></td>
 <!--                            Driver Name-->
-                            <td colspan="2" style="width:67mm;text-align:center;"><span t-field="o.driver_name"/></td>
+                            <td colspan="2" style="width:67mm;text-align:left;"><span t-field="o.driver_name"/></td>
                             <td style="width:30mm;text-align:right;"></td>
                         </tr>
                     </table>
 
                     <table style="font-family:Calibri;font-size: 13px;border-collapse: collapse;">
                         <tr>
-                            <td style="width:22mm;text-align:center;"><br/><br/><br/><br/><br/></td>
-                            <td style="width:46mm;text-align:center;"><br/><br/><br/><br/><br/></td>
-                            <td style="width:68mm;text-align:center;"><br/><br/><br/><br/><br/></td>
-                            <td style="width:50mm;text-align:center;"><br/><br/><br/><br/><br/></td>
-                            <td style="width:68mm;text-align:center;"><br/><br/><br/><br/><br/></td>
-                            <td style="width:64mm;text-align:center;"><br/><br/><br/><br/><br/></td>
-                            <td style="width:68mm;text-align:center;"><br/><br/><br/><br/><br/></td>
-                            <td style="width:68mm;text-align:center;"><br/><br/><br/><br/><br/></td>
-                            <td style="width:68mm;text-align:center;"><br/><br/><br/><br/><br/></td>
-                            <td style="width:44mm;text-align:center;"><br/><br/><br/><br/><br/></td>
-                            <td style="width:44mm;text-align:center;"><br/><br/><br/><br/><br/></td>
+                            <td style="width:32mm;text-align:center;"><br/><br/><br/><br/></td>
+                            <td style="width:56mm;text-align:center;"><br/><br/><br/><br/></td>
+                            <td style="width:78mm;text-align:center;"><br/><br/><br/><br/></td>
+                            <td style="width:60mm;text-align:center;"><br/><br/><br/><br/></td>
+                            <td style="width:78mm;text-align:center;"><br/><br/><br/><br/></td>
+                            <td style="width:74mm;text-align:center;"><br/><br/><br/><br/></td>
+                            <td style="width:78mm;text-align:center;"><br/><br/><br/><br/></td>
+                            <td style="width:78mm;text-align:center;"><br/><br/><br/><br/></td>
+                            <td style="width:78mm;text-align:center;"><br/><br/><br/><br/></td>
+                            <td style="width:54mm;text-align:center;"><br/><br/><br/><br/></td>
+                            <td style="width:54mm;text-align:center;"><br/><br/><br/><br/></td>
                         </tr>
 
                         <tbody>
