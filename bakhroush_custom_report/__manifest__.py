@@ -12,7 +12,7 @@
     # Website
     'author': 'Aneesh.AV',
     # Dependencies
-    'depends': ['base','stock'],
+    'depends': ['base','stock','saudi_vat_invoice_print'],
     # Data
     'data': [
         # 'security/ir.model.access.csv',
@@ -20,7 +20,7 @@
         'report/delivery_dotmatrix_report.xml',
         'report/delivery_concreate_dotmatrix_report.xml',
         'views/stock_picking_view.xml',
-        'views/res_company_view.xml',
+        # 'views/res_company_view.xml',
          ],
     'installable': True,
     'application': True,
