@@ -426,7 +426,8 @@
                                         <span t-esc="'{:,.2f}'.format(l.discount_amount)"/>
                                     </td>
                                     <td class="text-center" style="padding:2px;border:1px solid black !important;">
-                                        <span t-field="l.vat_text"/>
+<!--                                        <span t-field="l.vat_text"/>-->
+                                        <span t-esc="', '.join(map(lambda x: (str(x.amount)), l.tax_ids))" id="line_tax_ids"/> %
                                     </td>
                                     <td class="text-center" style="padding:2px;border:1px solid black !important;">
                                         <span t-field="l.tax_amount"/>
