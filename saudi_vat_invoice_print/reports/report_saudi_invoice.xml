@@ -70,7 +70,7 @@
 
 
                 <!--                </div>-->
-                <table style="border:1pt solid grey;width:100%;padding:15pt;font-family:'A_Nefel_Sereke'n;border-bottom:0pt solid grey;"
+                <table style="border:1pt solid grey;width:100%;padding:15pt;font-family:'Cairo'n;border-bottom:0pt solid grey;"
                        class="table-condensed">
                     <tr>
                         <td style="padding:10pt; text-align:left;color:#696969;width:32.5%;">
@@ -122,7 +122,7 @@
                         </td>
                     </tr>
                 </table>
-                <table style="border:1pt solid grey;width:100%;padding:15pt;font-family:'A_Nefel_Sereke';border-top:0pt solid grey;"
+                <table style="border:1pt solid grey;width:100%;padding:15pt;font-family:'Cairo';border-top:0pt solid grey;"
                        class="table-condensed">
                     <tr>
                         <td style="width:10%;padding-left:10pt;text-align:left;color:#696969;">
@@ -215,7 +215,7 @@
         <template id="report_saudi_invoice_print">
             <t t-call="web.html_container">
                 <t t-call="saudi_vat_invoice_print.external_layout_vat">
-                    <div class="page" style="font-family: 'A_Nefel_Sereke';font-size: 13px; !important">
+                    <div class="page" style="font-family: 'Cairo';font-size: 13px; !important">
                         <center>
                             <h3>
                                 <span t-if="doc.state in ['open','paid']">
@@ -312,14 +312,14 @@
                                 <td style="padding:2px;" class="text-center">
                                     <span t-field="doc.partner_id.district"/>
                                 </td>
-                                <td style="padding:2px;" class="text-right">يصرف</td>
+                                <td style="padding:2px;" class="text-right">المنطقة</td>
                             </tr>
                             <tr>
                                 <td style="padding:2px;" class="text-left">City</td>
                                 <td style="padding:2px;" class="text-center">
                                     <span t-field="doc.partner_id.city"/>
                                 </td>
-                                <td style="padding:2px;" class="text-right">مدينة</td>
+                                <td style="padding:2px;" class="text-right">المدينة</td>
                             </tr>
                             <tr>
                                 <td style="padding:2px;" class="text-left">Country</td>
@@ -362,15 +362,15 @@
                                 </td>
                                 <td style="padding:2px;" class="text-right">الرقم الضريبي</td>
                             </tr>
-                            <tr>
-                                <td style="padding:2px;" class="text-left">Attention</td>
-                                <td style="padding:2px;" class="text-center">
-                                    <b>
-                                        <span t-field="doc.attention.name"/>
-                                    </b>
-                                </td>
-                                <td style="padding:2px;" class="text-right">عنايه</td>
-                            </tr>
+<!--                            <tr>-->
+<!--                                <td style="padding:2px;" class="text-left">Attention</td>-->
+<!--                                <td style="padding:2px;" class="text-center">-->
+<!--                                    <b>-->
+<!--                                        <span t-field="doc.attention.name"/>-->
+<!--                                    </b>-->
+<!--                                </td>-->
+<!--                                <td style="padding:2px;" class="text-right">عنايه</td>-->
+<!--                            </tr>-->
                         </table>
 
                         <table width="100%"
