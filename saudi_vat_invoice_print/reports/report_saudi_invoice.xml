@@ -4,6 +4,11 @@
         <!--	<delete model="ir.actions.report.xml"-->
         <!--                search="[('report_name','=','account.report_invoice')]" />-->
 
+        <template id="vat_report_assets_pdf" inherit_id="web.report_assets_pdf">
+            <xpath expr="link[last()]" position="after">
+                <link rel="stylesheet" type="text/scss" href="/saudi_vat_invoice_print/static/src/scss/reports.scss"/>
+            </xpath>
+        </template>
 
         <record id="paperformat_vat" model="report.paperformat">
             <field name="name">VAT INVOICE FORMAT</field>
@@ -65,7 +70,7 @@
 
 
                 <!--                </div>-->
-                <table style="border:1pt solid grey;width:100%;padding:15pt;font-family:Times New Roman;border-bottom:0pt solid grey;"
+                <table style="border:1pt solid grey;width:100%;padding:15pt;font-family:'A_Nefel_Sereke'n;border-bottom:0pt solid grey;"
                        class="table-condensed">
                     <tr>
                         <td style="padding:10pt; text-align:left;color:#696969;width:32.5%;">
@@ -117,7 +122,7 @@
                         </td>
                     </tr>
                 </table>
-                <table style="border:1pt solid grey;width:100%;padding:15pt;font-family:Times New Roman;border-top:0pt solid grey;"
+                <table style="border:1pt solid grey;width:100%;padding:15pt;font-family:'A_Nefel_Sereke';border-top:0pt solid grey;"
                        class="table-condensed">
                     <tr>
                         <td style="width:10%;padding-left:10pt;text-align:left;color:#696969;">
@@ -139,7 +144,7 @@
                         <td style="width:13%;color:#696969;">
                             <div t-if="company.partner_id.vat">
                                 <!--                                <span t-field="company.tin_label"/>:-->
-                                <t t-esc="company.country_id.vat_label or 'TRN '"/>:
+                                <t t-esc="company.country_id.vat_label or 'VAT '"/>:
                             </div>
                         </td>
                         <td style="width:17%;color:#696969;">
@@ -184,7 +189,7 @@
                             </li>
                             <li t-if="company.vat" class="list-inline-item">
                                 <i class="fa fa-building-o" role="img" aria-label="Fiscal number"/>
-                                <t t-esc="company.country_id.vat_label or 'TRN '"/>:
+                                <t t-esc="company.country_id.vat_label or 'VAT '"/>:
                                 <span t-field="company.vat"/>
                             </li>
                         </ul>
@@ -210,7 +215,7 @@
         <template id="report_saudi_invoice_print">
             <t t-call="web.html_container">
                 <t t-call="saudi_vat_invoice_print.external_layout_vat">
-                    <div class="page" style="font-family: Times New Roman;font-size: 15px; !important">
+                    <div class="page" style="font-family: 'A_Nefel_Sereke';font-size: 13px; !important">
                         <center>
                             <h3>
                                 <span t-if="doc.state in ['open','paid']">
@@ -600,18 +605,18 @@
                         <table width="100%"
                                style="border-spacing: 1em .5em;padding: 0 2em 1em 0;table-layout:fixed;border-collapse:collapse;border-right: 1px solid black;border-left: 1px solid black;">
                             <tr>
-                                <td width="15%"
+                                <td width="10%"
                                     style="padding:2px;border-left: 1px solid black;border-top: 1px solid black;"
                                     class="text-left">
                                     <u>Received By :</u>
                                 </td>
-                                <td width="20%" style="padding:2px;border-top: 1px solid black;" class="text-center"/>
-                                <td width="15%"
+                                <td width="15%" style="padding:2px;border-top: 1px solid black;" class="text-center"/>
+                                <td width="10%"
                                     style="padding:2px;border-right: 1px solid black;border-top: 1px solid black;"
                                     class="text-right">
                                     <u>: استلمت بواسطه</u>
                                 </td>
-                                <td colspan="3"
+                                <td colspan="2"
                                     style="padding:2px;border-right: 1px solid black;border-left: 1px solid black;border-top: 1px solid black;">
                                     <span class="text-right">
                                         <span t-field="doc.company_id.arabic"/>
@@ -621,70 +626,67 @@
                                         <span t-field="doc.company_id"/>
                                     </span>
                                 </td>
+                                <td rowspan="5" style="text-align:center;vertical-align:middle;width:25%;padding:2px;border-right: 1px solid black;border-left: 1px solid black;border-top: 1px solid black;border-bottom: 1px solid black;">
+                                    <img t-if="doc.qr_image" t-att-src="'data:image/png;base64,%s' % to_text(doc.qr_image)"
+                                     style="max-height: 120px;align:center"/>
+                                </td>
                             </tr>
                             <tr>
-                                <td width="15%"
+                                <td width="10%"
                                     style="padding:2px;border-left: 1px solid black;border-bottom: 1px solid black;"
                                     class="text-left">Name :
                                 </td>
-                                <td width="20%" style="padding:2px;border-bottom: 1px solid black;"
+                                <td width="15%" style="padding:2px;border-bottom: 1px solid black;"
                                     class="text-center"></td>
-                                <td width="15%"
+                                <td width="10%"
                                     style="padding:2px;border-right: 1px solid black;border-bottom: 1px solid black;"
                                     class="text-right">: الاسم
                                 </td>
-                                <td width="15%" style="padding:2px;"/>
-                                <td width="20%" style="padding:2px;"></td>
-                                <td width="15%" style="padding:2px;border-right: 1px solid black;"
-                                    class="text-right"></td>
+                                <td width="10%" style="padding:2px;"/>
+                                <td width="30%" style="padding:2px;"></td>
+
                             </tr>
                             <tr>
-                                <td width="15%"
+                                <td width="10%"
                                     style="padding:2px;border-left: 1px solid black;border-bottom: 1px solid black;"
                                     class="text-left">Signature :
                                 </td>
-                                <td width="20%" style="padding:2px;border-bottom: 1px solid black;"
+                                <td width="15%" style="padding:2px;border-bottom: 1px solid black;"
                                     class="text-center"></td>
-                                <td width="15%"
+                                <td width="10%"
                                     style="padding:2px;border-right: 1px solid black;border-bottom: 1px solid black;"
                                     class="text-right">: التوقيع
                                 </td>
-                                <td width="15%" rowspan="2" style="padding:2px;" class="text-left">Prepared By :</td>
-                                <td width="20%" rowspan="2" style="padding:2px;">
+                                <td width="10%" style="padding:2px;" class="text-left">Prepared By / إعداد :</td>
+                                <td width="30%" style="padding:2px;">
                                     <span t-field="doc.create_uid"/>
-                                </td>
-                                <td width="15%" rowspan="2" style="padding:2px;border-right: 1px solid black;"
-                                    class="text-right">: إعداد
                                 </td>
                             </tr>
                             <tr>
-                                <td width="15%"
+                                <td width="10%"
                                     style="padding:2px;border-left: 1px solid black;border-bottom: 1px solid black;"
                                     class="text-left">Date :
                                 </td>
-                                <td width="20%" style="padding:2px;border-bottom: 1px solid black;"
+                                <td width="15%" style="padding:2px;border-bottom: 1px solid black;"
                                     class="text-center"></td>
-                                <td width="15%"
+                                <td width="10%"
                                     style="padding:2px;border-right: 1px solid black;border-bottom: 1px solid black;"
                                     class="text-right">: التاريخ
                                 </td>
+                                <td width="10%"/>
+                                <td width="30%"/>
 
                             </tr>
                             <tr>
                                 <td colspan="3"
                                     style="padding:2px;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black;"
                                     class="text-left">Client Stamp :
-                                    <br/>
                                 </td>
-                                <td width="15%" rowspan="2" style="padding:2px;border-bottom: 1px solid black;"
-                                    class="text-left">Approved By :
+                                <td width="10%" style="padding:2px;border-bottom: 1px solid black;"
+                                    class="text-left">Approved By / إعتماد :
                                 </td>
-                                <td width="20%" rowspan="2" style="padding:2px;border-bottom: 1px solid black;">
+                                <td width="30%" style="padding:2px;border-bottom: 1px solid black;">
                                     <span t-field="doc.approved_by"/>
-                                </td>
-                                <td width="15%" rowspan="2"
-                                    style="padding:2px;border-bottom: 1px solid black;border-right: 1px solid black;"
-                                    class="text-right">: إعتماد
                                 </td>
                             </tr>
                         </table>

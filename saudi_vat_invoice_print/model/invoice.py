@@ -2,6 +2,10 @@
 
 from odoo import api, models, fields, _
 from num2words import num2words
+from odoo.http import request
+from . import qr_code_base
+
+
 class AccountMoveLine(models.Model):
     _inherit = 'account.move.line'
 
@@ -41,7 +45,23 @@ class AccountMove(models.Model):
     vat_arabic_text = fields.Char('Vat Text(Arabic)',compute='_get_vat_text')
     discount = fields.Float('Discount',compute='_compute_all_price')
     price_before_discount = fields.Monetary('Total ( Excluded VAT)',compute='_compute_all_price')
+    qr_image = fields.Binary("QR Code", compute='_generate_qr_code')
 
+    def _generate_qr_code(self):
+        self.qr_image = qr_code_base.generate_qr_code(self.partner_id.name)
+
+    # def sticker_barcode_generator(self):
+    #     # patient = self.env['lab.patient'].search([('patient', '=', self.partner_id.id)])
+    #     # self.qr_image = generate_qr_code(patient.name)
+    #     patient = self.env['lab.patient'].search(
+    #         [('patient', '=', self.partner_id.id)])
+    #     data = {
+    #         "qr_code_image": self.qr_image,
+    #         'pid': patient.name
+    #     }
+    #     return self.env.ref("ehcs_qr_code_invoice.sticker_barcode_action").report_action(
+    #         self, data=data
+    #     )
 
 
     @api.depends('invoice_line_ids','amount_untaxed','amount_tax')
