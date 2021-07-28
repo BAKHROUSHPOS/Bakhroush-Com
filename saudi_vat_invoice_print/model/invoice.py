@@ -2,7 +2,33 @@
 
 from odoo import api, models, fields, _
 from num2words import num2words
+class AccountMoveLine(models.Model):
+    _inherit = 'account.move.line'
 
+    tax_amount = fields.Monetary('Tax amount', compute='_compute_tax_amount',store=True)
+    vat_text = fields.Char('Vat Text', compute='_get_vat_text',store=True)
+    discount_amount = fields.Float('Discount Amount', compute='_compute_all_price',store=True)
+    price_before_discount = fields.Monetary('Price B/f Disc',compute='_compute_all_price',store=True)
+
+    @api.depends('tax_ids', 'price_unit','quantity')
+    def _get_vat_text(self):
+        vat = ''
+        for line in self:
+            for tax in line.tax_ids:
+                vat += str(tax.amount) + '%,'
+            line.vat_text = vat[:-1]
+
+    @api.depends('discount','price_unit','quantity')
+    def _compute_all_price(self):
+        for line in self:
+            line.price_before_discount = line.quantity * line.price_unit
+            line.discount_amount = (line.price_before_discount  * line.discount) / 100.0
+
+
+    @api.depends('price_unit','quantity','price_subtotal','price_total')
+    def _compute_tax_amount(self):
+        for line in self:
+            line.tax_amount = line.price_total - line.price_subtotal
 
 class AccountMove(models.Model):
     _inherit = 'account.move'
@@ -13,6 +39,20 @@ class AccountMove(models.Model):
     approved_by = fields.Many2one('res.partner', 'Approved By')
     vat_text = fields.Char('Vat Text',compute='_get_vat_text')
     vat_arabic_text = fields.Char('Vat Text(Arabic)',compute='_get_vat_text')
+    discount = fields.Float('Discount',compute='_compute_all_price')
+    price_before_discount = fields.Monetary('Total ( Excluded VAT)',compute='_compute_all_price')
+
+
+
+    @api.depends('invoice_line_ids','amount_untaxed','amount_tax')
+    def _compute_all_price(self):
+        price_before_discount = discount = 0
+        for line in self.invoice_line_ids:
+           price_before_discount += line.price_before_discount
+           discount += line.discount_amount
+
+        self.price_before_discount = price_before_discount
+        self.discount = discount
 
     @api.depends('invoice_line_ids','amount_total')
     def _get_vat_text(self):

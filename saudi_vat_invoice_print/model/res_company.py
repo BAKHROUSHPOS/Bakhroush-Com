@@ -7,8 +7,16 @@ class inherit_res_company(models.Model):
     
     header_img = fields.Binary("Header Image")
     footer_img = fields.Binary("Footer Image")
-    arabic = fields.Char('Arabic Name')
-    arabic_vat = fields.Char('VAT Arabic')
+    arabic = fields.Char('اسم')
+    arabic_vat = fields.Char('ضريبة القيمة المضافة')
+    street_arabic = fields.Char('شارع')
+    street2_arabic = fields.Char('شارع 2')
+    city_arabic = fields.Char('مدينة')
+    state_arabic = fields.Char('حالة')
+    zip_arabic = fields.Char('أزيز')
+    country_arabic = fields.Char('بلد')
+
+
 
 class ResBank(models.Model):
     _inherit= 'res.bank'
