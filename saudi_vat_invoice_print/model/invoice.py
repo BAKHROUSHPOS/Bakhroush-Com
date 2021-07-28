@@ -46,6 +46,7 @@ class AccountMove(models.Model):
     discount = fields.Float('Discount',compute='_compute_all_price')
     price_before_discount = fields.Monetary('Total ( Excluded VAT)',compute='_compute_all_price')
     qr_image = fields.Binary("QR Code", compute='_generate_qr_code')
+    delivery_date = fields.Date('Delivery Date')
 
     def _generate_qr_code(self):
         self.qr_image = qr_code_base.generate_qr_code(self.partner_id.name)

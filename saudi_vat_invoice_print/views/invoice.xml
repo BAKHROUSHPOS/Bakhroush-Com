@@ -60,6 +60,10 @@
                    position="attributes">
                 <attribute name="string">Total Amount Due</attribute>
             </xpath>
+            <xpath expr="//field[@name='invoice_date']"
+                   position="after">
+                <field name="delivery_date"/>
+            </xpath>
         </field>
     </record>
 

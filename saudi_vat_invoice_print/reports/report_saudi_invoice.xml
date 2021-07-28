@@ -267,6 +267,15 @@
                                 <td style="padding:2px;" class="text-right">تاريخ الاستحقاق</td>
                             </tr>
                             <tr>
+                                <td style="padding:2px;" class="text-left">Delivery Date</td>
+                                <td style="padding:2px;" class="text-center">
+                                    <b>
+                                        <span t-field="doc.delivery_date"/>
+                                    </b>
+                                </td>
+                                <td style="padding:2px;" class="text-right">تاريخ التوريد</td>
+                            </tr>
+                            <tr>
                                 <td colspan="3" style="padding:2px;">
                                     <table border="0" width="100%"> <!-- if you want border set it to 1 -->
                                         <tr>
@@ -556,15 +565,6 @@
                                 </td>
                                 <td style="padding:2px;" class="text-right">: تاريخ الفاتورة</td>
                             </tr>
-                            <!--                            <tr>-->
-                            <!--                                <td style="padding:2px;" class="text-left">Branch :</td>-->
-                            <!--                                <td style="padding:2px;" class="text-center">-->
-                            <!--                                    <b>-->
-                            <!--                                        <span t-field="doc.partner_bank_id.bank_id.branch"/>-->
-                            <!--                                    </b>-->
-                            <!--                                </td>-->
-                            <!--                                <td style="padding:2px;" class="text-right">: الفرع</td>-->
-                            <!--                            </tr>-->
                             <tr>
                                 <td style="padding:2px;" class="text-left">Account Name :</td>
                                 <td style="padding:2px;" class="text-center">
