@@ -298,7 +298,7 @@
                                 <td style="padding:2px;" class="text-center">
                                     <span t-field="doc.partner_id.street"/>
                                 </td>
-                                <td style="padding:2px;" class="text-right">العميل</td>
+                                <td style="padding:2px;" class="text-right">رقم المبني</td>
                             </tr>
                             <tr>
                                 <td style="padding:2px;" class="text-left">Street Name</td>
