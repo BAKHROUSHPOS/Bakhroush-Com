@@ -9,10 +9,10 @@
                     <field name="arabic" placeholder="Arabic Name" attrs="{'required' : [('type', '=', 'contact')]}"/>
             </xpath>
 			<xpath expr="//div[@class='o_address_format']//field[@name='street']" position="attributes">
-				<attribute name="string">Building No</attribute>
+				<attribute name="placeholder">Building No</attribute>
 			</xpath>
 			<xpath expr="//div[@class='o_address_format']//field[@name='street2']" position="attributes">
-				<attribute name="string">Street Name</attribute>
+				<attribute name="placeholder">Street Name</attribute>
 			</xpath>
 			<xpath expr="//div[@class='o_address_format']//field[@name='street2']" position="after">
                     <field name="district" placeholder="District..." class="o_address_street" attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}"/>

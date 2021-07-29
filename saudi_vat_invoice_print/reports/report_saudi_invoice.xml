@@ -225,16 +225,6 @@
                                 </span>
                             </h3>
                         </center>
-                        <!--                        <div class="row" style="position:relative;">-->
-                        <!--                            <div class="col-md-6 pull-left">-->
-                        <!--                                VAT :-->
-                        <!--                                <span t-field="doc.company_id.vat"/>-->
-                        <!--                            </div>-->
-                        <!--                            <div class="col-md-6 pull-right">-->
-                        <!--                                <span t-field="doc.company_id.arabic_vat"/>: الرقم الضريبي-->
-                        <!--                            </div>-->
-                        <!--                        </div>-->
-
                         <table width="100%"
                                style="border-spacing: 1em .5em;padding: 0 2em 1em 0;border: 1px solid black;table-layout:fixed;border-collapse:collapse;">
                             <tr>
@@ -276,17 +266,27 @@
                                 <td style="padding:2px;" class="text-right">تاريخ التوريد</td>
                             </tr>
                             <tr>
+                                <td style="padding:2px;background-color:#606060!important;padding-left:20px;border-right:none;color:white"
+                                        class="text-left">
+                                        <b>Buyer</b>
+                                </td>
+                                <td style="padding:2px;background-color:#606060!important;" class="text-center">
+
+                                </td>
+                                <td style="padding:2px;background-color:#606060!important;padding-right:20px;border-right:none;color:white" class="text-right">العميل</td>
+                            </tr>
+                            <tr>
                                 <td colspan="3" style="padding:2px;">
                                     <table border="0" width="100%"> <!-- if you want border set it to 1 -->
                                         <tr>
                                             <td class="text-left">
-                                                <b>To</b>
+                                                <b>Buyer</b>
                                                 <span t-field="doc.partner_id"/>
                                             </td>
                                             <td class="text-right">
                                                 <b>
                                                     <span t-field="doc.partner_id.arabic"/>
-                                                    إلى
+                                                    العميل
                                                 </b>
                                             </td>
                                         </tr>
@@ -298,7 +298,7 @@
                                 <td style="padding:2px;" class="text-center">
                                     <span t-field="doc.partner_id.street"/>
                                 </td>
-                                <td style="padding:2px;" class="text-right">رقم المبنى</td>
+                                <td style="padding:2px;" class="text-right">العميل</td>
                             </tr>
                             <tr>
                                 <td style="padding:2px;" class="text-left">Street Name</td>
@@ -378,11 +378,11 @@
 
                             <thead>
                                 <tr>
-                                    <td style="padding:2px;background-color:#606060!important;padding-left:20px;"
+                                    <td style="padding:2px;background-color:#606060!important;padding-left:20px;border-right:none;color:white"
                                         class="text-left" colspan="4">
                                         <b>PARTICULAR</b>
                                     </td>
-                                    <td style="padding:2px;background-color:#606060!important;padding-right:20px;"
+                                    <td style="padding:2px;background-color:#606060!important;padding-right:20px;color:white;"
                                         class="text-right" colspan="4">
                                         <b>التفـا صـيـــل</b>
                                     </td>
@@ -457,21 +457,21 @@
                             <thead>
                                 <tr>
                                     <th class="text-left"
-                                        style="padding:2px;background-color:#606060!important;border:1px solid black !important;border-right:none">
+                                        style="padding:2px;background-color:#606060!important;border:1px solid black !important;border-right:none;color:white">
                                         Total Amounts:
                                     </th>
                                     <th colspan="2" class="text-right"
-                                        style="padding:2px;background-color:#606060!important;border:1px solid black !important;border-left:none">
+                                        style="padding:2px;background-color:#606060!important;border:1px solid black !important;border-left:none;color:white">
                                         :المبالغ الإجمالية
                                     </th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td width="37.9%" class="text-right" style="padding:2px;border:1px solid black !important;">
+                                    <td width="37.9%" class="text-center" style="padding:2px;border:1px solid black !important;">
                                        <b>Total ( Excluded VAT)</b>
                                     </td>
-                                    <td width="37%" class="text-left" style="padding:2px;border:1px solid black !important;">
+                                    <td width="37%" class="text-center" style="padding:2px;border:1px solid black !important;">
                                          <b>الإجمالي (غير شاملة ضريبة القيمة المضافة)</b>
                                     </td>
                                     <td  class="text-center" style="padding:2px;border:1px solid black !important;">
@@ -479,10 +479,10 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td width="37.9%" class="text-right" style="padding:2px;border:1px solid black !important;">
+                                    <td width="37.9%" class="text-center" style="padding:2px;border:1px solid black !important;">
                                        <b>Discount</b>
                                     </td>
-                                    <td width="37%" class="text-left" style="padding:2px;border:1px solid black !important;">
+                                    <td width="37%" class="text-center" style="padding:2px;border:1px solid black !important;">
                                          <b>مجموع الخصومات</b>
                                     </td>
                                     <td  class="text-center" style="padding:2px;border:1px solid black !important;">
@@ -490,10 +490,10 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td width="37.9%" class="text-right" style="padding:2px;border:1px solid black !important;">
+                                    <td width="37.9%" class="text-center" style="padding:2px;border:1px solid black !important;">
                                        <b>Total Taxable Amount (Excluding VAT)</b>
                                     </td>
-                                    <td width="37%" class="text-left" style="padding:2px;border:1px solid black !important;">
+                                    <td width="37%" class="text-center" style="padding:2px;border:1px solid black !important;">
                                          <b>الإجمالي الخاضع للضريبة (غير شاملة ضريبة القيمة المضافة)</b>
                                     </td>
                                     <td  class="text-center" style="padding:2px;border:1px solid black !important;">
@@ -501,10 +501,10 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td width="37.9%" class="text-right" style="padding:2px;border:1px solid black !important;">
+                                    <td width="37.9%" class="text-center" style="padding:2px;border:1px solid black !important;">
                                        <b>Total VAT</b>
                                     </td>
-                                    <td width="37%" class="text-left" style="padding:2px;border:1px solid black !important;">
+                                    <td width="37%" class="text-center" style="padding:2px;border:1px solid black !important;">
                                          <b>مجموع ضريبة القيمة المضافة</b>
                                     </td>
                                     <td  class="text-center" style="padding:2px;border:1px solid black !important;">
@@ -512,11 +512,11 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td width="37.9%" class="text-right" style="padding:2px;border:1px solid black !important;">
+                                    <td width="37.9%" class="text-center" style="padding:2px;border:1px solid black !important;">
                                        <b>Total Amount Due</b>
                                     </td>
-                                    <td width="37%" class="text-left" style="padding:2px;border:1px solid black !important;">
-                                         <b>إجنالي المبلغ المستحق</b>
+                                    <td width="37%" class="text-center" style="padding:2px;border:1px solid black !important;">
+                                         <b>إجمالي المبلغ المستحق</b>
                                     </td>
                                     <td  class="text-center" style="padding:2px;border:1px solid black !important;">
                                         <b><span t-field="doc.amount_total"/></b>
@@ -546,60 +546,60 @@
                             </tr>
                         </table>
                         <table width="100%"
-                               style="border-spacing: 1em .5em;padding: 0 2em 1em 0;border: 1px solid black;table-layout:fixed;border-collapse:collapse;">
+                               style="border-spacing: 1em .5em;padding: 1px;border: 1px solid black;table-layout:fixed;border-collapse:collapse;">
                             <tr>
-                                <td style="padding:2px;" class="text-left">
+                                <td style="padding:1px;" class="text-left">
                                     <u>PAYMENT TO :</u>
                                 </td>
-                                <td style="padding:2px;" class="text-center"></td>
-                                <td style="padding:2px;" class="text-right">
+                                <td style="padding:1px;" class="text-center"></td>
+                                <td style="padding:1px;" class="text-right">
                                     <u>: تدفع إلي</u>
                                 </td>
                             </tr>
                             <tr>
-                                <td style="padding:2px;" class="text-left">Bank Name :</td>
-                                <td style="padding:2px;" class="text-center">
+                                <td style="padding:1px;" class="text-left">Bank Name :</td>
+                                <td style="padding:1px;" class="text-center">
                                     <b>
                                         <span t-field="doc.partner_bank_id.bank_id"/>
                                     </b>
                                 </td>
-                                <td style="padding:2px;" class="text-right">: تاريخ الفاتورة</td>
+                                <td style="padding:1px;" class="text-right">: إسم البنك</td>
                             </tr>
                             <tr>
-                                <td style="padding:2px;" class="text-left">Account Name :</td>
-                                <td style="padding:2px;" class="text-center">
+                                <td style="padding:1px;" class="text-left">Account Name :</td>
+                                <td style="padding:1px;" class="text-center">
                                     <b>
                                         <span t-field="doc.partner_bank_id.acc_holder_name"/>
                                     </b>
                                 </td>
-                                <td style="padding:2px;" class="text-right">: إسم الحساب</td>
+                                <td style="padding:1px;" class="text-right">: إسم الحساب</td>
                             </tr>
                             <tr>
-                                <td style="padding:2px;" class="text-left">Account # :</td>
-                                <td style="padding:2px;" class="text-center">
+                                <td style="padding:1px;" class="text-left">Account # :</td>
+                                <td style="padding:1px;" class="text-center">
                                     <b>
                                         <span t-field="doc.partner_bank_id.acc_number"/>
                                     </b>
                                 </td>
-                                <td style="padding:2px;" class="text-right">: رقم الحساب</td>
+                                <td style="padding:1px;" class="text-right">: رقم الحساب</td>
                             </tr>
                             <tr>
-                                <td style="padding:2px;" class="text-left">IBAN # :</td>
-                                <td style="padding:2px;" class="text-center">
+                                <td style="padding:1px;" class="text-left">IBAN # :</td>
+                                <td style="padding:1px;" class="text-center">
                                     <b>
                                         <span t-field="doc.partner_bank_id.bank_id.iban"/>
                                     </b>
                                 </td>
-                                <td style="padding:2px;" class="text-right">: ايبان رقم</td>
+                                <td style="padding:1px;" class="text-right">: ايبان رقم</td>
                             </tr>
                             <tr>
-                                <td style="padding:2px;" class="text-left">Swift :</td>
-                                <td style="padding:2px;" class="text-center">
+                                <td style="padding:1px;" class="text-left">Swift :</td>
+                                <td style="padding:1px;" class="text-center">
                                     <b>
                                         <span t-field="doc.partner_bank_id.bank_id.bic"/>
                                     </b>
                                 </td>
-                                <td style="padding:2px;" class="text-right">: سويفت كود</td>
+                                <td style="padding:1px;" class="text-right">: سويفت كود</td>
                             </tr>
                         </table>
                         <table width="100%"
@@ -610,8 +610,8 @@
                                     class="text-left">
                                     <u>Received By :</u>
                                 </td>
-                                <td width="15%" style="padding:2px;border-top: 1px solid black;" class="text-center"/>
-                                <td width="10%"
+<!--                                <td width="15%" style="padding:2px;border-top: 1px solid black;" class="text-center"/>-->
+                                <td colspan="2"
                                     style="padding:2px;border-right: 1px solid black;border-top: 1px solid black;"
                                     class="text-right">
                                     <u>: استلمت بواسطه</u>
