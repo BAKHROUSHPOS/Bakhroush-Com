@@ -414,7 +414,7 @@
                                         style="padding:2px;border:1px solid black !important;">Tax Amount<br/>مبلغ الضريبة
                                     </th>
                                     <th width="24%" class="text-center"
-                                        style="padding:2px;border:1px solid black !important;">Item Subtotal(Including VAT)<br/>الإجمالي (غير شاملة ضريبة القيمة المضافة)
+                                        style="padding:2px;border:1px solid black !important;">Item Subtotal(Including VAT)<br/>الإجمالي (شاملة ضريبة القيمة المضافة)
                                     </th>
                                 </tr>
                             </thead>
