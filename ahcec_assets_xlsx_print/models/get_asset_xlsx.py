@@ -9,6 +9,10 @@ from io import BytesIO
 import string
 import math
 
+class AccountAsset(models.Model):
+    _inherit = 'account.asset'
+
+    percentage = fields.Float('Percentage (%)')
 
 class WizardAssetAssetHistory(models.TransientModel):
     _name = 'wizard.asset.asset.history'
@@ -18,6 +22,14 @@ class WizardAssetAssetHistory(models.TransientModel):
     xlsx_date_from = fields.Date('Date From')
     xlsx_date_to = fields.Date('Date To')
     visible = fields.Boolean(default=True)  # To hide the button and payslip_batch field after excel is created.
+
+    def column_num_to_string(self, n):
+        n, rem = divmod(n - 1, 26)
+        char = chr(65 + rem)
+        if n:
+            return self.column_num_to_string(n) + char
+        else:
+            return char
 
     def export_asset_xls(self):
         workbook = xlwt.Workbook()
@@ -75,10 +87,10 @@ class WizardAssetAssetHistory(models.TransientModel):
         border_style.borders = borders
 
 
-        worksheet.write_merge(0, 0, 0, 10, self.env.user.company_id.name, style0)
-        worksheet.write_merge(1, 1, 0, 10, 'Fixed Assets Register', style0)
-        worksheet.write_merge(2, 2, 0, 10, 'Report', style0)
-        worksheet.write_merge(3, 3, 0, 10,
+        worksheet.write_merge(0, 0, 0, 12, self.env.user.company_id.name, style0)
+        worksheet.write_merge(1, 1, 0, 12, 'Fixed Assets Register', style0)
+        worksheet.write_merge(2, 2, 0, 12, 'Report', style0)
+        worksheet.write_merge(3, 3, 0, 12,
                               'For the Period (' + datetime.strptime(str(self.xlsx_date_from), '%Y-%m-%d').strftime(
                                   '%m/%d/%y') + '--' + datetime.strptime(str(self.xlsx_date_to),
                                                                          '%Y-%m-%d').strftime('%m/%d/%y') + ')',
@@ -94,18 +106,18 @@ class WizardAssetAssetHistory(models.TransientModel):
         worksheet.write(inv_name_row, 1, 'إسم الأصل', for_center_header)
         worksheet.write(inv_name_row, 2, 'تاريخ الشراء', for_center_header)
 
-        worksheet.write(inv_name_row, 3, 'تاريخ الشراء', for_center_header)
+        worksheet.write(inv_name_row, 3, 'القيمة بداية العام', for_center_header)
         worksheet.write(inv_name_row, 4, 'الإضافات', for_center_header)
         worksheet.write(inv_name_row, 5, 'الاستبعادات', for_center_header)
         worksheet.write(inv_name_row, 6, 'الإجمالي', for_center_header)
 
-        worksheet.write(inv_name_row, 7, '% اك الاستھل', for_center_header)
-        worksheet.write(inv_name_row, 8, 'العام المجمع بدایة', for_center_header)
-        worksheet.write(inv_name_row, 9, 'الحالي استھلاك العام', for_center_header)
+        worksheet.write(inv_name_row, 7, '% الإستهلاك', for_center_header)
+        worksheet.write(inv_name_row, 8, 'المجمع بداية العام', for_center_header)
+        worksheet.write(inv_name_row, 9, 'استهلاك العام الحالي', for_center_header)
         worksheet.write(inv_name_row, 10, 'الاستبعادات ', for_center_header)
-        worksheet.write(inv_name_row, 11, 'الاستھلاك مجمع', for_center_header)
+        worksheet.write(inv_name_row, 11, 'مجمع الإستهلاك', for_center_header)
 
-        worksheet.write(inv_name_row, 12, 'الدفتریة صافي القیمة', for_center_header)
+        worksheet.write(inv_name_row, 12, 'صافي القيمة الدفترية', for_center_header)
 
         inv_name_row += 1
 
@@ -164,7 +176,7 @@ class WizardAssetAssetHistory(models.TransientModel):
             worksheet.write(inv_name_row3, 5, disposal_cost, for_center)
             worksheet.write(inv_name_row3, 6, item_closing_balance_cost, for_center)
 
-            worksheet.write(inv_name_row3, 7, item.method_progress_factor, for_center)
+            worksheet.write(inv_name_row3, 7, item.percentage, for_center)
 
             worksheet.write(inv_name_row3, 8, opening_balance_accumulated_depreciation, for_center)
             worksheet.write(inv_name_row3, 9, depreciation_accumulated_depreciation, for_center)
@@ -174,8 +186,17 @@ class WizardAssetAssetHistory(models.TransientModel):
             worksheet.write(inv_name_row3, 12, item_net_book, for_center)
 
             inv_name_row3 += 1
-
+        for_center_total = xlwt.easyxf(
+            "font: name  Verdana , color blue,  height 200, bold 1; align: horiz center,vertical center,wrap yes; borders: top_color red, bottom_color red, right_color red, left_color red,top medium, bottom medium, left medium, right medium; pattern: pattern solid, fore_color %s; " % '100')
+        worksheet.write_merge(inv_name_row3, inv_name_row3, 0, 2, 'Total',for_center_total)
+        for i in range(3,13):
+            label = self.column_num_to_string(i + 1)
+            if i != 7:
+                col_label = label + '7:' + label + str(inv_name_row3)
+                worksheet.write(inv_name_row3, i, xlwt.Formula('SUM(%s)' % col_label),
+                                for_center_total)
         workbook.save(fl)
+
         fl.seek(0)
         self.write({
             'report_file': base64.encodestring(fl.getvalue()),
