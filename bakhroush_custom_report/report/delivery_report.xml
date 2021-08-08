@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <record id="paperformat_bakhroush_1" model="report.paperformat">
-        <field name="name">Paperformat Bakhroush 1</field>
+        <field name="name">Paperformat Bakhroush (Concrete)</field>
         <field name="default" eval="False"/>
         <field name="format">custom</field>
         <field name="page_height">140</field>

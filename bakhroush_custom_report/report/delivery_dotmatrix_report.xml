@@ -1,5 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
+
+    <record id="paperformat_bakhroush_normal" model="report.paperformat">
+        <field name="name">Paperformat Bakhroush (Normal)</field>
+        <field name="default" eval="False"/>
+        <field name="format">custom</field>
+        <field name="page_height">140</field>
+        <field name="page_width">240</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">30</field>
+        <field name="margin_bottom">20</field>
+        <field name="margin_left">20</field>
+        <field name="margin_right">0</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">20</field>
+        <field name="dpi">90</field>
+    </record>
+
     <record id="action_report_delivery_dot_bakhroush" model="ir.actions.report">
         <field name="name">Delivery Slip - Bakhroush (Normal)</field>
         <field name="model">stock.picking</field>
@@ -8,7 +25,7 @@
         <field name="report_file">bakhroush_custom_report.report_deliveryslip_dot_bakhroush</field>
         <field name="print_report_name">'Delivery Slip - %s - %s' % (object.partner_id.name or '', object.name)</field>
         <field name="binding_model_id" ref="stock.model_stock_picking"/>
-        <field name="paperformat_id" ref="bakhroush_custom_report.paperformat_bakhroush_1"/>
+        <field name="paperformat_id" ref="bakhroush_custom_report.paperformat_bakhroush_normal"/>
         <field name="binding_type">report</field>
     </record>
 
@@ -27,9 +44,9 @@
 
                 <div class="page">
                     <table style="font-family:Calibri;font-size: 13px;border-collapse: collapse;">
-                        <tr style="height:10mm;">
+                        <tr style="height:7mm;">
 <!--                            Invoice No.-->
-                            <td style="width:30mm;text-align:right;border:1px solid black;"/>
+                            <td style="width:50mm;text-align:right;border:1px solid black;"/>
                             <td style="width:53mm;text-align:center;border:1px solid black;"><span t-field="o.invoice_no"/></td>
                             <td style="width:40mm;text-align:right;border:1px solid black;"/>
 
@@ -39,9 +56,9 @@
                             <td style="width:60mm;text-align:center;border:1px solid black;"><span t-field="o.scheduled_date"/></td>
                             <td style="width:30mm;text-align:right;border:1px solid black;"/>
                         </tr>
-                        <tr style="height:10mm;">
+                        <tr style="height:7mm;">
 <!--                            Bulding No.-->
-                            <td style="width:30mm;text-align:right;border:1px solid black;"/>
+                            <td style="width:50mm;text-align:right;border:1px solid black;"/>
                             <td style="width:53mm;text-align:center;border:1px solid black;"><span t-field="o.customer_no"/></td>
                             <td style="width:40mm;text-align:right;border:1px solid black;"/>
 
@@ -51,9 +68,9 @@
                             <td style="width:60mm;text-align:center;border:1px solid black;"><span t-field="o.corresponding"/></td>
                             <td style="width:30mm;text-align:right;border:1px solid black;"/>
                         </tr>
-                        <tr style="height:10mm;">
+                        <tr style="height:7mm;">
 <!--                            Mobile No.-->
-                            <td style="width:30mm;text-align:right;border:1px solid black;"/>
+                            <td style="width:50mm;text-align:right;border:1px solid black;"/>
                             <td style="width:53mm;text-align:center;border:1px solid black;"><span t-field="o.mobile_no"/></td>
                             <td style="width:40mm;text-align:right;border:1px solid black;"/>
 
@@ -64,9 +81,9 @@
                             <td style="width:30mm;text-align:right;border:1px solid black;"/>
                         </tr>
 
-                        <tr style="height:10mm;">
+                        <tr style="height:7mm;">
 <!--                            Mixing Time-->
-                            <td style="width:30mm;text-align:right;border:1px solid black;"/>
+                            <td style="width:50mm;text-align:right;border:1px solid black;"/>
                             <td style="width:53mm;text-align:center;border:1px solid black;"><span t-field="o.location"/></td>
                             <td style="width:40mm;text-align:right;border:1px solid black;"/>
 <!--                            Cust. Name-->
@@ -75,9 +92,9 @@
                             <td style="width:30mm;text-align:right;border:1px solid black;"/>
                         </tr>
 
-                        <tr style="height:10mm;">
+                        <tr style="height:7mm;">
 <!--                            Time Out-->
-                            <td style="width:30mm;text-align:right;border:1px solid black;"/>
+                            <td style="width:50mm;text-align:right;border:1px solid black;"/>
                             <td style="width:53mm;text-align:center;border:1px solid black;"><span t-field="o.time_out"/></td>
                             <td style="width:40mm;text-align:right;"/>
 <!--                            Car No.-->
@@ -86,9 +103,9 @@
                             <td style="width:30mm;text-align:right;border:1px solid black;"/>
                         </tr>
 
-                        <tr style="height:10mm;">
+                        <tr style="height:7mm;">
 <!--                            Received Time-->
-                            <td style="width:30mm;text-align:right;border:1px solid black;"/>
+                            <td style="width:50mm;text-align:right;border:1px solid black;"/>
                             <td style="width:53mm;text-align:center;border:1px solid black;"><span t-field="o.received_time"/></td>
                             <td style="width:40mm;text-align:right;border:1px solid black;"/>
 <!--                            Driver Name-->
@@ -108,7 +125,7 @@
 
                         <tbody>
                             <t t-set="lines" t-value="o.move_line_ids_without_package"/>
-                                <tr t-foreach="lines" t-as="move" style="height:10mm;">
+                                <tr t-foreach="lines" t-as="move" style="height:7mm;">
 
                                     <td class="text-center" style="border:1px solid black;">
                                         <span t-field="move.wc"/>
