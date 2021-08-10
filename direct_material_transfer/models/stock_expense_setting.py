@@ -6,6 +6,7 @@ from odoo.tools import float_is_zero
 
 class StockExpense(models.Model):
     _name = "stock.expense.location"
+    _description = 'Expense account in Location'
 
     name = fields.Char(
         'Name'

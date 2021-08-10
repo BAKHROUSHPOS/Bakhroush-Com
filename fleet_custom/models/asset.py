@@ -20,3 +20,4 @@ class AccountAsset(models.Model):
     market_value = fields.Float('Market Value')
     purchased_date = fields.Date('Purchased Date')
     purchased_value = fields.Float('Purchased Value')
+
