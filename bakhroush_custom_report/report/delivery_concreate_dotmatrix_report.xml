@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="action_report_delivery_concrete_bakhroush" model="ir.actions.report">
+        <field name="name">Delivery Slip - Bakhroush (Concrete)</field>
+        <field name="model">stock.picking</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">bakhroush_custom_report.report_deliveryslip_concrete_bakhroush</field>
+        <field name="report_file">bakhroush_custom_report.report_deliveryslip_concrete_bakhroush</field>
+        <field name="print_report_name">'Delivery Slip - %s - %s' % (object.partner_id.name or '', object.name)</field>
+        <field name="binding_model_id" ref="stock.model_stock_picking"/>
+        <field name="paperformat_id" ref="bakhroush_custom_report.paperformat_bakhroush_1"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <template id="report_deliveryslip_concrete_bakhroush">
+        <t t-foreach="docs" t-as="o">
+            <t t-call="bakhroush_custom_report.report_delivery_document_concrete_bakhroush" t-lang="o.partner_id.lang"/>
+        </t>
+    </template>
+
+
+    <template id="report_delivery_document_concrete_bakhroush">
+        <t t-call="web.html_container">
+            <t t-call="bakhroush_custom_report.external_layout_bakhroush">
+                <t t-set="o" t-value="o.with_context(lang=o.partner_id.lang)"/>
+
+                <div class="page">
+                    <table style="font-family:Calibri;font-size: 13px;border-collapse: collapse;">
+                        <tr style="height:10mm;">
+<!--                            Invoice No.-->
+                            <td style="width:30mm;text-align:right;"/>
+                            <td style="width:53mm;text-align:center;"><span t-field="o.invoice_no"/></td>
+                            <td style="width:40mm;text-align:right;"/>
+
+                            <td style="width:80mm;text-align:center;font-size: 15px;font-weight:bold;"/>
+<!--                            S.no-->
+                            <td style="width:60mm;text-align:center;"><span t-field="o.name"/></td>
+                            <td style="width:30mm;text-align:right;"/>
+                        </tr>
+                        <tr style="height:10mm;">
+<!--                            Bulding No.-->
+                            <td style="width:30mm;text-align:right;"/>
+                            <td style="width:53mm;text-align:center;"><span t-field="o.building_permit_no"/></td>
+                            <td style="width:40mm;text-align:right;"/>
+
+                            <td style="width:80mm;text-align:center;font-size: 15px;font-weight:bold;"/>
+<!--                            Corresponding-->
+                            <td style="width:60mm;text-align:center;"><span t-field="o.scheduled_date"/></td>
+                            <td style="width:30mm;text-align:right;"/>
+                        </tr>
+                        <tr style="height:10mm;">
+<!--                            Mobile No.-->
+                            <td style="width:30mm;text-align:right;"/>
+                            <td style="width:53mm;text-align:center;"><span t-field="o.type_of_use"/></td>
+                            <td style="width:40mm;text-align:right;"/>
+
+                            <td style="width:80mm;text-align:center;font-size: 20px;font-weight:bold;"/>
+<!--                            Delivery No.-->
+                            <td style="width:60mm;text-align:center;"><span t-field="o.scheduled_date"/></td>
+                            <td style="width:30mm;text-align:right;"/>
+                        </tr>
+
+                        <tr style="height:10mm;">
+<!--                            Mixing Time-->
+                            <td style="width:30mm;text-align:right;"/>
+                            <td style="width:53mm;text-align:center;"><span t-field="o.mixing_time"/></td>
+                            <td style="width:40mm;text-align:right;"/>
+<!--                            Cust. Name-->
+                            <td colspan="2" style="width:67mm;text-align:center;"><span t-field="o.partner_id.name"/></td>
+                            <td style="width:30mm;text-align:right;"/>
+                        </tr>
+
+                        <tr style="height:10mm;">
+<!--                            Time Out-->
+                            <td style="width:30mm;text-align:right;"/>
+                            <td style="width:53mm;text-align:center;"><span t-field="o.load_time_mixer"/></td>
+                            <td style="width:40mm;text-align:right;"/>
+<!--                            Car No.-->
+                            <td colspan="2" style="width:67mm;text-align:center;"><span t-field="o.car_no"/></td>
+                            <td style="width:30mm;text-align:right;"/>
+                        </tr>
+
+                        <tr style="height:10mm;">
+<!--                            Received Time-->
+                            <td style="width:30mm;text-align:right;"/>
+                            <td style="width:53mm;text-align:center;"><span t-field="o.received_time"/></td>
+                            <td style="width:40mm;text-align:right;"/>
+<!--                            Driver Name-->
+                            <td colspan="2" style="width:67mm;text-align:center;"><span t-field="o.driver_name"/></td>
+                            <td style="width:30mm;text-align:right;"/>
+                        </tr>
+                    </table>
+
+                    <table style="font-family:Calibri;font-size: 13px;border-collapse: collapse;">
+                        <tr>
+                            <td style="width:23mm;text-align:center;"><br/><br/><br/><br/></td>
+                            <td style="width:13mm;text-align:center;"><br/><br/><br/><br/></td>
+                            <td style="width:16mm;text-align:center;"><br/><br/><br/><br/></td>
+                            <td style="width:28mm;text-align:center;"><br/><br/><br/><br/></td>
+                            <td style="width:20mm;text-align:center;"><br/><br/><br/><br/></td>
+                            <td style="width:28mm;text-align:center;"><br/><br/><br/><br/></td>
+                            <td style="width:27mm;text-align:center;"><br/><br/><br/><br/></td>
+                            <td style="width:27mm;text-align:center;"><br/><br/><br/><br/></td>
+                            <td style="width:27mm;text-align:center;"><br/><br/><br/><br/></td>
+                            <td style="width:27mm;text-align:center;"><br/><br/><br/><br/></td>
+                            <td style="width:21mm;text-align:center;"><br/><br/><br/><br/></td>
+                            <td style="width:21mm;text-align:center;"><br/><br/><br/><br/></td>
+                        </tr>
+
+                        <tbody>
+                            <t t-set="lines" t-value="o.move_line_ids_without_package"/>
+                            <tr t-foreach="lines" t-as="move" style="height:10mm;">
+                                <td/>
+                                <td class="text-center">
+                                    <span t-field="move.wc"/>
+                                </td>
+                                <td class="text-center">
+                                    <span t-field="move.pump"/>
+                                </td>
+                                <td class="text-center">
+                                    <span t-field="move.weight"/>
+                                </td>
+                                <td class="text-center">
+                                    <span t-field="move.temperature"/>
+                                </td>
+                                <td class="text-center">
+                                    <span t-field="move.slump"/>
+                                </td>
+                                <td class="text-center">
+                                    <span t-field="move.total_loading"/>
+                                </td>
+                                <td class="text-center">
+                                    <span t-field="move.qty_done"/>
+                                </td>
+                                <td class="text-center">
+                                    <span t-field="move.clas"/>
+                                </td>
+                                <td class="text-center">
+                                    <span t-field="move.quantity_of_cement"/>
+                                </td>
+                                <td class="text-center">
+                                    <span t-field="move.opc"/>
+                                </td>
+                                <td class="text-center">
+                                    <span t-field="move.src"/>
+                                </td>
+                             </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="paperformat_bakhroush_1" model="report.paperformat">
+        <field name="name">Paperformat Bakhroush (Concrete)</field>
+        <field name="default" eval="False"/>
+        <field name="format">custom</field>
+        <field name="page_height">140</field>
+        <field name="page_width">240</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">14</field>
+        <field name="margin_bottom">20</field>
+        <field name="margin_left">0</field>
+        <field name="margin_right">0</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">20</field>
+        <field name="dpi">90</field>
+    </record>
+
+<!--    <record id="action_report_delivery_bakhroush" model="ir.actions.report">-->
+<!--        <field name="name">Delivery Slip - Bakhroush</field>-->
+<!--        <field name="model">stock.picking</field>-->
+<!--        <field name="report_type">qweb-pdf</field>-->
+<!--        <field name="report_name">bakhroush_custom_report.report_deliveryslip_bakhroush</field>-->
+<!--        <field name="report_file">bakhroush_custom_report.report_deliveryslip_bakhroush</field>-->
+<!--        <field name="print_report_name">'Delivery Slip - %s - %s' % (object.partner_id.name or '', object.name)</field>-->
+<!--        <field name="binding_model_id" ref="stock.model_stock_picking"/>-->
+<!--        <field name="paperformat_id" ref="bakhroush_custom_report.paperformat_bakhroush_1"/>-->
+<!--        <field name="binding_type">report</field>-->
+<!--    </record>-->
+
+    <template id="report_deliveryslip_bakhroush">
+        <t t-foreach="docs" t-as="o">
+            <t t-call="bakhroush_custom_report.report_delivery_document_bakhroush" t-lang="o.partner_id.lang"/>
+        </t>
+    </template>
+
+    <template id="external_layout_bakhroush">
+        <t t-if="not o" t-set="o" t-value="doc"/>
+
+        <t t-if="not company">
+            <!-- Multicompany -->
+            <t t-if="company_id">
+                <t t-set="company" t-value="company_id"/>
+            </t>
+            <t t-elif="o and 'company_id' in o and o.company_id.sudo()">
+                <t t-set="company" t-value="o.company_id.sudo()"/>
+            </t>
+            <t t-else="else">
+                <t t-set="company" t-value="res_company"/>
+            </t>
+        </t>
+
+        <t t-call="bakhroush_custom_report.external_layout_standard_bakhroush">
+            <t t-raw="0"/>
+        </t>
+
+    </template>
+
+    <template id="external_layout_standard_bakhroush">
+        <div t-attf-class="header o_company_#{company.id}_layout" t-att-style="report_header_style">
+            <div align="center">
+                <img align="center" t-if="o.company_id.header_img"
+                     t-att-src="'data:image/png;base64,%s' % o.company_id.header_img" style="max-height: 220px;"/>
+            </div>
+        </div>
+
+        <div t-attf-class="article o_report_layout_standard o_company_#{company.id}_layout"
+             t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id"
+             t-att-data-oe-lang="o and o.env.context.get('lang')">
+            <div class="pt-5">
+                <!-- This div ensures that the address is not cropped by the header. -->
+                <t t-call="web.address_layout"/>
+            </div>
+            <t t-raw="0"/>
+        </div>
+
+        <div t-attf-class="footer o_standard_footer o_company_#{company.id}_layout">
+            <div align="center">
+                <table width="100%" style="font-family:Calibri;font-size: 13px;border-collapse: collapse;">
+                    <tr>
+                        <td width="25%" style="text-align:right;"></td>
+                        <td width="25%" style="text-align:right;"></td>
+                        <td width="25%" style="text-align:right;"></td>
+                        <td width="25%" style="text-align:right;"></td>
+                    </tr>
+                    <tr>
+                        <td width="25%" style="text-align:right;"></td>
+                        <td width="25%" style="text-align:right;"></td>
+                        <td width="25%" style="text-align:right;"></td>
+                        <td width="25%" style="text-align:right;"></td>
+                    </tr>
+                </table>
+                <table>
+                    <tr>
+                        <td width="100%">
+                            <img style="max-height:120px;" align="center" t-if="o.company_id.footer_img"
+                                 t-att-src="'data:image/png;base64,%s' % o.company_id.footer_img"/>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </template>
+
+    <template id="report_delivery_document_bakhroush">
+        <t t-call="web.html_container">
+            <t t-call="bakhroush_custom_report.external_layout_bakhroush">
+                <t t-set="o" t-value="o.with_context(lang=o.partner_id.lang)"/>
+
+                <div class="page">
+                    <table style="font-family:Calibri;font-size: 13px;border-collapse: collapse;">
+                        <tr style="height:6mm;">
+                            <td style="width:30mm;text-align:left;">Invoice No.</td>
+                            <td style="width:47mm;border:1px solid black"></td>
+                            <td style="width:35mm;text-align:right;">رقم الفاتورة</td>
+
+                            <td style="width:43mm;text-align:center;font-size: 15px;font-weight:bold">سند تسليم</td>
+
+                            <td style="width:30mm;text-align:left;">Date</td>
+                            <td style="width:54mm;border:1px solid black"></td>
+                            <td style="width:30mm;text-align:right;">التاريخ</td>
+                        </tr>
+                        <tr style="height:6mm;">
+                            <td style="width:30mm;text-align:left;">Customer No.</td>
+                            <td style="width:47mm;border:1px solid black"></td>
+                            <td style="width:35mm;text-align:right;">رقم حساب العميل</td>
+
+                            <td style="width:43mm;text-align:center;font-size: 15px;font-weight:bold">Delivery Note</td>
+
+                            <td style="width:30mm;text-align:left;">Corresponding</td>
+                            <td style="width:54mm;border:1px solid black"></td>
+                            <td style="width:30mm;text-align:right;">الموافق</td>
+                        </tr>
+                        <tr style="height:6mm;">
+                            <td style="width:30mm;text-align:left;">Mobile No.</td>
+                            <td style="width:47mm;border:1px solid black"></td>
+                            <td style="width:35mm;text-align:right;">رقم الجوال</td>
+
+                            <td style="width:43mm;text-align:center;font-size: 20px;font-weight:bold"/>
+
+                            <td style="width:30mm;text-align:left;">Delivery No.</td>
+                            <td style="width:54mm;border:1px solid black"></td>
+                            <td style="width:30mm;text-align:right;">رقم الأيصال</td>
+                        </tr>
+
+                        <tr style="height:6mm;">
+                            <td style="width:30mm;text-align:left;">Location</td>
+                            <td style="width:47mm;border:1px solid black"></td>
+                            <td style="width:35mm;text-align:right;">الموقع</td>
+
+                            <td style="width:30mm;text-align:right;">Cust. Name</td>
+                            <td colspan="2" style="width:67mm;border:1px solid black"></td>
+                            <td style="width:30mm;text-align:right;">اسم العميل</td>
+                        </tr>
+
+                        <tr style="height:6mm;">
+                            <td style="width:30mm;text-align:left;">Time Out</td>
+                            <td style="width:47mm;border:1px solid black"></td>
+                            <td style="width:35mm;text-align:right;">وقت المغادرة</td>
+
+                            <td style="width:30mm;text-align:right;">Car No.</td>
+                            <td colspan="2" style="width:67mm;border:1px solid black"></td>
+                            <td style="width:30mm;text-align:right;">رقم السيارة</td>
+                        </tr>
+
+                        <tr style="height:6mm;">
+                            <td style="width:30mm;text-align:left;">Recived Time</td>
+                            <td style="width:47mm;border:1px solid black"></td>
+                            <td style="width:35mm;text-align:right;">وقت الوصول المتوقع</td>
+
+                            <td style="width:30m;text-align:right;">Driver Name</td>
+                            <td colspan="2" style="width:67mm;border:1px solid black"></td>
+                            <td style="width:30mm;text-align:right;">اسم السائق</td>
+                        </tr>
+                    </table>
+
+                    <table style="border:1px solid black;font-family:Calibri;font-size: 13px;border-collapse: collapse;">
+                        <tr>
+                            <td style="width:21mm;text-align:center;">م</td>
+                            <td style="width:44mm;text-align:center;">رقم الصنف</td>
+                            <td style="width:151mm;text-align:center;">البيان</td>
+                            <td style="width:50mm;text-align:center;">الكمية</td>
+                        </tr>
+                        <tr>
+                            <td style="width:12mm;text-align:center;">No.</td>
+                            <td style="width:44mm;text-align:center;">Item No.</td>
+                            <td style="width:151mm;text-align:center;">Description</td>
+                            <td style="width:50mm;text-align:center;">Qty.</td>
+                        </tr>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>
