@@ -8,11 +8,7 @@
         <field name="page_height">140</field>
         <field name="page_width">240</field>
         <field name="orientation">Portrait</field>
-<<<<<<< HEAD
         <field name="margin_top">22</field>
-=======
-        <field name="margin_top">21</field>
->>>>>>> 99605029062a65dd81237e14cef03f299c08ae6d
         <field name="margin_bottom">20</field>
         <field name="margin_left">17</field>
         <field name="margin_right">0</field>
@@ -123,13 +119,8 @@
                         <tr>
                             <td style="width:23mm;text-align:center;"><br/><br/><br/></td>
                             <td style="width:56mm;text-align:center;"><br/><br/><br/></td>
-<<<<<<< HEAD
                             <td style="width:130mm;text-align:center;"><br/><br/><br/></td>
                             <td style="width:65mm;text-align:center;"><br/><br/><br/></td>
-=======
-                            <td style="width:135mm;text-align:center;"><br/><br/><br/></td>
-                            <td style="width:60mm;text-align:center;"><br/><br/><br/></td>
->>>>>>> 99605029062a65dd81237e14cef03f299c08ae6d
                         </tr>
 
                         <tbody>
@@ -137,11 +128,7 @@
                             <t t-set="lines" t-value="o.move_line_ids_without_package"/>
                                 <tr t-foreach="lines" t-as="move" style="height:7mm;">
                                     <td class="text-right">
-<<<<<<< HEAD
                                         <span t-esc="i"/><t t-set="i" t-value="i+1"/>
-=======
-                                        <td><span t-esc="i"/><t t-set="i" t-value="i+1"/> </td>
->>>>>>> 99605029062a65dd81237e14cef03f299c08ae6d
                                     </td>
                                     <td class="text-center">
                                         <span t-field="move.barcode"/>
