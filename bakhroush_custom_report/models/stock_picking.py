@@ -49,10 +49,11 @@ class StockPicking(models.Model):
     driver_name = fields.Char(
         'Driver Name'
     )
-    method= fields.Selection(
+    method = fields.Selection(
         [('normal', 'Normal'), ('concrete', 'Concrete')],
         string="Method",
         required=True,
+        default='concrete'
     )
 
     @api.onchange('car_no')
