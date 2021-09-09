@@ -2,13 +2,15 @@
 
 from odoo import fields, models , api, _
 
+class StockWarehouse(models.Model):
+    _inherit = 'stock.warehouse'
+
+    code = fields.Char('Short Name', required=True, size=250, help="Short name used to identify your warehouse")
+    allowed_users = fields.Many2many('res.users', string='Allowed Users')
+
 class StockPicking(models.Model):
     _inherit = 'stock.picking'
 
-    # invoice_no = fields.Many2one(
-    #     'account.move',
-    #     'Invoice No.'
-    # )
     invoice_no = fields.Char(
         'Invoice No.'
     )
@@ -46,8 +48,9 @@ class StockPicking(models.Model):
         'fleet.vehicle',
         'Car No.'
     )
-    driver_name = fields.Char(
-        'Driver Name'
+    driver_name = fields.Many2one(
+        'hr.employee',
+        string='Driver'
     )
     method = fields.Selection(
         [('normal', 'Normal'), ('concrete', 'Concrete')],
@@ -55,11 +58,95 @@ class StockPicking(models.Model):
         required=True,
         default='concrete'
     )
+    source_warehouse = fields.Many2one(
+        'stock.warehouse',
+        string='Source Warehouse',
+    )
+    destination_warehouse = fields.Many2one(
+        'stock.warehouse',
+        string='Destination Warehouse',
+    )
+    addition_approval = fields.Boolean(
+        compute='_compute_additional_apprpove',
+        string='Additional Warehouse',
+    )
+    allowed_users = fields.Many2many('res.users',string='Allowed Users')
+
+
+    @api.depends('state','show_validate')
+    def _compute_show_validate(self):
+        for picking in self:
+            if not (picking.immediate_transfer) and picking.state == 'draft':
+                picking.show_validate = False
+            elif picking.state not in ('draft', 'waiting', 'confirmed', 'assigned'):
+                picking.show_validate = False
+            else:
+                picking.show_validate = True
+            if picking.addition_approval == True:
+                picking.show_validate = False
+
+
+
+    @api.depends('destination_warehouse', 'source_warehouse', 'location_dest_id','location_id')
+    def _compute_additional_apprpove(self):
+        for pick in self:
+            branches = [ p.id for p in self.env.user.branch_ids ]
+            if pick.destination_warehouse and pick.location_dest_id.branch_id.id not in [ p.id for p in self.env.user.branch_ids ]:
+                pick.addition_approval = True
+            else:
+                pick.addition_approval = False
+            users = False
+            if pick.location_id.branch_id and pick.location_dest_id.branch_id:
+                users = self.env['res.users'].search(
+                    [('branch_ids', 'in', (pick.location_id.branch_id.id, pick.location_dest_id.branch_id.id))])
+            elif pick.location_id.branch_id and not pick.location_dest_id.branch_id:
+                users = self.env['res.users'].search(
+                    [('branch_ids', 'in', pick.location_id.branch_id.id)])
+            elif not pick.location_id.branch_id and pick.location_dest_id.branch_id:
+                users = self.env['res.users'].search(
+                    [('branch_ids', 'in', pick.location_dest_id.branch_id.id)])
+            if users:
+                pick.allowed_users = users.ids
+
+
+    @api.onchange('source_warehouse')
+    def _onchange_source_warehouse(self):
+        if self.source_warehouse:
+            self.location_id = self.source_warehouse.lot_stock_id.id
+            return {'domain': {
+                'location_id': [('branch_id', '=', self.source_warehouse.branch_id.id)]}}
+
+    @api.onchange('destination_warehouse')
+    def _onchange_destination_warehouse(self):
+        if self.source_warehouse:
+            self.location_dest_id = self.destination_warehouse.lot_stock_id.id
+            return {'domain': {
+                'location_id': [('branch_id', '=', self.source_warehouse.branch_id.id)]}}
+
+    @api.onchange('picking_type_id')
+    def _onchange_picking_type_code(self):
+        warehouse = self.env['stock.warehouse'].search(
+            [('allowed_users', 'in', self.env.user.id)])
+        print(warehouse)
+        return {'domain': {
+            'picking_type_id': [('warehouse_id', 'in', [p.id for p in warehouse])],
+            'source_warehouse': [('id', 'in', [p.id for p in warehouse])]
+        }
+        }
+
 
     @api.onchange('car_no')
     def _onchange_car_no(self):
         if self.car_no:
-            self.driver_name = self.car_no.employee_driver.name
+            self.driver_name = self.car_no.employee_driver.id
+
+    @api.onchange('partner_id')
+    def _onchange_partner_id_other(self):
+        if self.partner_id:
+            self.building_permit_no = self.partner_id.street
+            self.customer_no = self.partner_id.customer_no
+            self.location = self.partner_id.location
+            self.mobile_no = self.partner_id.mobile
 
 class StockMoveLine(models.Model):
     _inherit = 'stock.move.line'

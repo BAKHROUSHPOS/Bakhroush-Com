@@ -9,7 +9,7 @@
 #
 #################################################################################
 
-from odoo import models, fields
+from odoo import models, fields,api
 
 
 class FleetVehicle(models.Model):
@@ -18,6 +18,11 @@ class FleetVehicle(models.Model):
     branch_id = fields.Many2one('company.branch', string="Branch",
                                 default=lambda self: self.env.user.branch_id)
 
+    @api.onchange('branch_id')
+    def onchange_branch_ids(self):
+        return {'domain': {
+            'branch_id': [('company_id', '=', self.company_id.id), ('id', 'in', self.env.user.branch_ids.ids)]}}
+
 
 class FleetVehicleLogContract(models.Model):
     _inherit = 'fleet.vehicle.log.contract'
@@ -25,11 +30,20 @@ class FleetVehicleLogContract(models.Model):
     branch_id = fields.Many2one('company.branch', string="Branch",
                                 default=lambda self: self.env.user.branch_id)
 
+    @api.onchange('branch_id')
+    def onchange_branch_ids(self):
+        return {'domain': {
+            'branch_id': [('id', 'in', self.env.user.branch_ids.ids)]}}
 
 class FleetVehicleLogServices(models.Model):
     _inherit = 'fleet.vehicle.log.services'
 
     branch_id = fields.Many2one('company.branch', string="Branch",
                                 default=lambda self: self.env.user.branch_id)
+
+    @api.onchange('branch_id')
+    def onchange_branch_ids(self):
+        return {'domain': {
+            'branch_id': [('id', 'in', self.env.user.branch_ids.ids)]}}
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

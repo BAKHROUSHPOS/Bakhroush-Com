@@ -17,6 +17,11 @@ class ProductProduct(models.Model):
 
     branch_id = fields.Many2one('company.branch', string="Branch", default=lambda self: self.env.user.branch_id)
 
+    @api.onchange('branch_id')
+    def onchange_branch_ids(self):
+        return {'domain': {
+            'branch_id': [('id', 'in', self.env.user.branch_ids.ids)]}}
+
 
 class PurchaseOrder(models.Model):
     _inherit = 'purchase.order'
@@ -25,6 +30,11 @@ class PurchaseOrder(models.Model):
                                 states={'purchase': [('readonly', True)],
                                         'done': [('readonly', True)],
                                         'cancel': [('readonly', True)]})
+
+    @api.onchange('branch_id')
+    def onchange_branch_ids(self):
+        return {'domain': {
+            'branch_id': [('id', 'in', self.env.user.branch_ids.ids)]}}
 
     @api.model
     def _prepare_picking(self):

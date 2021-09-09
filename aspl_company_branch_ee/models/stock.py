@@ -52,6 +52,11 @@ class StockPicking(models.Model):
     branch_id = fields.Many2one('company.branch', string="Branch", default=lambda self: self.env.user.branch_id,
                                 states={'done': [('readonly', True)], 'cancel': [('readonly', True)]})
 
+    @api.onchange('branch_id')
+    def onchange_branch_ids(self):
+        return {'domain': {
+            'branch_id': [('id', 'in', self.env.user.branch_ids.ids)]}}
+
     @api.model
     def create(self, vals):
         if not vals.get('branch_id'):

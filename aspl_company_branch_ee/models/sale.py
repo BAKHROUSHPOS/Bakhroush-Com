@@ -18,7 +18,11 @@ class SaleOrder(models.Model):
 
     branch_id = fields.Many2one('company.branch', string="Branch",
                                 readonly=True, states={'draft': [('readonly', False)],
-                                                       'sent': [('readonly', False)]})
+                                                       'sent': [('readonly', False)]}, )
+
+    @api.onchange('branch_id')
+    def onchange_branch_ids(self):
+        return {'domain': {'branch_id': [('id', 'in', self.env.user.branch_ids.ids)]}}
 
     @api.onchange('warehouse_id')
     def onchange_warehouse_id(self):
@@ -32,11 +36,11 @@ class SaleOrder(models.Model):
 
     def action_confirm(self):
         res = super(SaleOrder, self).action_confirm()
-        for order in self:
-            if not order.warehouse_id.branch_id:
-                raise ValidationError(_('Please select branch in %s Warehouse.' % (order.warehouse_id.name)))
-            elif order.warehouse_id.branch_id.id != order.branch_id.id:
-                raise ValidationError(_('Please select branch as per warehouse branch.'))
+        # for order in self:
+        #     if not order.warehouse_id.branch_id:
+        #         raise ValidationError(_('Please select branch in %s Warehouse.' % (order.warehouse_id.name)))
+        #     elif order.warehouse_id.branch_id.id != order.branch_id.id:
+        #         raise ValidationError(_('Please select branch as per warehouse branch.'))
         return res
 
     def _prepare_invoice(self):

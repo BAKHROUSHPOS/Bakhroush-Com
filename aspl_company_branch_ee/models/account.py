@@ -19,6 +19,11 @@ class AccountMove(models.Model):
     branch_id = fields.Many2one('company.branch', string="Branch", default=lambda self: self.env.user.branch_id,
                                 readonly=True, states={'draft': [('readonly', False)]})
 
+    @api.onchange('branch_id')
+    def onchange_branch_ids(self):
+        return {'domain': {
+            'branch_id': [('id', 'in', self.env.user.branch_ids.ids)]}}
+
     @api.onchange('state', 'partner_id', 'invoice_line_ids')
     def _onchange_allowed_purchase_ids(self):
         """

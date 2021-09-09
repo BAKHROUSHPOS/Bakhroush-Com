@@ -108,6 +108,12 @@ class AccountMove(models.Model):
                     line.write({'analytic_account_id': analytic.id, 'partner_id': self.partner_id.id})
         return super(AccountMove, self).invoice_validate()
 
+    @api.onchange('partner_id')
+    def _onchange_partner_id_other(self):
+        if self.partner_id:
+            self.attention = self.partner_id.id
+
+
     def invoice_print(self):
         self.ensure_one()
         self.sent = True
