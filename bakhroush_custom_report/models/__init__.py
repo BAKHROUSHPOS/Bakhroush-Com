@@ -9,3 +9,5 @@ from . import res_partner
 from . import product
 from . import stock_report
 from . import stock_picking
+from . import payment_terms
+from . import mrp

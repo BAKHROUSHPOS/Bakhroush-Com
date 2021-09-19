@@ -32,6 +32,9 @@
                 <field name="destination_warehouse"
                        attrs="{'required': [('picking_type_code', '=', 'internal')],'invisible': [('picking_type_code', '!=', 'internal')]}"/>
             </xpath>
+            <xpath expr="//field[@name='location_id']" position="attributes">
+                <attribute name="domain">[('id','=',dummy_src_location)]</attribute>
+            </xpath>
             <xpath expr="//group[1]" position="inside">
                 <group>
                     <field name="invoice_no"/>
@@ -49,7 +52,10 @@
                     <field name="corresponding"/>
                     <field name="car_no"/>
                     <field name="driver_name"/>
+                    <field name="balance_amount"/>
+                    <field name="picking_total_value"/>
                     <field name="addition_approval" invisible="1"/>
+                    <field name="dummy_src_location" invisible="1"/>
                     <field name="allowed_users" widget="many2many_tags" invisible="1"/>
                 </group>
             </xpath>

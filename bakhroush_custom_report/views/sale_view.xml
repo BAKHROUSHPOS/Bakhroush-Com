@@ -7,7 +7,7 @@
         <field name="arch" type="xml">
             <xpath expr="//filter[@name='consumable']" position="after">
                 <separator/>
-                    <field name="branch_id" string="Branch"/>
+                <field name="branch_id" string="Branch"/>
                 <separator/>
             </xpath>
         </field>
@@ -32,11 +32,23 @@
                 <group name="sale_shipping" string="Delivery">
                     <field name="commitment_date"/>
                     <field name="expected_date" widget="date"/>
+                    <field name="warehouse_id"/>
                 </group>
+            </xpath>
+            <xpath expr="//field[@name='payment_term_id']" position="attributes">
+                <attribute name="domain">[('allowed_users', 'in', uid)]</attribute>
             </xpath>
             <xpath expr="//field[@name='user_id']" position="after">
                 <field name="total_orders"/>
                 <field name="total_delivered"/>
+            </xpath>
+            <xpath expr="//notebook" position="before">
+                <group string="Balance">
+                    <field name="company_currency_id" invisible="1"/>
+                    <field name="partner_balance" widget='monetary'
+                           options="{'currency_field': 'company_currency_id'}"></field>
+                    <field name="balance_in_partner_currency" string="In Pircelist Currency"></field>
+                </group>
             </xpath>
         </field>
     </record>

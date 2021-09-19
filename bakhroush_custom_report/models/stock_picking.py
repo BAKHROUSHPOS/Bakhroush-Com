@@ -61,19 +61,31 @@ class StockPicking(models.Model):
     source_warehouse = fields.Many2one(
         'stock.warehouse',
         string='Source Warehouse',
+        domain=lambda self: self.get_source()
     )
     destination_warehouse = fields.Many2one(
         'stock.warehouse',
         string='Destination Warehouse',
     )
     addition_approval = fields.Boolean(
-        compute='_compute_additional_apprpove',
+        compute='_compute_additional_approve',
         string='Additional Warehouse',
     )
+    dummy_src_location = fields.Many2one('stock.location','Dummy source location')
     allowed_users = fields.Many2many('res.users',string='Allowed Users')
 
+    balance_amount = fields.Float(string='Customer Balance',compute='_get_balance_in_partner')
+    picking_total_value = fields.Float(string='Total Value',compute='_get_balance_in_partner')
 
-    @api.depends('state','show_validate')
+    def _get_balance_in_partner(self):
+        for record in self:
+            record.balance_amount = record.sale_id.partner_balance
+            amount = 0
+            for line in record.move_line_ids_without_package:
+                amount += (line.move_id.sale_line_id.price_unit * line.qty_done)
+            record.picking_total_value = record.balance_amount
+
+    @api.depends('state', 'show_validate')
     def _compute_show_validate(self):
         for picking in self:
             if not (picking.immediate_transfer) and picking.state == 'draft':
@@ -85,10 +97,8 @@ class StockPicking(models.Model):
             if picking.addition_approval == True:
                 picking.show_validate = False
 
-
-
     @api.depends('destination_warehouse', 'source_warehouse', 'location_dest_id','location_id')
-    def _compute_additional_apprpove(self):
+    def _compute_additional_approve(self):
         for pick in self:
             branches = [ p.id for p in self.env.user.branch_ids ]
             if pick.destination_warehouse and pick.location_dest_id.branch_id.id not in [ p.id for p in self.env.user.branch_ids ]:
@@ -108,31 +118,26 @@ class StockPicking(models.Model):
             if users:
                 pick.allowed_users = users.ids
 
+    @api.onchange('picking_type_id')
+    def _onchange_picking_type_id(self):
+        if self.picking_type_id:
+            self.dummy_src_location = self.picking_type_id.default_location_src_id.id
+            self.source_warehouse = self.picking_type_id.warehouse_id.id
+        return {'domain': {
+            'picking_type_id': [('warehouse_id.allowed_users', 'in', self.env.user.id)]
+        }}
 
-    @api.onchange('source_warehouse')
-    def _onchange_source_warehouse(self):
-        if self.source_warehouse:
-            self.location_id = self.source_warehouse.lot_stock_id.id
-            return {'domain': {
-                'location_id': [('branch_id', '=', self.source_warehouse.branch_id.id)]}}
+    @api.model
+    def get_source(self):
+        res = [('id', '=', self.picking_type_id.warehouse_id.id)]
+        return res
 
     @api.onchange('destination_warehouse')
     def _onchange_destination_warehouse(self):
-        if self.source_warehouse:
+        if self.destination_warehouse:
             self.location_dest_id = self.destination_warehouse.lot_stock_id.id
             return {'domain': {
                 'location_id': [('branch_id', '=', self.source_warehouse.branch_id.id)]}}
-
-    @api.onchange('picking_type_id')
-    def _onchange_picking_type_code(self):
-        warehouse = self.env['stock.warehouse'].search(
-            [('allowed_users', 'in', self.env.user.id)])
-        print(warehouse)
-        return {'domain': {
-            'picking_type_id': [('warehouse_id', 'in', [p.id for p in warehouse])],
-            'source_warehouse': [('id', 'in', [p.id for p in warehouse])]
-        }
-        }
 
 
     @api.onchange('car_no')
