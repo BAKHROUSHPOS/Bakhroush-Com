@@ -36,6 +36,7 @@
                 </group>
             </xpath>
             <xpath expr="//field[@name='payment_term_id']" position="attributes">
+                <attribute name="required">1</attribute>
                 <attribute name="domain">[('allowed_users', 'in', uid)]</attribute>
             </xpath>
             <xpath expr="//field[@name='user_id']" position="after">

@@ -35,6 +35,9 @@
             <xpath expr="//field[@name='location_id']" position="attributes">
                 <attribute name="domain">[('id','=',dummy_src_location)]</attribute>
             </xpath>
+            <xpath expr="//field[@name='location_dest_id']" position="attributes">
+                <attribute name="domain">[('usage','!=','view')]</attribute>
+            </xpath>
             <xpath expr="//group[1]" position="inside">
                 <group>
                     <field name="invoice_no"/>
