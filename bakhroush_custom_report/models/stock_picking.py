@@ -193,7 +193,7 @@ class StockPicking(models.Model):
 
     def create_payment(self,invoice):
         journal = self.sale_id.payment_term_id.default_cash_payment
-        payment = self.env['account.payment'].create({
+        payment = self.env['account.payment'].sudo().create({
             'payment_method_id': self.env.ref('account.account_payment_method_manual_in').id or False,
             'payment_type': 'inbound',
             'partner_id':self.partner_id.commercial_partner_id.id,
@@ -217,7 +217,7 @@ class StockPicking(models.Model):
             "This invoice has been created from the Delivery note: <a href=# data-oe-model=stock.picking data-oe-id=%d>%s</a>") % (
                       self.id, self.name)
         new_move.message_post(body=message)
-        new_move.action_post()
+        new_move.sudo().action_post()
         return new_move
 
 
