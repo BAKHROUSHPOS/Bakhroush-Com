@@ -11,3 +11,4 @@ from . import stock_report
 from . import stock_picking
 from . import payment_terms
 from . import mrp
+from . import move
