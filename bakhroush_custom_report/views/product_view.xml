@@ -8,7 +8,8 @@
             <field name="arch" type="xml">
                 <field name="branch_id" position="replace">
                     <field name="branch_id" required="1" groups="aspl_company_branch_ee.group_multi_branches"
-                           options="{'no_create':True,'no_edit':True}"/>
+                           options="{'no_create':True,'no_edit':True}" widget="many2many_tags"/>
+<!--                    <field name="allowed_user_ids" widget="many2many_tags"/>-->
                 </field>
             </field>
         </record>
