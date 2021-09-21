@@ -55,7 +55,8 @@ class StockPicking(models.Model):
     )
     driver_name = fields.Many2one(
         'hr.employee',
-        string='Driver'
+        string='Driver',
+        required=True
     )
     method = fields.Selection(
         [('normal', 'Normal'), ('concrete', 'Concrete')],
