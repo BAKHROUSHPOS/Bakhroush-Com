@@ -247,11 +247,11 @@ class StockPicking(models.Model):
                     else:
                         if self.picking_total_value >= abs(self.balance_amount):
                             picking.button_validate()
-                            picking.force_create_invoice_payment()
+                            # picking.force_create_invoice_payment()
                         else:
                             if self.env.user.has_group('account.group_account_manager'):
                                 picking.button_validate()
-                                picking.force_create_invoice_payment()
+                                # picking.force_create_invoice_payment()
                             else:
                                 raise ValidationError(
                                     _("Customer is having credit, Only Accounts Department can approve the delivery"))
