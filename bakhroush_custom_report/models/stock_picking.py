@@ -175,8 +175,8 @@ class StockPicking(models.Model):
             'invoice_date': datetime.today(),
             'fiscal_position_id': self.sale_id.fiscal_position_id.id,
             'invoice_line_ids': [(0, None, self._prepare_invoice_line(line)) for line in self.move_ids_without_package],
-            'attention': self.partner_id.id,
-            'approved_by': self.env.user.id
+            # 'attention': self.partner_id.id,
+            # 'approved_by': self.env.user.id
         }
         return vals
 
@@ -230,10 +230,10 @@ class StockPicking(models.Model):
                 no_quantities_done = all(
                     float_is_zero(move_line.qty_done, precision_digits=precision_digits) for move_line in
                     picking.move_line_ids.filtered(lambda m: m.state not in ('done', 'cancel')))
-                # no_reserved_quantities = all(
-                #     float_is_zero(move_line.product_qty, precision_rounding=move_line.product_uom_id.rounding) for
-                #     move_line in picking.move_line_ids)
-                if no_quantities_done:
+                no_reserved_quantities = all(
+                    float_is_zero(move_line.product_qty, precision_rounding=move_line.product_uom_id.rounding) for
+                    move_line in picking.move_line_ids)
+                if no_quantities_done and not no_reserved_quantities :
                     raise ValidationError(
                         _("No Quantity is added"))
                 else:
