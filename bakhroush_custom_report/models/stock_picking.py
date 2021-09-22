@@ -258,7 +258,7 @@ class StockPicking(models.Model):
                                 .reconcile()
                             invoice.sudo().write({'payment_id': payment.id})
                     else:
-                        if self.picking_total_value >= abs(self.balance_amount):
+                        if self.picking_total_value <= self.balance_amount:
                             picking.button_validate()
                             # picking.force_create_invoice_payment()
                         else:
