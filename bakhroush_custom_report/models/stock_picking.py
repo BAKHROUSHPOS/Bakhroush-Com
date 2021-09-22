@@ -55,8 +55,9 @@ class StockPicking(models.Model):
     )
     driver_name = fields.Many2one(
         'hr.employee',
-        string='Driver',
-        required=True
+        string='Driver Name',
+        required=True,
+        domain=lambda self: self.get_employee()
     )
     method = fields.Selection(
         [('normal', 'Normal'), ('concrete', 'Concrete')],
@@ -82,6 +83,11 @@ class StockPicking(models.Model):
 
     balance_amount = fields.Float(string='Customer Balance', compute='_get_balance_in_partner')
     picking_total_value = fields.Float(string='Total Value', compute='_get_balance_in_partner')
+
+    # @api.onchange('driver_name')
+    # def _compute_driver(self):
+    #     self.dummy_driver_name = self.env['fleet.vehicle'].search([('employee_driver','!=',False)]).employee_driver.ids
+
 
     @api.depends('partner_id', 'move_line_ids_without_package')
     def _get_balance_in_partner(self):
@@ -134,6 +140,12 @@ class StockPicking(models.Model):
         return {'domain': {
             'picking_type_id': [('warehouse_id.allowed_users', 'in', self.env.user.id)]
         }}
+
+    @api.model
+    def get_employee(self):
+        driver = self.env['fleet.vehicle'].search([('employee_driver', '!=', False)]).employee_driver.ids
+        res = [('id', 'in', driver)]
+        return res
 
     @api.model
     def get_source(self):
@@ -252,7 +264,8 @@ class StockPicking(models.Model):
                                 # picking.force_create_invoice_payment()
                             else:
                                 raise ValidationError(
-                                    _("Customer is having credit, Only Accounts Department can approve the delivery"))
+                                    _("No enough credit to for the customer, Contact Finance dep. \n\n"
+                                      "لا يوجد رصيد لدي العميل، يرجي مراجعة الأدارة المالية"))
             else:
                 picking.button_validate()
 

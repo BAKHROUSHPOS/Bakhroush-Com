@@ -58,6 +58,7 @@
                     <field name="corresponding"/>
                     <field name="car_no"/>
                     <field name="driver_name"/>
+<!--                    <field name="dummy_driver_name" widget="many2many_tags"/>-->
                     <field name="balance_amount"/>
                     <field name="picking_total_value"/>
                     <field name="addition_approval" invisible="1"/>
