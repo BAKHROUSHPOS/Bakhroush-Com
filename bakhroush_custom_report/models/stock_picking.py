@@ -189,6 +189,7 @@ class StockPicking(models.Model):
             'price_unit': pick_line.sale_line_id.price_unit,
             'name': pick_line.product_id.display_name,
             'tax_ids': [(6, 0, pick_line.sale_line_id.tax_id.ids)],
+            'sale_line_ids':[(6, 0, pick_line.sale_line_id.ids)],
             'product_uom_id': pick_line.product_id.uom_id.id,
         }
 
