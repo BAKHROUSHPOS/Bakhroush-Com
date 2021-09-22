@@ -212,7 +212,6 @@ class StockPicking(models.Model):
         account_move_line = self.env['account.move.line']
 
         move_vals = self._prepare_invoice_vals()
-        print(move_vals)
         new_move = account_inv_obj.sudo().create(move_vals)
         message = _(
             "This invoice has been created from the Delivery note: <a href=# data-oe-model=stock.picking data-oe-id=%d>%s</a>") % (
@@ -221,12 +220,9 @@ class StockPicking(models.Model):
         new_move.sudo().action_post()
         return new_move
 
-
-
     def button_validate_custom(self):
         for picking in self:
             if picking.sale_id:
-
                 precision_digits = self.env['decimal.precision'].precision_get('Product Unit of Measure')
                 no_quantities_done = all(
                     float_is_zero(move_line.qty_done, precision_digits=precision_digits) for move_line in
@@ -239,8 +235,8 @@ class StockPicking(models.Model):
                         _("No Quantity is added"))
                 else:
                     if picking.sale_id.payment_term_id.force_invoice:
-                        pick = picking.button_validate()
-                        if pick:
+                        res_dict = picking.button_validate()
+                        if res_dict:
                             invoice = picking.force_create_invoice_payment()
                             payment = self.create_payment(invoice)
                             payment.sudo().action_post()

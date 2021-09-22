@@ -15,4 +15,5 @@ class Users(models.Model):
         for branch in self.env['company.branch'].search([]):
             users = self.env['res.users'].search(
                 [('branch_ids', 'in', branch.id)])
+            print(users)
             branch.allowed_user_ids = users
