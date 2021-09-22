@@ -253,6 +253,9 @@ class StockPicking(models.Model):
                             invoice = picking.force_create_invoice_payment()
                             payment = self.create_payment(invoice)
                             payment.sudo().action_post()
+                            (invoice + payment.move_id).line_ids \
+                                .filtered(lambda line: line.account_internal_type == 'receivable') \
+                                .reconcile()
                             invoice.sudo().write({'payment_id': payment.id})
                     else:
                         if self.picking_total_value >= abs(self.balance_amount):
