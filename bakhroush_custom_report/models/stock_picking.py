@@ -12,6 +12,110 @@ class StockWarehouse(models.Model):
     code = fields.Char('Short Name', required=True, size=250, help="Short name used to identify your warehouse")
     allowed_users = fields.Many2many('res.users', string='Allowed Users')
 
+class StockImmediateTransfer(models.TransientModel):
+    _inherit = 'stock.immediate.transfer'
+
+
+    def _prepare_invoice_vals(self,picking):
+        self.ensure_one()
+        vals = {
+            'payment_reference': picking.name,
+            'invoice_origin': picking.name,
+            'picking_id': picking.id,
+            # 'journal_id': self.session_id.config_id.invoice_journal_id.id,
+            'move_type': 'out_invoice',
+            'ref': picking.name,
+            'partner_id': picking.partner_id.id,
+            'narration': picking.note or '',
+            'currency_id': picking.sale_id.pricelist_id.currency_id.id,
+            'invoice_user_id': picking.env.user.id,
+            'invoice_date': datetime.today(),
+            'fiscal_position_id': picking.sale_id.fiscal_position_id.id,
+            'invoice_line_ids': [(0, None, self._prepare_invoice_line(line)) for line in picking.move_ids_without_package],
+            # 'attention': self.partner_id.id,
+            # 'approved_by': self.env.user.id
+        }
+        return vals
+
+    def _prepare_invoice_line(self, pick_line):
+        return {
+            'product_id': pick_line.product_id.id,
+            'quantity': pick_line.quantity_done,
+            'discount': pick_line.sale_line_id.discount,
+            'price_unit': pick_line.sale_line_id.price_unit,
+            'name': pick_line.product_id.display_name,
+            'tax_ids': [(6, 0, pick_line.sale_line_id.tax_id.ids)],
+            'sale_line_ids':[(6, 0, pick_line.sale_line_id.ids)],
+            'product_uom_id': pick_line.product_id.uom_id.id,
+        }
+
+    def create_payment(self,invoice,picking):
+        journal = picking.sale_id.payment_term_id.default_cash_payment
+        payment = self.env['account.payment'].sudo().create({
+            'payment_method_id': self.env.ref('account.account_payment_method_manual_in').id or False,
+            'payment_type': 'inbound',
+            'partner_id':picking.partner_id.commercial_partner_id.id,
+            'partner_type': 'customer',
+            'journal_id': journal.id,
+            'date': datetime.today(),
+            'currency_id': invoice.currency_id.id ,
+            'amount': abs(invoice.amount_total),
+            'ref': picking.name,
+        })
+        return payment
+
+    def force_create_invoice_payment(self,picking):
+        account_inv_obj = self.env['account.move']
+        account_move_line = self.env['account.move.line']
+
+        move_vals = self._prepare_invoice_vals(picking)
+        new_move = account_inv_obj.sudo().create(move_vals)
+        message = _(
+            "This invoice has been created from the Delivery note: <a href=# data-oe-model=stock.picking data-oe-id=%d>%s</a>") % (
+                      picking.id, picking.name)
+        new_move.message_post(body=message)
+        new_move.sudo().action_post()
+        return new_move
+
+    def process(self):
+        pickings_to_do = self.env['stock.picking']
+        pickings_not_to_do = self.env['stock.picking']
+        for line in self.immediate_transfer_line_ids:
+            if line.to_immediate is True:
+                pickings_to_do |= line.picking_id
+            else:
+                pickings_not_to_do |= line.picking_id
+
+        for picking in pickings_to_do:
+            # If still in draft => confirm and assign
+            if picking.state == 'draft':
+                picking.action_confirm()
+                if picking.state != 'assigned':
+                    picking.action_assign()
+                    if picking.state != 'assigned':
+                        raise UserError(
+                            _("Could not reserve all requested products. Please use the \'Mark as Todo\' button to handle the reservation manually."))
+            for move in picking.move_lines.filtered(lambda m: m.state not in ['done', 'cancel']):
+                for move_line in move.move_line_ids:
+                    move_line.qty_done = move_line.product_uom_qty
+
+            if picking.sale_id.payment_term_id.force_invoice:
+                invoice = self.force_create_invoice_payment(picking)
+                payment = self.create_payment(invoice,picking)
+                payment.sudo().action_post()
+                (invoice + payment.move_id).line_ids \
+                    .filtered(lambda line: line.account_internal_type == 'receivable') \
+                    .reconcile()
+                invoice.sudo().write({'payment_id': payment.id})
+
+
+        pickings_to_validate = self.env.context.get('button_validate_picking_ids')
+        if pickings_to_validate:
+            pickings_to_validate = self.env['stock.picking'].browse(pickings_to_validate)
+            pickings_to_validate = pickings_to_validate - pickings_not_to_do
+            return pickings_to_validate.with_context(skip_immediate=True).button_validate()
+        return True
+
 
 class StockPicking(models.Model):
     _inherit = 'stock.picking'
@@ -95,7 +199,10 @@ class StockPicking(models.Model):
             record.balance_amount = record.sale_id.partner_balance
             amount = 0
             for line in record.move_line_ids_without_package:
-                amount += (line.move_id.sale_line_id.price_unit * line.qty_done)
+                if line.qty_done > 0:
+                    amount += (line.move_id.sale_line_id.price_unit * line.qty_done)
+                else:
+                    amount += (line.move_id.sale_line_id.price_unit * line.product_uom_qty)
             record.picking_total_value = amount
 
     @api.depends('state', 'show_validate')
@@ -172,66 +279,27 @@ class StockPicking(models.Model):
             self.location = self.partner_id.location
             self.mobile_no = self.partner_id.mobile
 
-    def _prepare_invoice_vals(self):
-        self.ensure_one()
-        vals = {
-            'payment_reference': self.name,
-            'invoice_origin': self.name,
-            'picking_id': self.id,
-            # 'journal_id': self.session_id.config_id.invoice_journal_id.id,
-            'move_type': 'out_invoice',
-            'ref': self.name,
-            'partner_id': self.partner_id.id,
-            'narration': self.note or '',
-            'currency_id': self.sale_id.pricelist_id.currency_id.id,
-            'invoice_user_id': self.env.user.id,
-            'invoice_date': datetime.today(),
-            'fiscal_position_id': self.sale_id.fiscal_position_id.id,
-            'invoice_line_ids': [(0, None, self._prepare_invoice_line(line)) for line in self.move_ids_without_package],
-            # 'attention': self.partner_id.id,
-            # 'approved_by': self.env.user.id
-        }
-        return vals
 
-    def _prepare_invoice_line(self, pick_line):
-        return {
-            'product_id': pick_line.product_id.id,
-            'quantity': pick_line.quantity_done,
-            'discount': pick_line.sale_line_id.discount,
-            'price_unit': pick_line.sale_line_id.price_unit,
-            'name': pick_line.product_id.display_name,
-            'tax_ids': [(6, 0, pick_line.sale_line_id.tax_id.ids)],
-            'sale_line_ids':[(6, 0, pick_line.sale_line_id.ids)],
-            'product_uom_id': pick_line.product_id.uom_id.id,
-        }
 
-    def create_payment(self,invoice):
-        journal = self.sale_id.payment_term_id.default_cash_payment
-        payment = self.env['account.payment'].sudo().create({
-            'payment_method_id': self.env.ref('account.account_payment_method_manual_in').id or False,
-            'payment_type': 'inbound',
-            'partner_id':self.partner_id.commercial_partner_id.id,
-            'partner_type': 'customer',
-            'journal_id': journal.id,
-            'date': datetime.today(),
-            'currency_id': invoice.currency_id.id ,
-            'amount': abs(invoice.amount_total),
-            'ref': self.name,
-        })
-        return payment
+    def _pre_action_done_hook(self):
+        if not self.sale_id.payment_term_id.force_invoice and self.picking_total_value > self.balance_amount and not self.env.user.has_group('account.group_account_manager'):
+            raise ValidationError(
+                        _("No enough credit to for the customer, Contact Finance dep. \n\n"
+                          "لا يوجد رصيد لدي العميل، يرجي مراجعة الأدارة المالية"))
+        else:
+            if not self.env.context.get('skip_immediate'):
+                pickings_to_immediate = self._check_immediate()
+                if pickings_to_immediate:
+                    return pickings_to_immediate._action_generate_immediate_wizard(
+                        show_transfers=self._should_show_transfers())
 
-    def force_create_invoice_payment(self):
-        account_inv_obj = self.env['account.move']
-        account_move_line = self.env['account.move.line']
+            if not self.env.context.get('skip_backorder'):
+                pickings_to_backorder = self._check_backorder()
+                if pickings_to_backorder:
+                    return pickings_to_backorder._action_generate_backorder_wizard(
+                        show_transfers=self._should_show_transfers())
+            return True
 
-        move_vals = self._prepare_invoice_vals()
-        new_move = account_inv_obj.sudo().create(move_vals)
-        message = _(
-            "This invoice has been created from the Delivery note: <a href=# data-oe-model=stock.picking data-oe-id=%d>%s</a>") % (
-                      self.id, self.name)
-        new_move.message_post(body=message)
-        new_move.sudo().action_post()
-        return new_move
 
     def button_validate_custom(self):
         for picking in self:
@@ -249,7 +317,8 @@ class StockPicking(models.Model):
                 else:
                     if picking.sale_id.payment_term_id.force_invoice:
                         res_dict = picking.button_validate()
-                        if res_dict:
+                        if res_dict is True:
+                            print(res_dict)
                             invoice = picking.force_create_invoice_payment()
                             payment = self.create_payment(invoice)
                             payment.sudo().action_post()
@@ -257,6 +326,7 @@ class StockPicking(models.Model):
                                 .filtered(lambda line: line.account_internal_type == 'receivable') \
                                 .reconcile()
                             invoice.sudo().write({'payment_id': payment.id})
+
                     else:
                         if self.picking_total_value <= self.balance_amount:
                             picking.button_validate()
