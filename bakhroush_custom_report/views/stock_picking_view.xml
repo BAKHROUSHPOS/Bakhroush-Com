@@ -208,6 +208,7 @@
         groups="bakhroush_custom_report.group_scrap_manager"
         sequence="99"/>
 
+    <menuitem action="stock.action_inventory_form" id="stock.menu_action_inventory_form" parent="bakhroush_custom_report.group_inventory_adjustment_manager" sequence="30"/>
 
     <record id="stock_picking_type_action" model="ir.actions.act_window">
             <field name="name">Inventory Overview</field>
@@ -226,4 +227,39 @@
               </p>
             </field>
         </record>
+
+    <record id="product_product_view_form_easy_inherit_stock" model="ir.ui.view">
+            <field name="name">product.product.view.form.easy.inherit.stock</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="stock.product_product_view_form_easy_inherit_stock"/>
+            <field name="arch" type="xml">
+                <xpath expr="//header/button[@name='action_update_quantity_on_hand']" position="attributes">
+                    <attribute name="groups">bakhroush_custom_report.group_scrap_manager</attribute>
+                </xpath>
+            </field>
+    </record>
+
+    <record model="ir.ui.view" id="product_form_view_procurement_button">
+            <field name="name">product.product.procurement</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="stock.product_form_view_procurement_button"/>
+            <field name="arch" type="xml">
+                <xpath expr="//header/button[@name='action_update_quantity_on_hand']" position="attributes">
+                    <attribute name="groups">bakhroush_custom_report.group_scrap_manager</attribute>
+                </xpath>
+            </field>
+    </record>
+
+    <record model="ir.ui.view" id="product_template_form_view_procurement_button">
+            <field name="name">product.template_procurement</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="stock.product_template_form_view_procurement_button"/>
+            <field name="arch" type="xml">
+                 <xpath expr="//header/button[@name='action_update_quantity_on_hand']" position="attributes">
+                    <attribute name="groups">bakhroush_custom_report.group_scrap_manager</attribute>
+                </xpath>
+            </field>
+    </record>
+
+
 </odoo>

@@ -70,6 +70,7 @@
 
 
                 <!--                </div>-->
+
                 <table style="border:1pt solid grey;width:100%;padding:15pt;font-family:'Cairo'n;border-bottom:0pt solid grey;"
                        class="table-condensed">
                     <tr>
@@ -215,6 +216,9 @@
         <template id="report_saudi_invoice_print">
             <t t-call="web.html_container">
                 <t t-call="saudi_vat_invoice_print.external_layout_vat">
+<!--                    <div class="watermark">-->
+<!--                           <img t-if="doc.company_id.logo" t-att-src="'data:image/png;base64,%s' % to_text(doc.company_id.logo)"/>-->
+<!--                        </div>-->
                     <div class="page" style="font-family: 'Cairo';font-size: 13px; !important">
                         <center>
                             <h3>
@@ -227,6 +231,12 @@
                         </center>
                         <table width="100%"
                                style="border-spacing: 1em .5em;padding: 0 2em 1em 0;border: 1px solid black;table-layout:fixed;border-collapse:collapse;">
+                            <tr>
+                                <td colspan="3" style="background-color:#00A04A!important;border-right:none;color:white"
+                                        class="text-center">
+                                        <b><span style="font-size: 15px" t-field="doc.invoice_payment_term_id.payment_type"/></b>
+                                </td>
+                            </tr>
                             <tr>
                                 <td style="padding:2px;border-color: rgb(160,160,255);" class="text-left">Invoice
                                     Number

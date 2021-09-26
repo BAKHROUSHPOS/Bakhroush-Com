@@ -6,3 +6,11 @@
     font-family: Cairo;
     src: url(/saudi_vat_invoice_print/static/src/fonts/Cairo-Regular.ttf);
 }
+.watermark {
+        position: absolute;
+        opacity: 0.25;
+        z-index: 1000;
+        transform: rotate(300deg);
+        -webkit-transform: rotate(300deg);
+        width: 150%;
+    }
