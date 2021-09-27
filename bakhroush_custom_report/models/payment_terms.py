@@ -8,9 +8,9 @@ class PaymentTerms(models.Model):
 
     allowed_users = fields.Many2many('res.users', string='Allowed Users')
     force_invoice = fields.Boolean('Create auto Invoice & Payment')
-    default_cash_payment = fields.Many2one('account.journal ', 'Payment Journal')
+    default_cash_payment = fields.Many2one('account.journal', 'Payment Journal')
     payment_type = fields.Selection([
         ('cash', 'Cash - نقدي'),
         ('credit', 'Credit - فاتورة آجلة'),
         ('bank', 'Bank - بانک'),
-    ], requied=True)
+    ], required=True)
