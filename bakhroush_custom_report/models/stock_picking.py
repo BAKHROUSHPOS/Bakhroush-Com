@@ -77,7 +77,6 @@ class StockBackorderConfirmation(models.TransientModel):
         new_move.sudo().action_post()
         return new_move
 
-
     def process(self):
         pickings_to_do = self.env['stock.picking']
         pickings_not_to_do = self.env['stock.picking']
@@ -101,6 +100,7 @@ class StockBackorderConfirmation(models.TransientModel):
             for picking in self.env['stock.picking'].browse(pickings_to_validate).with_context(skip_backorder=True):
                 if picking.sale_id.payment_term_id.force_invoice:
                     invoice = self.force_create_invoice_payment(picking)
+                    picking.sudo().write({'invoice_id': invoice.id})
                     payment = self.create_payment(invoice,picking)
                     payment.sudo().action_post()
                     (invoice + payment.move_id).line_ids \
@@ -189,7 +189,6 @@ class StockImmediateTransfer(models.TransientModel):
                 pickings_to_do |= line.picking_id
             else:
                 pickings_not_to_do |= line.picking_id
-
         for picking in pickings_to_do:
             # If still in draft => confirm and assign
             if picking.state == 'draft':
@@ -202,9 +201,9 @@ class StockImmediateTransfer(models.TransientModel):
             for move in picking.move_lines.filtered(lambda m: m.state not in ['done', 'cancel']):
                 for move_line in move.move_line_ids:
                     move_line.qty_done = move_line.product_uom_qty
-
             if picking.sale_id.payment_term_id.force_invoice:
                 invoice = self.force_create_invoice_payment(picking)
+                picking.sudo().write({'invoice_id':invoice.id})
                 payment = self.create_payment(invoice,picking)
                 payment.sudo().action_post()
                 (invoice + payment.move_id).line_ids \
@@ -291,7 +290,7 @@ class StockPicking(models.Model):
 
     balance_amount = fields.Float(string='Customer Balance', compute='_get_balance_in_partner')
     picking_total_value = fields.Float(string='Total Value', compute='_get_balance_in_partner')
-
+    invoice_id = fields.Many2one('account.move','Invoice',readonly=True)
     # @api.onchange('driver_name')
     # def _compute_driver(self):
     #     self.dummy_driver_name = self.env['fleet.vehicle'].search([('employee_driver','!=',False)]).employee_driver.ids
@@ -386,6 +385,8 @@ class StockPicking(models.Model):
 
 
     def _pre_action_done_hook(self):
+        print(self.sale_id.payment_term_id.force_invoice)
+        print(self.env.context)
         if not self.sale_id.payment_term_id.force_invoice and self.picking_total_value > self.balance_amount and not self.env.user.has_group('account.group_account_manager'):
             raise ValidationError(
                         _("No enough credit to for the customer, Contact Finance dep. \n\n"
@@ -404,48 +405,167 @@ class StockPicking(models.Model):
                         show_transfers=self._should_show_transfers())
             return True
 
+    def button_validate(self):
+        # Clean-up the context key at validation to avoid forcing the creation of immediate
+        # transfers.
+        ctx = dict(self.env.context)
+        ctx.pop('default_immediate_transfer', None)
+        self = self.with_context(ctx)
 
-    def button_validate_custom(self):
+        # Sanity checks.
+        pickings_without_moves = self.browse()
+        pickings_without_quantities = self.browse()
+        pickings_without_lots = self.browse()
+        products_without_lots = self.env['product.product']
         for picking in self:
-            if picking.sale_id:
-                precision_digits = self.env['decimal.precision'].precision_get('Product Unit of Measure')
-                no_quantities_done = all(
-                    float_is_zero(move_line.qty_done, precision_digits=precision_digits) for move_line in
-                    picking.move_line_ids.filtered(lambda m: m.state not in ('done', 'cancel')))
-                no_reserved_quantities = all(
-                    float_is_zero(move_line.product_qty, precision_rounding=move_line.product_uom_id.rounding) for
-                    move_line in picking.move_line_ids)
-                if no_quantities_done and not no_reserved_quantities :
-                    raise ValidationError(
-                        _("No Quantity is added"))
-                else:
-                    if picking.sale_id.payment_term_id.force_invoice:
-                        res_dict = picking.button_validate()
-                        if res_dict is True:
-                            print(res_dict)
-                            invoice = picking.force_create_invoice_payment()
-                            payment = self.create_payment(invoice)
-                            payment.sudo().action_post()
-                            (invoice + payment.move_id).line_ids \
-                                .filtered(lambda line: line.account_internal_type == 'receivable') \
-                                .reconcile()
-                            invoice.sudo().write({'payment_id': payment.id})
+            if not picking.move_lines and not picking.move_line_ids:
+                pickings_without_moves |= picking
 
-                    else:
-                        if self.picking_total_value <= self.balance_amount:
-                            picking.button_validate()
-                            # picking.force_create_invoice_payment()
-                        else:
-                            if self.env.user.has_group('account.group_account_manager'):
-                                picking.button_validate()
-                                # picking.force_create_invoice_payment()
-                            else:
-                                raise ValidationError(
-                                    _("No enough credit to for the customer, Contact Finance dep. \n\n"
-                                      "لا يوجد رصيد لدي العميل، يرجي مراجعة الأدارة المالية"))
+            picking.message_subscribe([self.env.user.partner_id.id])
+            picking_type = picking.picking_type_id
+            precision_digits = self.env['decimal.precision'].precision_get('Product Unit of Measure')
+            no_quantities_done = all(float_is_zero(move_line.qty_done, precision_digits=precision_digits) for move_line in picking.move_line_ids.filtered(lambda m: m.state not in ('done', 'cancel')))
+            no_reserved_quantities = all(float_is_zero(move_line.product_qty, precision_rounding=move_line.product_uom_id.rounding) for move_line in picking.move_line_ids)
+            if no_reserved_quantities and no_quantities_done:
+                pickings_without_quantities |= picking
+
+            if picking_type.use_create_lots or picking_type.use_existing_lots:
+                lines_to_check = picking.move_line_ids
+                if not no_quantities_done:
+                    lines_to_check = lines_to_check.filtered(lambda line: float_compare(line.qty_done, 0, precision_rounding=line.product_uom_id.rounding))
+                for line in lines_to_check:
+                    product = line.product_id
+                    if product and product.tracking != 'none':
+                        if not line.lot_name and not line.lot_id:
+                            pickings_without_lots |= picking
+                            products_without_lots |= product
+
+        if not self._should_show_transfers():
+            if pickings_without_moves:
+                raise UserError(_('Please add some items to move.'))
+            if pickings_without_quantities:
+                raise UserError(self._get_without_quantities_error_message())
+            if pickings_without_lots:
+                raise UserError(_('You need to supply a Lot/Serial number for products %s.') % ', '.join(products_without_lots.mapped('display_name')))
+        else:
+            message = ""
+            if pickings_without_moves:
+                message += _('Transfers %s: Please add some items to move.') % ', '.join(pickings_without_moves.mapped('name'))
+            if pickings_without_quantities:
+                message += _('\n\nTransfers %s: You cannot validate these transfers if no quantities are reserved nor done. To force these transfers, switch in edit more and encode the done quantities.') % ', '.join(pickings_without_quantities.mapped('name'))
+            if pickings_without_lots:
+                message += _('\n\nTransfers %s: You need to supply a Lot/Serial number for products %s.') % (', '.join(pickings_without_lots.mapped('name')), ', '.join(products_without_lots.mapped('display_name')))
+            if message:
+                raise UserError(message.lstrip())
+
+        # Run the pre-validation wizards. Processing a pre-validation wizard should work on the
+        # moves and/or the context and never call `_action_done`.
+        if not self.env.context.get('button_validate_picking_ids'):
+            self = self.with_context(button_validate_picking_ids=self.ids)
+        res = self._pre_action_done_hook()
+        if res is not True:
+            return res
+
+        # Call `_action_done`.
+        if self.env.context.get('picking_ids_not_to_backorder'):
+            pickings_not_to_backorder = self.browse(self.env.context['picking_ids_not_to_backorder'])
+            pickings_to_backorder = self - pickings_not_to_backorder
+        else:
+            pickings_not_to_backorder = self.env['stock.picking']
+            pickings_to_backorder = self
+
+        if not self.invoice_id:
+            if not self.sale_id.payment_term_id.force_invoice and self.picking_total_value > self.balance_amount and not self.env.user.has_group(
+                    'account.group_account_manager'):
+                raise ValidationError(
+                    _("No enough credit to for the customer, Contact Finance dep. \n\n"
+                      "لا يوجد رصيد لدي العميل، يرجي مراجعة الأدارة المالية"))
             else:
-                picking.button_validate()
+                if self.sale_id.payment_term_id.force_invoice:
+                    if pickings_not_to_backorder:
+                        picking = pickings_not_to_backorder
+                    if pickings_to_backorder:
+                        picking = pickings_to_backorder
 
+                    invoice = self.force_create_invoice_payment(picking)
+                    picking.sudo().write({'invoice_id': invoice.id})
+                    payment = self.create_payment(invoice, picking)
+                    payment.sudo().action_post()
+                    (invoice + payment.move_id).line_ids \
+                        .filtered(lambda line: line.account_internal_type == 'receivable') \
+                        .reconcile()
+                    invoice.sudo().write({'payment_id': payment.id})
+
+        pickings_not_to_backorder.with_context(cancel_backorder=True)._action_done()
+        pickings_to_backorder.with_context(cancel_backorder=False)._action_done()
+
+        for picking_ids in self.sale_id.picking_ids:
+            if picking_ids.state not in 'done':
+                picking_ids.invoice_id = False
+
+        return True
+
+    def _prepare_invoice_vals(self,picking):
+        self.ensure_one()
+        vals = {
+            'payment_reference': picking.name,
+            'invoice_origin': picking.name,
+            'picking_id': picking.id,
+            # 'journal_id': self.session_id.config_id.invoice_journal_id.id,
+            'move_type': 'out_invoice',
+            'ref': picking.name,
+            'partner_id': picking.partner_id.id,
+            'narration': picking.note or '',
+            'currency_id': picking.sale_id.pricelist_id.currency_id.id,
+            'invoice_user_id': picking.env.user.id,
+            'invoice_date': datetime.today(),
+            'fiscal_position_id': picking.sale_id.fiscal_position_id.id,
+            'invoice_line_ids': [(0, None, self._prepare_invoice_line(line)) for line in picking.move_ids_without_package],
+            'invoice_payment_term_id':picking.sale_id.payment_term_id.id,
+            # 'attention': self.partner_id.id,
+            # 'approved_by': self.env.user.id
+        }
+        return vals
+
+    def _prepare_invoice_line(self, pick_line):
+        return {
+            'product_id': pick_line.product_id.id,
+            'quantity': pick_line.quantity_done,
+            'discount': pick_line.sale_line_id.discount,
+            'price_unit': pick_line.sale_line_id.price_unit,
+            'name': pick_line.product_id.display_name,
+            'tax_ids': [(6, 0, pick_line.sale_line_id.tax_id.ids)],
+            'sale_line_ids':[(6, 0, pick_line.sale_line_id.ids)],
+            'product_uom_id': pick_line.product_id.uom_id.id,
+        }
+
+    def create_payment(self,invoice,picking):
+        journal = picking.sale_id.payment_term_id.default_cash_payment
+        payment = self.env['account.payment'].sudo().create({
+            'payment_method_id': self.env.ref('account.account_payment_method_manual_in').id or False,
+            'payment_type': 'inbound',
+            'partner_id':picking.partner_id.commercial_partner_id.id,
+            'partner_type': 'customer',
+            'journal_id': journal.id,
+            'date': datetime.today(),
+            'currency_id': invoice.currency_id.id ,
+            'amount': abs(invoice.amount_total),
+            'ref': picking.name,
+        })
+        return payment
+
+    def force_create_invoice_payment(self,picking):
+        account_inv_obj = self.env['account.move']
+        account_move_line = self.env['account.move.line']
+
+        move_vals = self._prepare_invoice_vals(picking)
+        new_move = account_inv_obj.sudo().create(move_vals)
+        message = _(
+            "This invoice has been created from the Delivery note: <a href=# data-oe-model=stock.picking data-oe-id=%d>%s</a>") % (
+                      picking.id, picking.name)
+        new_move.message_post(body=message)
+        new_move.sudo().action_post()
+        return new_move
 
 class StockMoveLine(models.Model):
     _inherit = 'stock.move.line'
@@ -494,39 +614,39 @@ class StockMoveLine(models.Model):
             product = self.env['product.product'].search([('barcode', '=', self.barcode)])
             self.product_id = product.id
 
-class StockMove(models.Model):
-    _inherit = 'stock.move'
-
-    def _prepare_move_line_vals(self, quantity=None, reserved_quant=None):
-        self.ensure_one()
-        # apply putaway
-        location_dest_id = self.location_dest_id._get_putaway_strategy(self.product_id).id or self.location_dest_id.id
-        vals = {
-            'move_id': self.id,
-            'product_id': self.product_id.id,
-            'product_uom_id': self.product_uom.id,
-            'location_id': self.location_id.id,
-            'location_dest_id': location_dest_id,
-            'picking_id': self.picking_id.id,
-            'company_id': self.company_id.id,
-        }
-        if quantity:
-            rounding = self.env['decimal.precision'].precision_get('Product Unit of Measure')
-            uom_quantity = self.product_id.uom_id._compute_quantity(quantity, self.product_uom,
-                                                                    rounding_method='HALF-UP')
-            uom_quantity = float_round(uom_quantity, precision_digits=rounding)
-            uom_quantity_back_to_product_uom = self.product_uom._compute_quantity(uom_quantity, self.product_id.uom_id,
-                                                                                  rounding_method='HALF-UP')
-            if float_compare(quantity, uom_quantity_back_to_product_uom, precision_digits=rounding) == 0:
-                vals = dict(vals, product_uom_qty=uom_quantity,qty_done=uom_quantity)
-            else:
-                vals = dict(vals, product_uom_qty=quantity,qty_done=quantity, product_uom_id=self.product_id.uom_id.id)
-        if reserved_quant:
-            vals = dict(
-                vals,
-                location_id=reserved_quant.location_id.id,
-                lot_id=reserved_quant.lot_id.id or False,
-                package_id=reserved_quant.package_id.id or False,
-                owner_id=reserved_quant.owner_id.id or False,
-            )
-        return vals
+# class StockMove(models.Model):
+#     _inherit = 'stock.move'
+#
+#     def _prepare_move_line_vals(self, quantity=None, reserved_quant=None):
+#         self.ensure_one()
+#         # apply putaway
+#         location_dest_id = self.location_dest_id._get_putaway_strategy(self.product_id).id or self.location_dest_id.id
+#         vals = {
+#             'move_id': self.id,
+#             'product_id': self.product_id.id,
+#             'product_uom_id': self.product_uom.id,
+#             'location_id': self.location_id.id,
+#             'location_dest_id': location_dest_id,
+#             'picking_id': self.picking_id.id,
+#             'company_id': self.company_id.id,
+#         }
+#         if quantity:
+#             rounding = self.env['decimal.precision'].precision_get('Product Unit of Measure')
+#             uom_quantity = self.product_id.uom_id._compute_quantity(quantity, self.product_uom,
+#                                                                     rounding_method='HALF-UP')
+#             uom_quantity = float_round(uom_quantity, precision_digits=rounding)
+#             uom_quantity_back_to_product_uom = self.product_uom._compute_quantity(uom_quantity, self.product_id.uom_id,
+#                                                                                   rounding_method='HALF-UP')
+#             if float_compare(quantity, uom_quantity_back_to_product_uom, precision_digits=rounding) == 0:
+#                 vals = dict(vals, product_uom_qty=uom_quantity,qty_done=uom_quantity)
+#             else:
+#                 vals = dict(vals, product_uom_qty=quantity,qty_done=quantity, product_uom_id=self.product_id.uom_id.id)
+#         if reserved_quant:
+#             vals = dict(
+#                 vals,
+#                 location_id=reserved_quant.location_id.id,
+#                 lot_id=reserved_quant.lot_id.id or False,
+#                 package_id=reserved_quant.package_id.id or False,
+#                 owner_id=reserved_quant.owner_id.id or False,
+#             )
+#         return vals

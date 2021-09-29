@@ -63,6 +63,7 @@
                     <field name="picking_total_value"/>
                     <field name="addition_approval" invisible="1"/>
                     <field name="dummy_src_location" invisible="1"/>
+                    <field name="invoice_id"/>
                     <field name="allowed_users" widget="many2many_tags" invisible="1"/>
                 </group>
             </xpath>

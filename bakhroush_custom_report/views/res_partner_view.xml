@@ -12,6 +12,16 @@
             </xpath>
         </field>
     </record>
+    <record id="res_partner_form" model="ir.ui.view">
+        <field name="name">res.partner.form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="saudi_vat_invoice_print.res_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='arabic']" position="attributes">
+                <attributes name="required">0</attributes>
+            </xpath>
+        </field>
+    </record>
      <record id="res_partner_view_search_employee" model="ir.ui.view">
             <field name="name">res.partner.search.employee</field>
             <field name="model">res.partner</field>
