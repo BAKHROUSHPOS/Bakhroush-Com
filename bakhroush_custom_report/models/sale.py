@@ -2,6 +2,7 @@
 from odoo import models, fields,api
 from datetime import datetime
 
+
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
@@ -55,3 +56,11 @@ class SaleOrder(models.Model):
                 'total_orders': product_uom_qty,
                 'total_delivered': qty_delivered,
             })
+
+    def action_confirm(self):
+        res = super(SaleOrder, self).action_confirm()
+        mrp_production_ids = self.procurement_group_id.stock_move_ids.created_production_id.procurement_group_id.mrp_production_ids.ids
+        if mrp_production_ids:
+            for mrp in mrp_production_ids:
+                self.env['mrp.production'].browse(mrp).write({'branch_id': self.branch_id.id})
+        return res
