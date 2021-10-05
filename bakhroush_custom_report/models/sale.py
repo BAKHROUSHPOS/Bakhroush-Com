@@ -27,7 +27,8 @@ class SaleOrder(models.Model):
 
     def _get_partner_balance(self):
         for record in self:
-            record.partner_balance = record.partner_debit - record.partner_credit
+            record.partner_balance = record.partner_credit
+            # record.partner_balance = record.partner_debit - record.partner_credit
 
     @api.onchange('pricelist_id')
     def onchange_pricelist_id(self):
