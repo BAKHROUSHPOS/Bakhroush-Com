@@ -387,7 +387,7 @@ class StockPicking(models.Model):
     def _pre_action_done_hook(self):
         print(self.sale_id.payment_term_id.force_invoice)
         print(self.env.context)
-        if not self.sale_id.payment_term_id.force_invoice and self.picking_total_value > self.balance_amount and not self.env.user.has_group('account.group_account_manager'):
+        if not self.sale_id.payment_term_id.force_invoice and self.picking_total_value > abs(self.balance_amount) and not self.env.user.has_group('account.group_account_manager'):
             raise ValidationError(
                         _("No enough credit to for the customer, Contact Finance dep. \n\n"
                           "لا يوجد رصيد لدي العميل، يرجي مراجعة الأدارة المالية"))
