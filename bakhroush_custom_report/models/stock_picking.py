@@ -291,11 +291,7 @@ class StockPicking(models.Model):
     balance_amount = fields.Float(string='Customer Balance', compute='_get_balance_in_partner')
     picking_total_value = fields.Float(string='Total Value', compute='_get_balance_in_partner')
     invoice_id = fields.Many2one('account.move','Invoice',readonly=True)
-    # @api.onchange('driver_name')
-    # def _compute_driver(self):
-    #     self.dummy_driver_name = self.env['fleet.vehicle'].search([('employee_driver','!=',False)]).employee_driver.ids
-
-
+    
     @api.depends('partner_id', 'move_line_ids_without_package')
     def _get_balance_in_partner(self):
         for record in self:
@@ -303,9 +299,30 @@ class StockPicking(models.Model):
             amount = 0
             for line in record.move_line_ids_without_package:
                 if line.qty_done > 0:
-                    amount += (line.move_id.sale_line_id.price_unit * line.qty_done)
+                    price = line.move_id.sale_line_id.price_unit * (
+                            1 - (line.move_id.sale_line_id.discount or 0.0) / 100.0)
+                    taxes = line.move_id.sale_line_id.tax_id.compute_all(
+                        price,
+                        line.move_id.sale_line_id.order_id.currency_id,
+                        line.qty_done,
+                        product=line.move_id.sale_line_id.product_id,
+                        partner=line.move_id.sale_line_id.order_id.partner_shipping_id)
+                    amount += taxes['total_included']
                 else:
-                    amount += (line.move_id.sale_line_id.price_unit * line.product_uom_qty)
+                    price = line.move_id.sale_line_id.price_unit * (
+                                1 - (line.move_id.sale_line_id.discount or 0.0) / 100.0)
+                    taxes = line.move_id.sale_line_id.tax_id.compute_all(
+                                    price,
+                                    line.move_id.sale_line_id.order_id.currency_id,
+                                    line.move_id.sale_line_id.product_uom_qty,
+                                    product=line.move_id.sale_line_id.product_id,
+                                    partner=line.move_id.sale_line_id.order_id.partner_shipping_id)
+                    # line.update({
+                    #     'price_tax': sum(t.get('amount', 0.0) for t in taxes.get('taxes', [])),
+                    #     'price_total': taxes['total_included'],
+                    #     'price_subtotal': taxes['total_excluded'],
+                    # })
+                    amount += taxes['total_included']
             record.picking_total_value = amount
 
     @api.depends('state', 'show_validate')
@@ -387,7 +404,7 @@ class StockPicking(models.Model):
     def _pre_action_done_hook(self):
         print(self.sale_id.payment_term_id.force_invoice)
         print(self.env.context)
-        if not self.sale_id.payment_term_id.force_invoice and self.picking_total_value > abs(self.balance_amount) and not self.env.user.has_group('account.group_account_manager'):
+        if not self.sale_id.payment_term_id.force_invoice and self.picking_total_value > self.balance_amount and not self.env.user.has_group('account.group_account_manager'):
             raise ValidationError(
                         _("No enough credit to for the customer, Contact Finance dep. \n\n"
                           "لا يوجد رصيد لدي العميل، يرجي مراجعة الأدارة المالية"))
