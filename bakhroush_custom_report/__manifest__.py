@@ -16,10 +16,10 @@
     # Data
     'data': [
         'security/ir.model.access.csv',
+        'views/data.xml',
         'report/delivery_report.xml',
         'report/delivery_dotmatrix_report.xml',
         'report/delivery_concreate_dotmatrix_report.xml',
-        'views/data.xml',
         'views/stock_picking_view.xml',
         'views/sale_view.xml',
         'views/purchase_view.xml',
@@ -28,7 +28,6 @@
         'views/product_view.xml',
         'views/payment_terms.xml',
         'views/branch.xml'
-        # 'views/res_company_view.xml',
          ],
     'installable': True,
     'application': True,
