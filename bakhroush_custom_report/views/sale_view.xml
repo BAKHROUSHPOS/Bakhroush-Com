@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="product_template_search_form_view_branch" model="ir.ui.view">
+        <field name="name">product.template.search.branch.form</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_search_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='consumable']" position="after">
+                <separator/>
+                <field name="branch_id" string="Branch"/>
+                <separator/>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_sale_order_calendar" model="ir.ui.view">
+        <field name="name">sale.order.calendar.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_sale_order_calendar"/>
+        <field name="arch" type="xml">
+            <xpath expr="//calendar" position="attributes">
+                <attribute name="date_start">commitment_date</attribute>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_order_form" model="ir.ui.view">
+        <field name="name">sale.order.form</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='sale_shipping']" position="replace"/>
+            <xpath expr="//group[@name='sale_header']" position="inside">
+                <group name="sale_shipping" string="Delivery">
+                    <field name="commitment_date"/>
+                    <field name="expected_date" widget="date"/>
+                    <field name="warehouse_id"/>
+                </group>
+            </xpath>
+            <xpath expr="//field[@name='payment_term_id']" position="attributes">
+                <attribute name="required">1</attribute>
+                <attribute name="domain">[('allowed_users', 'in', uid)]</attribute>
+            </xpath>
+            <xpath expr="//field[@name='user_id']" position="after">
+                <field name="total_orders"/>
+                <field name="total_delivered"/>
+            </xpath>
+            <xpath expr="//notebook" position="before">
+                <group string="Balance">
+                    <field name="company_currency_id" invisible="1"/>
+                    <field name="partner_balance" widget='monetary'
+                           options="{'currency_field': 'company_currency_id'}"></field>
+                    <field name="balance_in_partner_currency" string="In Pircelist Currency"></field>
+                </group>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_quotation_tree" model="ir.ui.view">
+        <field name="name">sale.order.tree_q</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_quotation_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='user_id']" position="after">
+                <field name="total_orders"/>
+                <field name="total_delivered"/>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_order_tree" model="ir.ui.view">
+        <field name="name">sale.order.tree</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='user_id']" position="after">
+                <field name="total_orders"/>
+                <field name="total_delivered"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

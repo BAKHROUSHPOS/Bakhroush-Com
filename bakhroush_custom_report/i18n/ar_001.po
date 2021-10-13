@@ -1,0 +1,1219 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* direct_material_transfer
+# 	* bakhroush_custom_report
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0+e-20210624\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-10-13 12:15+0000\n"
+"PO-Revision-Date: 2021-10-13 12:15+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: bakhroush_custom_report
+#: code:addons/bakhroush_custom_report/models/stock_picking.py:0
+#, python-format
+msgid ""
+"\n"
+"\n"
+"Transfers %s: You cannot validate these transfers if no quantities are reserved nor done. To force these transfers, switch in edit more and encode the done quantities."
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: code:addons/bakhroush_custom_report/models/stock_picking.py:0
+#, python-format
+msgid ""
+"\n"
+"\n"
+"Transfers %s: You need to supply a Lot/Serial number for products %s."
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model:ir.actions.report,print_report_name:bakhroush_custom_report.action_report_delivery_concrete_bakhroush
+#: model:ir.actions.report,print_report_name:bakhroush_custom_report.action_report_delivery_dot_bakhroush
+msgid ""
+"'Delivery Slip - %s - %s' % (object.partner_id.name or '', object.name)"
+msgstr ""
+
+#. module: direct_material_transfer
+#: model:ir.model.fields,field_description:direct_material_transfer.field_direct_material_transfer__account_move
+msgid "Account Entry"
+msgstr ""
+
+#. module: direct_material_transfer
+#: model:ir.model.fields,field_description:direct_material_transfer.field_direct_material_transfer__message_needaction
+msgid "Action Needed"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_stock_picking__addition_approval
+msgid "Additional Warehouse"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_stock_picking__building_permit_no
+msgid "Address / Building Permit No."
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model:res.groups,name:bakhroush_custom_report.group_product_manager
+msgid "Allow Product Creation"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model:res.groups,name:bakhroush_custom_report.group_return_manager
+msgid "Allow Return"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model:res.groups,name:bakhroush_custom_report.group_scrap_manager
+msgid "Allow Scrap"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_account_payment_term__allowed_users
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_company_branch__allowed_user_ids
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_stock_picking__allowed_users
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_stock_warehouse__allowed_users
+msgid "Allowed Users"
+msgstr ""
+
+#. module: direct_material_transfer
+#: model:ir.model.fields,field_description:direct_material_transfer.field_direct_material_transfer__analytic_account_id
+msgid "Analytic Account"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_stock_picking__received_time
+msgid "Arrival / Received Time"
+msgstr ""
+
+#. module: direct_material_transfer
+#: model:ir.model.fields,field_description:direct_material_transfer.field_direct_material_transfer__message_attachment_count
+msgid "Attachment Count"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model:ir.model,name:bakhroush_custom_report.model_stock_backorder_confirmation
+msgid "Backorder Confirmation"
+msgstr "تأكيد أمر المؤجلات"
+
+#. module: bakhroush_custom_report
+#: model_terms:ir.ui.view,arch_db:bakhroush_custom_report.view_order_form
+msgid "Balance"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model:ir.model.fields.selection,name:bakhroush_custom_report.selection__account_payment_term__payment_type__bank
+msgid "Bank - بانک"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_stock_move_line__barcode
+msgid "Barcode"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_product_template__branch_id
+#: model_terms:ir.ui.view,arch_db:bakhroush_custom_report.product_template_search_form_view_branch
+msgid "Branch"
+msgstr "الفرع"
+
+#. module: direct_material_transfer
+#: model_terms:ir.ui.view,arch_db:direct_material_transfer.direct_material_transfer_view
+msgid "Cancel"
+msgstr ""
+
+#. module: direct_material_transfer
+#: model:ir.model.fields.selection,name:direct_material_transfer.selection__direct_material_transfer__state__cancelled
+#: model_terms:ir.ui.view,arch_db:direct_material_transfer.direct_material_transfer_view_search
+msgid "Cancelled"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_stock_picking__car_no
+#: model_terms:ir.ui.view,arch_db:bakhroush_custom_report.report_delivery_document_bakhroush
+msgid "Car No."
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model:ir.model.fields.selection,name:bakhroush_custom_report.selection__account_payment_term__payment_type__cash
+msgid "Cash - نقدي"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_stock_move_line__clas
+msgid "Class"
+msgstr ""
+
+#. module: direct_material_transfer
+#: model_terms:ir.actions.act_window,help:direct_material_transfer.act_direct_material_transfer
+msgid "Click to create a new Direct Material Transfer."
+msgstr ""
+
+#. module: direct_material_transfer
+#: model:ir.model.fields,field_description:direct_material_transfer.field_direct_material_line__company_id
+#: model:ir.model.fields,field_description:direct_material_transfer.field_direct_material_transfer__company_id
+msgid "Company"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model:ir.model,name:bakhroush_custom_report.model_company_branch
+msgid "Company's Branch"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model:ir.model.fields.selection,name:bakhroush_custom_report.selection__stock_picking__method__concrete
+msgid "Concrete"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model:ir.model,name:bakhroush_custom_report.model_res_partner
+msgid "Contact"
+msgstr "جهة الاتصال"
+
+#. module: bakhroush_custom_report
+#: model:res.groups,name:bakhroush_custom_report.group_contact_manager
+msgid "Contact Manager"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_stock_picking__corresponding
+#: model_terms:ir.ui.view,arch_db:bakhroush_custom_report.report_delivery_document_bakhroush
+msgid "Corresponding"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: code:addons/bakhroush_custom_report/models/stock_picking.py:0
+#, python-format
+msgid ""
+"Could not reserve all requested products. Please use the 'Mark as Todo' "
+"button to handle the reservation manually."
+msgstr ""
+
+#. module: direct_material_transfer
+#: model:ir.model.fields,field_description:direct_material_transfer.field_direct_material_transfer__create_date
+msgid "Create Date"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model_terms:ir.actions.act_window,help:bakhroush_custom_report.stock_picking_type_action
+msgid "Create a new operation type"
+msgstr ""
+
+#. module: direct_material_transfer
+#: model_terms:ir.actions.act_window,help:direct_material_transfer.action_stock_expense_location
+msgid "Create a new settings"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_account_payment_term__force_invoice
+msgid "Create auto Invoice & Payment"
+msgstr ""
+
+#. module: direct_material_transfer
+#: model:ir.model.fields,field_description:direct_material_transfer.field_direct_material_line__create_uid
+#: model:ir.model.fields,field_description:direct_material_transfer.field_direct_material_transfer__create_uid
+#: model:ir.model.fields,field_description:direct_material_transfer.field_stock_expense_location__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: direct_material_transfer
+#: model:ir.model.fields,field_description:direct_material_transfer.field_stock_expense_location__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: direct_material_transfer
+#: model:ir.model.fields,field_description:direct_material_transfer.field_direct_material_line__create_date
+msgid "Creation Date"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_sale_order__partner_credit
+msgid "Credit"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model:ir.model.fields.selection,name:bakhroush_custom_report.selection__account_payment_term__payment_type__credit
+msgid "Credit - فاتورة آجلة"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_sale_order__company_currency_id
+msgid "Currency"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model_terms:ir.ui.view,arch_db:bakhroush_custom_report.report_delivery_document_bakhroush
+msgid "Cust. Name"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model_terms:ir.ui.view,arch_db:bakhroush_custom_report.res_partner_view_search_employee
+msgid "Customer"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_stock_picking__balance_amount
+msgid "Customer Balance"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_stock_picking__customer_no
+#: model_terms:ir.ui.view,arch_db:bakhroush_custom_report.report_delivery_document_bakhroush
+msgid "Customer No."
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model_terms:ir.ui.view,arch_db:bakhroush_custom_report.report_delivery_document_bakhroush
+msgid "Date"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_sale_order__partner_debit
+msgid "Debit"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model_terms:ir.ui.view,arch_db:bakhroush_custom_report.view_order_form
+msgid "Delivery"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model_terms:ir.ui.view,arch_db:bakhroush_custom_report.report_delivery_document_bakhroush
+msgid "Delivery No."
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model_terms:ir.ui.view,arch_db:bakhroush_custom_report.report_delivery_document_bakhroush
+msgid "Delivery Note"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model:ir.actions.report,name:bakhroush_custom_report.action_report_delivery_concrete_bakhroush
+msgid "Delivery Slip - Bakhroush (Concrete)"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model:ir.actions.report,name:bakhroush_custom_report.action_report_delivery_dot_bakhroush
+msgid "Delivery Slip - Bakhroush (Normal)"
+msgstr ""
+
+#. modules: direct_material_transfer, bakhroush_custom_report
+#: model:ir.model.fields,field_description:direct_material_transfer.field_direct_material_line__name
+#: model_terms:ir.ui.view,arch_db:bakhroush_custom_report.report_delivery_document_bakhroush
+msgid "Description"
+msgstr ""
+
+#. module: direct_material_transfer
+#: model:ir.model.fields,field_description:direct_material_transfer.field_direct_material_line__partner_id
+msgid "Destination Address "
+msgstr ""
+
+#. module: direct_material_transfer
+#: model:ir.model.fields,field_description:direct_material_transfer.field_direct_material_line__destination_location_id
+#: model:ir.model.fields,field_description:direct_material_transfer.field_direct_material_transfer__destination_location_id
+#: model_terms:ir.ui.view,arch_db:direct_material_transfer.direct_material_transfer_view_search
+msgid "Destination Location"
+msgstr "المكان في مخزن التحويل"
+
+#. module: direct_material_transfer
+#: model:ir.model.fields,field_description:direct_material_transfer.field_direct_material_transfer__destination_partner_id
+#: model_terms:ir.ui.view,arch_db:direct_material_transfer.direct_material_transfer_view_search
+msgid "Destination Partner"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_stock_picking__destination_warehouse
+msgid "Destination Warehouse"
+msgstr "التحويل إلي مخزن"
+
+#. module: direct_material_transfer
+#: model:ir.model.fields,field_description:direct_material_transfer.field_direct_material_line__direct_id
+msgid "Direct Material"
+msgstr ""
+
+#. module: direct_material_transfer
+#: model:ir.model,name:direct_material_transfer.model_direct_material_line
+msgid "Direct Material Line"
+msgstr ""
+
+#. module: direct_material_transfer
+#: model:ir.actions.act_window,name:direct_material_transfer.act_direct_material_transfer
+#: model:ir.model,name:direct_material_transfer.model_direct_material_transfer
+#: model:ir.ui.menu,name:direct_material_transfer.menu_direct_material_transfer
+#: model_terms:ir.ui.view,arch_db:direct_material_transfer.direct_material_transfer_view_search
+msgid "Direct Material Transfer"
+msgstr ""
+
+#. modules: direct_material_transfer, bakhroush_custom_report
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_account_move__display_name
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_account_payment_term__display_name
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_company_branch__display_name
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_hr_employee__display_name
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_mrp_production__display_name
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_product_template__display_name
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_purchase_order__display_name
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_res_partner__display_name
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_res_users__display_name
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_sale_order__display_name
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_stock_backorder_confirmation__display_name
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_stock_immediate_transfer__display_name
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_stock_move_line__display_name
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_stock_picking__display_name
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_stock_report__display_name
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_stock_warehouse__display_name
+#: model:ir.model.fields,field_description:direct_material_transfer.field_direct_material_line__display_name
+#: model:ir.model.fields,field_description:direct_material_transfer.field_direct_material_transfer__display_name
+#: model:ir.model.fields,field_description:direct_material_transfer.field_stock_expense_location__display_name
+#: model:ir.model.fields,field_description:direct_material_transfer.field_stock_location__display_name
+msgid "Display Name"
+msgstr "الاسم المعروض"
+
+#. module: direct_material_transfer
+#: model_terms:ir.ui.view,arch_db:direct_material_transfer.direct_material_transfer_view_search
+msgid "Done"
+msgstr ""
+
+#. module: direct_material_transfer
+#: model:ir.model.fields.selection,name:direct_material_transfer.selection__direct_material_transfer__state__draft
+#: model_terms:ir.ui.view,arch_db:direct_material_transfer.direct_material_transfer_view_search
+msgid "Draft"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_stock_report__driver_name
+msgid "Driver"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_stock_picking__driver_name
+#: model_terms:ir.ui.view,arch_db:bakhroush_custom_report.report_delivery_document_bakhroush
+msgid "Driver Name"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_stock_picking__dummy_src_location
+msgid "Dummy source location"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model:ir.model,name:bakhroush_custom_report.model_hr_employee
+#: model_terms:ir.ui.view,arch_db:bakhroush_custom_report.inherit_view_partner_form_form
+msgid "Employee"
+msgstr "الموظف"
+
+#. module: bakhroush_custom_report
+#: model_terms:ir.ui.view,arch_db:bakhroush_custom_report.res_partner_view_search_employee
+msgid "Employees"
+msgstr ""
+
+#. module: direct_material_transfer
+#: model:ir.model.fields,field_description:direct_material_transfer.field_direct_material_transfer__expense_account
+#: model:ir.model.fields,field_description:direct_material_transfer.field_stock_expense_location__expense_account
+#: model:ir.model.fields,field_description:direct_material_transfer.field_stock_location__expense_account
+msgid "Expense Account"
+msgstr ""
+
+#. module: direct_material_transfer
+#: model:ir.model,name:direct_material_transfer.model_stock_expense_location
+msgid "Expense account in Location"
+msgstr ""
+
+#. module: direct_material_transfer
+#: model:ir.model.fields,field_description:direct_material_transfer.field_direct_material_transfer__message_follower_ids
+msgid "Followers"
+msgstr ""
+
+#. module: direct_material_transfer
+#: model:ir.model.fields,field_description:direct_material_transfer.field_direct_material_transfer__message_channel_ids
+msgid "Followers (Channels)"
+msgstr ""
+
+#. module: direct_material_transfer
+#: model:ir.model.fields,field_description:direct_material_transfer.field_direct_material_transfer__message_partner_ids
+msgid "Followers (Partners)"
+msgstr ""
+
+#. modules: direct_material_transfer, bakhroush_custom_report
+#: model:ir.model.fields,field_description:direct_material_transfer.field_direct_material_transfer__source_location_id
+#: model_terms:ir.ui.view,arch_db:bakhroush_custom_report.internal_picktree
+msgid "From"
+msgstr ""
+
+#. module: direct_material_transfer
+#: model_terms:ir.ui.view,arch_db:direct_material_transfer.direct_material_transfer_view_search
+msgid "Group By"
+msgstr ""
+
+#. modules: direct_material_transfer, bakhroush_custom_report
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_account_move__id
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_account_payment_term__id
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_company_branch__id
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_hr_employee__id
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_mrp_production__id
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_product_template__id
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_purchase_order__id
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_res_partner__id
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_res_users__id
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_sale_order__id
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_stock_backorder_confirmation__id
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_stock_immediate_transfer__id
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_stock_move_line__id
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_stock_picking__id
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_stock_report__id
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_stock_warehouse__id
+#: model:ir.model.fields,field_description:direct_material_transfer.field_direct_material_line__id
+#: model:ir.model.fields,field_description:direct_material_transfer.field_direct_material_transfer__id
+#: model:ir.model.fields,field_description:direct_material_transfer.field_stock_expense_location__id
+#: model:ir.model.fields,field_description:direct_material_transfer.field_stock_location__id
+msgid "ID"
+msgstr "المُعرف"
+
+#. module: direct_material_transfer
+#: model:ir.model.fields,help:direct_material_transfer.field_direct_material_transfer__message_needaction
+#: model:ir.model.fields,help:direct_material_transfer.field_direct_material_transfer__message_unread
+msgid "If checked, new messages require your attention."
+msgstr ""
+
+#. module: direct_material_transfer
+#: model:ir.model.fields,help:direct_material_transfer.field_direct_material_transfer__message_has_error
+#: model:ir.model.fields,help:direct_material_transfer.field_direct_material_transfer__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model:ir.model,name:bakhroush_custom_report.model_stock_immediate_transfer
+msgid "Immediate Transfer"
+msgstr "نقل فوري"
+
+#. module: bakhroush_custom_report
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_sale_order__partner_balance
+msgid "In Company Currency"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_sale_order__balance_in_partner_currency
+msgid "In Customer Currency"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model_terms:ir.ui.view,arch_db:bakhroush_custom_report.view_order_form
+msgid "In Pircelist Currency"
+msgstr ""
+
+#. module: direct_material_transfer
+#: model_terms:ir.ui.view,arch_db:direct_material_transfer.direct_material_transfer_view
+msgid "Information"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model:res.groups,name:bakhroush_custom_report.group_inventory_adjustment_manager
+msgid "Inventory Adjustment Manager"
+msgstr ""
+
+#. module: direct_material_transfer
+#: model:ir.model,name:direct_material_transfer.model_stock_location
+msgid "Inventory Locations"
+msgstr "مواقع المخزون"
+
+#. module: bakhroush_custom_report
+#: model:ir.actions.act_window,name:bakhroush_custom_report.stock_picking_type_action
+msgid "Inventory Overview"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_stock_picking__invoice_id
+msgid "Invoice"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_stock_picking__invoice_no
+#: model_terms:ir.ui.view,arch_db:bakhroush_custom_report.report_delivery_document_bakhroush
+msgid "Invoice No."
+msgstr ""
+
+#. module: direct_material_transfer
+#: model:ir.model.fields,field_description:direct_material_transfer.field_direct_material_transfer__message_is_follower
+msgid "Is Follower"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_res_partner__is_employee
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_res_users__is_employee
+msgid "Is an Employee"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model_terms:ir.ui.view,arch_db:bakhroush_custom_report.report_delivery_document_bakhroush
+msgid "Item No."
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model:ir.model,name:bakhroush_custom_report.model_account_move
+msgid "Journal Entry"
+msgstr "قيد اليومية"
+
+#. modules: direct_material_transfer, bakhroush_custom_report
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_account_move____last_update
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_account_payment_term____last_update
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_company_branch____last_update
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_hr_employee____last_update
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_mrp_production____last_update
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_product_template____last_update
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_purchase_order____last_update
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_res_partner____last_update
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_res_users____last_update
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_sale_order____last_update
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_stock_backorder_confirmation____last_update
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_stock_immediate_transfer____last_update
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_stock_move_line____last_update
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_stock_picking____last_update
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_stock_report____last_update
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_stock_warehouse____last_update
+#: model:ir.model.fields,field_description:direct_material_transfer.field_direct_material_line____last_update
+#: model:ir.model.fields,field_description:direct_material_transfer.field_direct_material_transfer____last_update
+#: model:ir.model.fields,field_description:direct_material_transfer.field_stock_expense_location____last_update
+#: model:ir.model.fields,field_description:direct_material_transfer.field_stock_location____last_update
+msgid "Last Modified on"
+msgstr "آخر تعديل في"
+
+#. module: direct_material_transfer
+#: model:ir.model.fields,field_description:direct_material_transfer.field_direct_material_line__write_uid
+#: model:ir.model.fields,field_description:direct_material_transfer.field_direct_material_transfer__write_uid
+#: model:ir.model.fields,field_description:direct_material_transfer.field_stock_expense_location__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: direct_material_transfer
+#: model:ir.model.fields,field_description:direct_material_transfer.field_direct_material_line__write_date
+#: model:ir.model.fields,field_description:direct_material_transfer.field_direct_material_transfer__write_date
+#: model:ir.model.fields,field_description:direct_material_transfer.field_stock_expense_location__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: direct_material_transfer
+#: model_terms:ir.ui.view,arch_db:direct_material_transfer.direct_material_transfer_view
+msgid "Lines"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_stock_picking__load_time_mixer
+msgid "Load time mixer"
+msgstr ""
+
+#. modules: direct_material_transfer, bakhroush_custom_report
+#: model:ir.model.fields,field_description:direct_material_transfer.field_stock_expense_location__location
+#: model_terms:ir.ui.view,arch_db:bakhroush_custom_report.report_delivery_document_bakhroush
+msgid "Location"
+msgstr ""
+
+#. module: direct_material_transfer
+#: model_terms:ir.ui.view,arch_db:direct_material_transfer.stock_expense_location_tree
+msgid "Location Expense"
+msgstr ""
+
+#. module: direct_material_transfer
+#: model:ir.actions.act_window,name:direct_material_transfer.action_stock_expense_location
+#: model:ir.ui.menu,name:direct_material_transfer.menu_stock_expense_location
+msgid "Location Expense account Settings"
+msgstr ""
+
+#. module: direct_material_transfer
+#: model_terms:ir.ui.view,arch_db:direct_material_transfer.direct_material_transfer_view
+msgid "Location Information"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_stock_picking__location
+msgid "Location."
+msgstr ""
+
+#. module: direct_material_transfer
+#: model:ir.model.fields,field_description:direct_material_transfer.field_direct_material_transfer__message_main_attachment_id
+msgid "Main Attachment"
+msgstr ""
+
+#. module: direct_material_transfer
+#: model_terms:ir.ui.view,arch_db:direct_material_transfer.stock_expense_location_form
+#: model_terms:ir.ui.view,arch_db:direct_material_transfer.stock_expense_location_search
+msgid "Membership Location"
+msgstr ""
+
+#. module: direct_material_transfer
+#: model:ir.model.fields,field_description:direct_material_transfer.field_direct_material_transfer__message_has_error
+msgid "Message Delivery error"
+msgstr ""
+
+#. module: direct_material_transfer
+#: model:ir.model.fields,field_description:direct_material_transfer.field_direct_material_transfer__message_ids
+msgid "Messages"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_stock_move_line__method
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_stock_picking__method
+msgid "Method"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_stock_picking__mixing_time
+msgid "Mixing Time"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_stock_picking__mobile_no
+#: model_terms:ir.ui.view,arch_db:bakhroush_custom_report.report_delivery_document_bakhroush
+msgid "Mobile No."
+msgstr ""
+
+#. module: direct_material_transfer
+#: model:ir.model.fields,field_description:direct_material_transfer.field_direct_material_transfer__name
+#: model:ir.model.fields,field_description:direct_material_transfer.field_stock_expense_location__name
+msgid "Name"
+msgstr ""
+
+#. module: direct_material_transfer
+#: model:ir.model.constraint,message:direct_material_transfer.constraint_stock_expense_location_unique_name
+msgid "Name is already available, Please use another name !!!"
+msgstr ""
+
+#. module: direct_material_transfer
+#: code:addons/direct_material_transfer/models/material.py:0
+#, python-format
+msgid "New Move:"
+msgstr ""
+
+#. module: direct_material_transfer
+#: model_terms:ir.actions.act_window,help:direct_material_transfer.action_stock_expense_location
+msgid "New settings"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: code:addons/bakhroush_custom_report/models/stock_picking.py:0
+#: code:addons/bakhroush_custom_report/models/stock_picking.py:0
+#, python-format
+msgid ""
+"No enough credit to for the customer, Contact Finance dep. \n"
+"\n"
+"لا يوجد رصيد لدي العميل، يرجي مراجعة الأدارة المالية"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model_terms:ir.actions.act_window,help:bakhroush_custom_report.internal_action_picking_tree
+msgid "No transfer found. Let's create one!"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model_terms:ir.ui.view,arch_db:bakhroush_custom_report.report_delivery_document_bakhroush
+msgid "No."
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model:ir.model.fields.selection,name:bakhroush_custom_report.selection__stock_picking__method__normal
+msgid "Normal"
+msgstr ""
+
+#. module: direct_material_transfer
+#: model:ir.model.fields,field_description:direct_material_transfer.field_direct_material_transfer__message_needaction_counter
+msgid "Number of Actions"
+msgstr ""
+
+#. module: direct_material_transfer
+#: model:ir.model.fields,field_description:direct_material_transfer.field_direct_material_transfer__message_has_error_counter
+msgid "Number of errors"
+msgstr ""
+
+#. module: direct_material_transfer
+#: model:ir.model.fields,help:direct_material_transfer.field_direct_material_transfer__message_needaction_counter
+msgid "Number of messages which requires an action"
+msgstr ""
+
+#. module: direct_material_transfer
+#: model:ir.model.fields,help:direct_material_transfer.field_direct_material_transfer__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr ""
+
+#. module: direct_material_transfer
+#: model:ir.model.fields,help:direct_material_transfer.field_direct_material_transfer__message_unread_counter
+msgid "Number of unread messages"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_stock_move_line__opc
+msgid "OPC"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_account_payment_term__default_cash_payment
+msgid "Payment Journal"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model:ir.model,name:bakhroush_custom_report.model_account_payment_term
+msgid "Payment Terms"
+msgstr "شروط السداد"
+
+#. module: bakhroush_custom_report
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_account_payment_term__payment_type
+msgid "Payment Type"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_account_bank_statement_line__picking_id
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_account_move__picking_id
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_account_payment__picking_id
+msgid "Picking"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model_terms:ir.ui.view,arch_db:bakhroush_custom_report.internal_picktree
+msgid "Picking list"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: code:addons/bakhroush_custom_report/models/stock_picking.py:0
+#, python-format
+msgid "Please add some items to move."
+msgstr ""
+
+#. module: direct_material_transfer
+#: model:ir.model.fields,field_description:direct_material_transfer.field_direct_material_line__product_id
+msgid "Product"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model:ir.model,name:bakhroush_custom_report.model_stock_move_line
+msgid "Product Moves (Stock Move Line)"
+msgstr "تحركات المنتج (بنود حركة المخزون)"
+
+#. modules: direct_material_transfer, bakhroush_custom_report
+#: model:ir.model,name:bakhroush_custom_report.model_product_template
+#: model:ir.model.fields,field_description:direct_material_transfer.field_direct_material_line__product_tmpl_id
+msgid "Product Template"
+msgstr "قالب المنتج"
+
+#. module: bakhroush_custom_report
+#: model:ir.model,name:bakhroush_custom_report.model_mrp_production
+msgid "Production Order"
+msgstr "أمر الانتاج"
+
+#. module: bakhroush_custom_report
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_stock_move_line__pump
+msgid "Pump"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model:ir.model,name:bakhroush_custom_report.model_purchase_order
+msgid "Purchase Order"
+msgstr "أمر شراء"
+
+#. module: bakhroush_custom_report
+#: model_terms:ir.ui.view,arch_db:bakhroush_custom_report.report_delivery_document_bakhroush
+msgid "Qty."
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_stock_move_line__quantity_of_cement
+msgid "Quantity of Cement / m3"
+msgstr ""
+
+#. module: direct_material_transfer
+#: model:ir.model.fields,field_description:direct_material_transfer.field_direct_material_line__product_qty
+msgid "Real Quantity"
+msgstr ""
+
+#. module: direct_material_transfer
+#: model:ir.model.fields,field_description:direct_material_transfer.field_direct_material_transfer__reason
+#: model_terms:ir.ui.view,arch_db:direct_material_transfer.direct_material_transfer_view
+msgid "Reason For Transfer"
+msgstr ""
+
+#. module: direct_material_transfer
+#: model_terms:ir.ui.view,arch_db:direct_material_transfer.direct_material_transfer_view
+msgid "Reason for transfer..."
+msgstr ""
+
+#. module: direct_material_transfer
+#: model:ir.model.fields,field_description:direct_material_transfer.field_direct_material_transfer__received_user_id
+msgid "Received By"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model_terms:ir.ui.view,arch_db:bakhroush_custom_report.report_delivery_document_bakhroush
+msgid "Recived Time"
+msgstr ""
+
+#. module: direct_material_transfer
+#: model:ir.model.fields,field_description:direct_material_transfer.field_direct_material_transfer__user_id
+#: model_terms:ir.ui.view,arch_db:direct_material_transfer.direct_material_transfer_view_search
+msgid "Responsible Person"
+msgstr ""
+
+#. module: direct_material_transfer
+#: model:ir.model.fields,field_description:direct_material_transfer.field_direct_material_transfer__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_stock_move_line__src
+msgid "SRC"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_account_bank_statement_line__sale_id
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_account_move__sale_id
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_account_payment__sale_id
+msgid "Sale Origin"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model:ir.model,name:bakhroush_custom_report.model_sale_order
+msgid "Sales Order"
+msgstr "أمر البيع"
+
+#. module: direct_material_transfer
+#: model:ir.model.fields,field_description:direct_material_transfer.field_direct_material_line__sequence
+msgid "Sequence"
+msgstr ""
+
+#. module: direct_material_transfer
+#: model_terms:ir.ui.view,arch_db:direct_material_transfer.direct_material_transfer_view
+msgid "Set to Draft"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_stock_warehouse__code
+msgid "Short Name"
+msgstr "الاسم المختصر"
+
+#. module: bakhroush_custom_report
+#: model:ir.model.fields,help:bakhroush_custom_report.field_stock_warehouse__code
+msgid "Short name used to identify your warehouse"
+msgstr "الاسم المختصر المستخدم لتمييز مستودعك"
+
+#. module: bakhroush_custom_report
+#: model_terms:ir.ui.view,arch_db:bakhroush_custom_report.internal_picktree
+msgid "Signed"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_stock_move_line__slump
+msgid "Slump"
+msgstr ""
+
+#. module: direct_material_transfer
+#: model:ir.model.fields,field_description:direct_material_transfer.field_direct_material_line__origin
+msgid "Source Document"
+msgstr ""
+
+#. module: direct_material_transfer
+#: model:ir.model.fields,field_description:direct_material_transfer.field_direct_material_line__source_location_id
+#: model_terms:ir.ui.view,arch_db:direct_material_transfer.direct_material_transfer_view_search
+msgid "Source Location"
+msgstr "المكان في المخزن الحالي"
+
+#. module: direct_material_transfer
+#: model:ir.model.fields,field_description:direct_material_transfer.field_direct_material_transfer__source_partner_id
+#: model_terms:ir.ui.view,arch_db:direct_material_transfer.direct_material_transfer_view_search
+msgid "Source Partner"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_stock_picking__source_warehouse
+msgid "Source Warehouse"
+msgstr "التحويل من مخزن"
+
+#. module: direct_material_transfer
+#: model:ir.model.fields,field_description:direct_material_transfer.field_direct_material_line__state
+msgid "State"
+msgstr ""
+
+#. module: direct_material_transfer
+#: model:ir.model.fields,field_description:direct_material_transfer.field_direct_material_transfer__state
+#: model_terms:ir.ui.view,arch_db:direct_material_transfer.direct_material_transfer_view_search
+msgid "Status"
+msgstr ""
+
+#. module: direct_material_transfer
+#: model:ir.model.fields,field_description:direct_material_transfer.field_direct_material_transfer__stock_journal
+msgid "Stock Journal"
+msgstr ""
+
+#. module: direct_material_transfer
+#: model:ir.model.fields,field_description:direct_material_transfer.field_direct_material_line__move_id
+msgid "Stock Move"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model:ir.model,name:bakhroush_custom_report.model_stock_report
+msgid "Stock Report"
+msgstr "تقرير المخزون"
+
+#. module: bakhroush_custom_report
+#: model_terms:ir.ui.view,arch_db:bakhroush_custom_report.res_partner_view_search_employee
+msgid "Supplier"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_stock_move_line__temperature
+msgid "Temperature"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model_terms:ir.actions.act_window,help:bakhroush_custom_report.stock_picking_type_action
+msgid ""
+"The operation type system allows you to assign each stock\n"
+"                operation a specific type which will alter its views accordingly.\n"
+"                On the operation type you could e.g. specify if packing is needed by default,\n"
+"                if it should show the customer."
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: code:addons/bakhroush_custom_report/models/stock_picking.py:0
+#: code:addons/bakhroush_custom_report/models/stock_picking.py:0
+#: code:addons/bakhroush_custom_report/models/stock_picking.py:0
+#, python-format
+msgid ""
+"This invoice has been created from the Delivery note: <a href=# data-oe-"
+"model=stock.picking data-oe-id=%d>%s</a>"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_stock_picking__time_out
+#: model_terms:ir.ui.view,arch_db:bakhroush_custom_report.report_delivery_document_bakhroush
+msgid "Time Out"
+msgstr ""
+
+#. modules: direct_material_transfer, bakhroush_custom_report
+#: model:ir.model.fields,field_description:direct_material_transfer.field_direct_material_transfer__to_location
+#: model_terms:ir.ui.view,arch_db:bakhroush_custom_report.internal_picktree
+msgid "To"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_purchase_order__total_received
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_sale_order__total_delivered
+msgid "Total Delivered"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_stock_move_line__total_loading
+msgid "Total Loading"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_purchase_order__total_orders
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_sale_order__total_orders
+msgid "Total Ordered"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_stock_picking__picking_total_value
+msgid "Total Value"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model:ir.model.fields,help:bakhroush_custom_report.field_sale_order__partner_credit
+msgid "Total amount this customer owes you."
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model:ir.model.fields,help:bakhroush_custom_report.field_sale_order__partner_debit
+msgid "Total amount you have to pay to this vendor."
+msgstr ""
+
+#. modules: direct_material_transfer, bakhroush_custom_report
+#: model:ir.model,name:bakhroush_custom_report.model_stock_picking
+#: model_terms:ir.ui.view,arch_db:direct_material_transfer.direct_material_transfer_view
+msgid "Transfer"
+msgstr "الشحنة"
+
+#. module: direct_material_transfer
+#: model_terms:ir.ui.view,arch_db:direct_material_transfer.direct_material_transfer_view
+msgid "Transfer Line"
+msgstr ""
+
+#. module: direct_material_transfer
+#: model:ir.model.fields,field_description:direct_material_transfer.field_direct_material_transfer__line_ids
+msgid "Transfer Lines"
+msgstr ""
+
+#. module: direct_material_transfer
+#: model:ir.model.fields.selection,name:direct_material_transfer.selection__direct_material_transfer__state__done
+msgid "Transferred"
+msgstr ""
+
+#. module: direct_material_transfer
+#: model:ir.model.fields,field_description:direct_material_transfer.field_direct_material_transfer__transferred_date
+msgid "Transferred Date"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: code:addons/bakhroush_custom_report/models/stock_picking.py:0
+#, python-format
+msgid "Transfers %s: Please add some items to move."
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model_terms:ir.actions.act_window,help:bakhroush_custom_report.internal_action_picking_tree
+msgid "Transfers allow you to move products from one location to another."
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_stock_picking__type_of_use
+msgid "Type of Use"
+msgstr ""
+
+#. module: direct_material_transfer
+#: model:ir.model.fields,field_description:direct_material_transfer.field_direct_material_line__price_unit
+msgid "Unit Price"
+msgstr ""
+
+#. module: direct_material_transfer
+#: model:ir.model.fields,field_description:direct_material_transfer.field_direct_material_line__product_uom
+msgid "Unit of Measure"
+msgstr ""
+
+#. module: direct_material_transfer
+#: model:ir.model.fields,field_description:direct_material_transfer.field_direct_material_transfer__message_unread
+msgid "Unread Messages"
+msgstr ""
+
+#. module: direct_material_transfer
+#: model:ir.model.fields,field_description:direct_material_transfer.field_direct_material_transfer__message_unread_counter
+msgid "Unread Messages Counter"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model_terms:ir.ui.view,arch_db:bakhroush_custom_report.internal_picktree
+msgid "Unreserve"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model:ir.model,name:bakhroush_custom_report.model_res_users
+msgid "Users"
+msgstr "المستخدمون"
+
+#. module: bakhroush_custom_report
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_stock_move_line__wc
+msgid "W/C"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model:ir.model,name:bakhroush_custom_report.model_stock_warehouse
+msgid "Warehouse"
+msgstr "المخزن"
+
+#. module: bakhroush_custom_report
+#: model:ir.actions.act_window,name:bakhroush_custom_report.internal_action_picking_tree
+#: model:ir.ui.menu,name:bakhroush_custom_report.internal_picking
+msgid "Warehouse Transfers"
+msgstr ""
+
+#. module: direct_material_transfer
+#: model:ir.model.fields,field_description:direct_material_transfer.field_direct_material_transfer__website_message_ids
+msgid "Website Messages"
+msgstr ""
+
+#. module: direct_material_transfer
+#: model:ir.model.fields,help:direct_material_transfer.field_direct_material_transfer__website_message_ids
+msgid "Website communication history"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model:ir.model.fields,field_description:bakhroush_custom_report.field_stock_move_line__weight
+msgid "Weight"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: code:addons/bakhroush_custom_report/models/stock_picking.py:0
+#, python-format
+msgid "You need to supply a Lot/Serial number for products %s."
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model_terms:ir.ui.view,arch_db:bakhroush_custom_report.report_delivery_document_bakhroush
+msgid "اسم السائق"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model_terms:ir.ui.view,arch_db:bakhroush_custom_report.report_delivery_document_bakhroush
+msgid "اسم العميل"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model_terms:ir.ui.view,arch_db:bakhroush_custom_report.report_delivery_document_bakhroush
+msgid "البيان"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model_terms:ir.ui.view,arch_db:bakhroush_custom_report.report_delivery_document_bakhroush
+msgid "التاريخ"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model_terms:ir.ui.view,arch_db:bakhroush_custom_report.report_delivery_document_bakhroush
+msgid "الكمية"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model_terms:ir.ui.view,arch_db:bakhroush_custom_report.report_delivery_document_bakhroush
+msgid "الموافق"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model_terms:ir.ui.view,arch_db:bakhroush_custom_report.report_delivery_document_bakhroush
+msgid "الموقع"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model_terms:ir.ui.view,arch_db:bakhroush_custom_report.report_delivery_document_bakhroush
+msgid "رقم الأيصال"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model_terms:ir.ui.view,arch_db:bakhroush_custom_report.report_delivery_document_bakhroush
+msgid "رقم الجوال"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model_terms:ir.ui.view,arch_db:bakhroush_custom_report.report_delivery_document_bakhroush
+msgid "رقم السيارة"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model_terms:ir.ui.view,arch_db:bakhroush_custom_report.report_delivery_document_bakhroush
+msgid "رقم الصنف"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model_terms:ir.ui.view,arch_db:bakhroush_custom_report.report_delivery_document_bakhroush
+msgid "رقم الفاتورة"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model_terms:ir.ui.view,arch_db:bakhroush_custom_report.report_delivery_document_bakhroush
+msgid "رقم حساب العميل"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model_terms:ir.ui.view,arch_db:bakhroush_custom_report.report_delivery_document_bakhroush
+msgid "سند تسليم"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model_terms:ir.ui.view,arch_db:bakhroush_custom_report.report_delivery_document_bakhroush
+msgid "وقت المغادرة"
+msgstr ""
+
+#. module: bakhroush_custom_report
+#: model_terms:ir.ui.view,arch_db:bakhroush_custom_report.report_delivery_document_bakhroush
+msgid "وقت الوصول المتوقع"
+msgstr ""

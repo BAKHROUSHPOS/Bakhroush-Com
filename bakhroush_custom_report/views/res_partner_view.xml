@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="inherit_view_partner_form_form" model="ir.ui.view">
+        <field name="name">res.partner.form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='container_row_2']" position="inside">
+                 <group string="Employee" name="employee">
+                     <field name="is_employee"/>
+                 </group>
+            </xpath>
+        </field>
+    </record>
+    <record id="res_partner_form" model="ir.ui.view">
+        <field name="name">res.partner.form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="saudi_vat_invoice_print.res_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='arabic']" position="attributes">
+                <attributes name="required">0</attributes>
+            </xpath>
+        </field>
+    </record>
+     <record id="res_partner_view_search_employee" model="ir.ui.view">
+            <field name="name">res.partner.search.employee</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_res_partner_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//filter[@name='type_person']" position="before">
+                    <filter string="Customer" name="customer_rank" domain="[('customer_rank', '=', 1)]"/>
+                    <filter string="Supplier" name="supplier_rank" domain="[('supplier_rank', '=', 1)]"/>
+                    <filter string="Employees" name="is_employee" domain="[('is_employee', '=', True)]"/>
+                    <separator/>
+                </xpath>
+            </field>
+     </record>
+
+
+
+</odoo>
+

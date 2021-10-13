@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="company_branch_form_view" model="ir.ui.view">
+        <field name="name">company.branch.form</field>
+        <field name="model">company.branch</field>
+        <field name="inherit_id" ref="aspl_company_branch_ee.company_branch_form_view"/>
+        <field name="arch" type="xml">
+            <field name="phone" position="after">
+                <field name="allowed_user_ids" widget="many2many_tags"/>
+            </field>
+        </field>
+    </record>
+</odoo>
+
