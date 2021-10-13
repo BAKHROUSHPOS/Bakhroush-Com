@@ -5,7 +5,7 @@
 from . import sale
 from . import purchase
 from . import employee
-from . import res_partner
+# from . import res_partner
 from . import product
 from . import stock_report
 from . import stock_picking
