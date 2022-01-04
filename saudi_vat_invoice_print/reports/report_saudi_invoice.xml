@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+`<?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
         <!--	<delete model="ir.actions.report.xml"-->
@@ -70,6 +70,7 @@
 
 
                 <!--                </div>-->
+
                 <table style="border:1pt solid grey;width:100%;padding:15pt;font-family:'Cairo'n;border-bottom:0pt solid grey;"
                        class="table-condensed">
                     <tr>
@@ -81,7 +82,7 @@
                             </span>
                             <br/>
                             <span t-if="company.street2" t-field="company.street2">
-                            <br/>
+                                <br/>
                             </span>
                             <br/>
                             <span t-if="company.city" t-field="company.city"></span>
@@ -89,7 +90,7 @@
                             <span t-if="company.zip" t-field="company.zip"></span>
                             <br/>
                             <span t-if="company.country_id" t-field="company.country_id">
-                            <br/>
+                                <br/>
                             </span>
                         </td>
                         <td style="text-align:center;vertical-align:middle;width:35%;">
@@ -215,37 +216,62 @@
         <template id="report_saudi_invoice_print">
             <t t-call="web.html_container">
                 <t t-call="saudi_vat_invoice_print.external_layout_vat">
+                    <!--                    <div class="watermark">-->
+                    <!--                           <img t-if="doc.company_id.logo" t-att-src="'data:image/png;base64,%s' % to_text(doc.company_id.logo)"/>-->
+                    <!--                        </div>-->
                     <div class="page" style="font-family: 'Cairo';font-size: 13px; !important">
                         <center>
                             <h3>
-                                <span t-if="doc.state in ['open','paid']">
+                                <span t-if="doc.move_type == 'out_invoice' and doc.state == 'posted'">
                                     <u>
                                         <strong>VAT INVOICE فاتورة ضريبة</strong>
                                     </u>
                                 </span>
+                                    <span t-if="doc.move_type == 'out_refund'">
+                                        <u>
+                                            <strong>CREDIT NOTE إشعار دائن</strong>
+                                        </u>
+
+                                    </span>
                             </h3>
                         </center>
                         <table width="100%"
                                style="border-spacing: 1em .5em;padding: 0 2em 1em 0;border: 1px solid black;table-layout:fixed;border-collapse:collapse;">
                             <tr>
-                                <td style="padding:2px;border-color: rgb(160,160,255);" class="text-left">Invoice
-                                    Number
+                                <td colspan="3" style="background-color:#00A04A!important;border-right:none;color:white"
+                                    class="text-center">
+                                    <!--                                        <b><span style="font-size: 15px" t-field="doc.invoice_payment_term_id.payment_type"/></b>-->
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding:2px;border-color: rgb(160,160,255);" class="text-left">
+                                    <t t-if="doc.move_type == 'out_invoice'">Invoice Number</t>
+                                    <t t-if="doc.move_type == 'out_refund'">Credit Note Number</t>
                                 </td>
                                 <td style="padding:2px;" class="text-center">
                                     <b>
                                         <span t-field="doc.name"/>
                                     </b>
                                 </td>
-                                <td style="padding:2px;" class="text-right">رقم الفاتورة</td>
+                                <td style="padding:2px;" class="text-right">
+                                    <t t-if="doc.move_type == 'out_invoice'">رقم الفاتورة</t>
+                                    <t t-if="doc.move_type == 'out_refund'">رقم الإشعار</t>
+                                </td>
                             </tr>
                             <tr>
-                                <td style="padding:2px;" class="text-left">Invoice Date</td>
+                                <td style="padding:2px;" class="text-left">
+                                    <t t-if="doc.move_type == 'out_invoice'">Invoice Date</t>
+                                    <t t-if="doc.move_type == 'out_refund'">Credit Note Date</t>
+                                </td>
                                 <td style="padding:2px;" class="text-center">
                                     <b>
                                         <span t-field="doc.invoice_date"/>
                                     </b>
                                 </td>
-                                <td style="padding:2px;" class="text-right">تاريخ الفاتورة</td>
+                                <td style="padding:2px;" class="text-right">
+                                    <t t-if="doc.move_type == 'out_invoice'">تاريخ الفاتورة</t>
+                                    <t t-if="doc.move_type == 'out_refund'">تاريخ الإشعار</t>
+                                </td>
                             </tr>
                             <tr>
                                 <td style="padding:2px;" class="text-left">Due Date</td>
@@ -256,24 +282,28 @@
                                 </td>
                                 <td style="padding:2px;" class="text-right">تاريخ الاستحقاق</td>
                             </tr>
-                            <tr>
-                                <td style="padding:2px;" class="text-left">Delivery Date</td>
-                                <td style="padding:2px;" class="text-center">
-                                    <b>
-                                        <span t-field="doc.delivery_date"/>
-                                    </b>
-                                </td>
-                                <td style="padding:2px;" class="text-right">تاريخ التوريد</td>
-                            </tr>
+                            <t t-if="doc.move_type == 'out_invoice'">
+                                <tr>
+                                    <td style="padding:2px;" class="text-left">Delivery Date</td>
+                                    <td style="padding:2px;" class="text-center">
+                                        <b>
+                                            <span t-field="doc.delivery_date"/>
+                                        </b>
+                                    </td>
+                                    <td style="padding:2px;" class="text-right">تاريخ التوريد</td>
+                                </tr>
+                            </t>
                             <tr>
                                 <td style="padding:2px;background-color:#606060!important;padding-left:20px;border-right:none;color:white"
-                                        class="text-left">
-                                        <b>Buyer</b>
+                                    class="text-left">
+                                    <b>Buyer</b>
                                 </td>
                                 <td style="padding:2px;background-color:#606060!important;" class="text-center">
 
                                 </td>
-                                <td style="padding:2px;background-color:#606060!important;padding-right:20px;border-right:none;color:white" class="text-right">العميل</td>
+                                <td style="padding:2px;background-color:#606060!important;padding-right:20px;border-right:none;color:white"
+                                    class="text-right">العميل
+                                </td>
                             </tr>
                             <tr>
                                 <td colspan="3" style="padding:2px;">
@@ -362,15 +392,15 @@
                                 </td>
                                 <td style="padding:2px;" class="text-right">الرقم الضريبي</td>
                             </tr>
-<!--                            <tr>-->
-<!--                                <td style="padding:2px;" class="text-left">Attention</td>-->
-<!--                                <td style="padding:2px;" class="text-center">-->
-<!--                                    <b>-->
-<!--                                        <span t-field="doc.attention.name"/>-->
-<!--                                    </b>-->
-<!--                                </td>-->
-<!--                                <td style="padding:2px;" class="text-right">عنايه</td>-->
-<!--                            </tr>-->
+                            <!--                            <tr>-->
+                            <!--                                <td style="padding:2px;" class="text-left">Attention</td>-->
+                            <!--                                <td style="padding:2px;" class="text-center">-->
+                            <!--                                    <b>-->
+                            <!--                                        <span t-field="doc.attention.name"/>-->
+                            <!--                                    </b>-->
+                            <!--                                </td>-->
+                            <!--                                <td style="padding:2px;" class="text-right">عنايه</td>-->
+                            <!--                            </tr>-->
                         </table>
 
                         <table width="100%"
@@ -389,11 +419,12 @@
                                 </tr>
 
                                 <tr>
-<!--                                    <th width="5%" class="text-center"-->
-<!--                                        style="padding:2px;border:1px solid black !important;">SI-->
-<!--                                    </th>-->
+                                    <!--                                    <th width="5%" class="text-center"-->
+                                    <!--                                        style="padding:2px;border:1px solid black !important;">SI-->
+                                    <!--                                    </th>-->
                                     <th width="20%" class="text-center"
-                                        style="padding:2px;border:1px solid black !important;">Nature of Goods or service <br/>تفاصيل السلع او الخدمات
+                                        style="padding:2px;border:1px solid black !important;">Nature of Goods or
+                                        service<br/>تفاصيل السلع او الخدمات
                                     </th>
                                     <th width="8%" class="text-center"
                                         style="padding:2px;border:1px solid black !important;">Unit Price<br/>سعر الوحدة
@@ -402,7 +433,8 @@
                                         style="padding:2px;border:1px solid black !important;">Quantity<br/>الكمية
                                     </th>
                                     <th width="10%" class="text-center"
-                                        style="padding:2px;border:1px solid black !important;">Taxable Amount<br/>المبلغ الخاضع للضريبة
+                                        style="padding:2px;border:1px solid black !important;">Taxable Amount<br/>المبلغ
+                                        الخاضع للضريبة
                                     </th>
                                     <th width="7%" class="text-center"
                                         style="padding:2px;border:1px solid black !important;">Discount<br/>خصومات
@@ -411,19 +443,21 @@
                                         style="padding:2px;border:1px solid black !important;">Tax Rate<br/>نسبة الضريبة
                                     </th>
                                     <th width="10%" class="text-center"
-                                        style="padding:2px;border:1px solid black !important;">Tax Amount<br/>مبلغ الضريبة
+                                        style="padding:2px;border:1px solid black !important;">Tax Amount<br/>مبلغ
+                                        الضريبة
                                     </th>
                                     <th width="24%" class="text-center"
-                                        style="padding:2px;border:1px solid black !important;">Item Subtotal(Including VAT)<br/>الإجمالي (شاملة ضريبة القيمة المضافة)
+                                        style="padding:2px;border:1px solid black !important;">Item Subtotal(Including
+                                        VAT)<br/>الإجمالي (شاملة ضريبة القيمة المضافة)
                                     </th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <t t-set="i" t-value="1"/>
                                 <tr t-foreach="doc.invoice_line_ids" t-as="l">
-<!--                                    <td class="text-center" style="padding:2px;border:1px solid black !important;">-->
-<!--                                        <span t-esc="i"/>-->
-<!--                                    </td>-->
+                                    <!--                                    <td class="text-center" style="padding:2px;border:1px solid black !important;">-->
+                                    <!--                                        <span t-esc="i"/>-->
+                                    <!--                                    </td>-->
                                     <td class="text-left" style="padding:2px;border:1px solid black !important;">
                                         <span t-field="l.name"/>
                                     </td>
@@ -440,8 +474,10 @@
                                         <span t-esc="'{:,.2f}'.format(l.discount_amount)"/>
                                     </td>
                                     <td class="text-center" style="padding:2px;border:1px solid black !important;">
-<!--                                        <span t-field="l.vat_text"/>-->
-                                        <span t-esc="', '.join(map(lambda x: (str(x.amount)), l.tax_ids))" id="line_tax_ids"/> %
+                                        <!--                                        <span t-field="l.vat_text"/>-->
+                                        <span t-esc="', '.join(map(lambda x: (str(x.amount)), l.tax_ids))"
+                                              id="line_tax_ids"/>
+                                        %
                                     </td>
                                     <td class="text-center" style="padding:2px;border:1px solid black !important;">
                                         <span t-field="l.tax_amount"/>
@@ -468,58 +504,104 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td width="37.9%" class="text-center" style="padding:2px;border:1px solid black !important;">
-                                       <b>Total ( Excluded VAT)</b>
+                                    <td width="37.9%" class="text-center"
+                                        style="padding:2px;border:1px solid black !important;">
+                                        <b>
+                                            <t t-if="doc.move_type == 'out_invoice'">Total ( Excluded VAT)</t>
+                                            <t t-if="doc.move_type == 'out_refund'">Total Returned (excluding VAT)</t>
+                                        </b>
                                     </td>
-                                    <td width="37%" class="text-center" style="padding:2px;border:1px solid black !important;">
-                                         <b>الإجمالي (غير شاملة ضريبة القيمة المضافة)</b>
+                                    <td width="37%" class="text-center"
+                                        style="padding:2px;border:1px solid black !important;">
+                                        <b>
+                                            <t t-if="doc.move_type == 'out_invoice'">الإجمالي (غير شاملة ضريبة القيمة
+                                                المضافة)
+                                            </t>
+                                            <t t-if="doc.move_type == 'out_refund'">إجمالي المرتجع (باستثناء ضريبة
+                                                القيمة المضافة)
+                                            </t>
+                                        </b>
                                     </td>
-                                    <td  class="text-center" style="padding:2px;border:1px solid black !important;">
-                                        <b><span t-field="doc.price_before_discount"/></b>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td width="37.9%" class="text-center" style="padding:2px;border:1px solid black !important;">
-                                       <b>Discount</b>
-                                    </td>
-                                    <td width="37%" class="text-center" style="padding:2px;border:1px solid black !important;">
-                                         <b>مجموع الخصومات</b>
-                                    </td>
-                                    <td  class="text-center" style="padding:2px;border:1px solid black !important;">
-                                        <b><span t-field="doc.discount"/></b>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td width="37.9%" class="text-center" style="padding:2px;border:1px solid black !important;">
-                                       <b>Total Taxable Amount (Excluding VAT)</b>
-                                    </td>
-                                    <td width="37%" class="text-center" style="padding:2px;border:1px solid black !important;">
-                                         <b>الإجمالي الخاضع للضريبة (غير شاملة ضريبة القيمة المضافة)</b>
-                                    </td>
-                                    <td  class="text-center" style="padding:2px;border:1px solid black !important;">
-                                        <b><span t-field="doc.amount_untaxed"/></b>
+                                    <td class="text-center" style="padding:2px;border:1px solid black !important;">
+                                        <b>
+                                            <span t-field="doc.price_before_discount"/>
+                                        </b>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td width="37.9%" class="text-center" style="padding:2px;border:1px solid black !important;">
-                                       <b>Total VAT</b>
+                                    <td width="37.9%" class="text-center"
+                                        style="padding:2px;border:1px solid black !important;">
+                                        <b>Discount</b>
                                     </td>
-                                    <td width="37%" class="text-center" style="padding:2px;border:1px solid black !important;">
-                                         <b>مجموع ضريبة القيمة المضافة</b>
+                                    <td width="37%" class="text-center"
+                                        style="padding:2px;border:1px solid black !important;">
+                                        <b>مجموع الخصومات</b>
                                     </td>
-                                    <td  class="text-center" style="padding:2px;border:1px solid black !important;">
-                                        <b><span t-field="doc.amount_tax"/></b>
+                                    <td class="text-center" style="padding:2px;border:1px solid black !important;">
+                                        <b>
+                                            <span t-field="doc.discount"/>
+                                        </b>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td width="37.9%" class="text-center" style="padding:2px;border:1px solid black !important;">
-                                       <b>Total Amount Due</b>
+                                    <td width="37.9%" class="text-center"
+                                        style="padding:2px;border:1px solid black !important;">
+                                        <b>
+                                            <t t-if="doc.move_type == 'out_invoice'">Total Taxable Amount</t>
+                                            <t t-if="doc.move_type == 'out_refund'">Total Returned Taxable Amount</t>
+                                        </b>
                                     </td>
-                                    <td width="37%" class="text-center" style="padding:2px;border:1px solid black !important;">
-                                         <b>إجمالي المبلغ المستحق</b>
+                                    <td width="37%" class="text-center"
+                                        style="padding:2px;border:1px solid black !important;">
+                                        <b>
+                                            <t t-if="doc.move_type == 'out_invoice'">الإجمالي الخاضع للضريبة (غير شاملة
+                                                ضريبة القيمة المضافة)
+                                            </t>
+                                            <t t-if="doc.move_type == 'out_refund'">إجمالي المرتجع الخاضع لضريبة القيمة
+                                                المضافة
+                                            </t>
+                                        </b>
                                     </td>
-                                    <td  class="text-center" style="padding:2px;border:1px solid black !important;">
-                                        <b><span t-field="doc.amount_total"/></b>
+                                    <td class="text-center" style="padding:2px;border:1px solid black !important;">
+                                        <b>
+                                            <span t-field="doc.amount_untaxed"/>
+                                        </b>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="37.9%" class="text-center"
+                                        style="padding:2px;border:1px solid black !important;">
+                                        <b>Total VAT</b>
+                                    </td>
+                                    <td width="37%" class="text-center"
+                                        style="padding:2px;border:1px solid black !important;">
+                                        <b>مجموع ضريبة القيمة المضافة</b>
+                                    </td>
+                                    <td class="text-center" style="padding:2px;border:1px solid black !important;">
+                                        <b>
+                                            <span t-field="doc.amount_tax"/>
+                                        </b>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="37.9%" class="text-center"
+                                        style="padding:2px;border:1px solid black !important;">
+                                        <b>
+                                            <t t-if="doc.move_type == 'out_invoice'">Total Amount Due</t>
+                                            <t t-if="doc.move_type == 'out_refund'">Total Amount to be Returned</t>
+                                        </b>
+                                    </td>
+                                    <td width="37%" class="text-center"
+                                        style="padding:2px;border:1px solid black !important;">
+                                        <b>
+                                            <t t-if="doc.move_type == 'out_invoice'">إجمالي المبلغ المستحق</t>
+                                            <t t-if="doc.move_type == 'out_refund'">إجمالي المبلغ المرتجع</t>
+                                        </b>
+                                    </td>
+                                    <td class="text-center" style="padding:2px;border:1px solid black !important;">
+                                        <b>
+                                            <span t-field="doc.amount_total"/>
+                                        </b>
                                     </td>
                                 </tr>
                             </tbody>
@@ -528,7 +610,9 @@
                                style="border-spacing: 1em .5em;padding: 0 2em 1em 0;border: 1px solid black;">
                             <tr>
                                 <th width="20%" class="text-left"
-                                    style="padding:2px;border:1px solid black !important;">AMOUNT INVOICED
+                                    style="padding:2px;border:1px solid black !important;">
+                                    <t t-if="doc.move_type == 'out_invoice'">AMOUNT INVOICED</t>
+                                    <t t-if="doc.move_type == 'out_refund'">RETURNED AMOUNT</t>
                                 </th>
                                 <th colspan="2" class="text-left"
                                     style="text-transform: capitalize;padding:2px;border:1px solid black !important;border-right:none">
@@ -541,7 +625,9 @@
                                     <span t-field="doc.amount_in_ar"/>
                                 </th>
                                 <th width="20%" class="text-right"
-                                    style="padding:2px;border:1px solid black !important;">قيمه الفاتوره
+                                    style="padding:2px;border:1px solid black !important;">
+                                    <t t-if="doc.move_type == 'out_invoice'">قيمه الفاتوره</t>
+                                    <t t-if="doc.move_type == 'out_refund'">قيمة المرتجع</t>
                                 </th>
                             </tr>
                         </table>
@@ -610,7 +696,7 @@
                                     class="text-left">
                                     <u>Received By :</u>
                                 </td>
-<!--                                <td width="15%" style="padding:2px;border-top: 1px solid black;" class="text-center"/>-->
+                                <!--                                <td width="15%" style="padding:2px;border-top: 1px solid black;" class="text-center"/>-->
                                 <td colspan="2"
                                     style="padding:2px;border-right: 1px solid black;border-top: 1px solid black;"
                                     class="text-right">
@@ -626,9 +712,11 @@
                                         <span t-field="doc.company_id"/>
                                     </span>
                                 </td>
-                                <td rowspan="5" style="text-align:center;vertical-align:middle;width:25%;padding:2px;border-right: 1px solid black;border-left: 1px solid black;border-top: 1px solid black;border-bottom: 1px solid black;">
-                                    <img t-if="doc.qr_image" t-att-src="'data:image/png;base64,%s' % to_text(doc.qr_image)"
-                                     style="max-height: 120px;align:center"/>
+                                <td rowspan="5"
+                                    style="text-align:center;vertical-align:middle;width:25%;padding:2px;border-right: 1px solid black;border-left: 1px solid black;border-top: 1px solid black;border-bottom: 1px solid black;">
+                                    <!--                                    <img t-if="doc.qr_image" t-att-src="'data:image/png;base64,%s' % to_text(doc.qr_image)"-->
+                                    <!--                                     style="max-height: 120px;align:center"/>-->
+                                    <!--                                    <img t-att-src="'/report/barcode/?type=QR&amp;width=400&amp;height=400&amp;value=' +doc.generate_tlv_code()" style="width:120px;height:120px"/>-->
                                 </td>
                             </tr>
                             <tr>
@@ -692,7 +780,6 @@
                         </table>
 
 
-
                     </div>
 
 
@@ -725,4 +812,4 @@
 
 
     </data>
-</odoo>
+</odoo>`

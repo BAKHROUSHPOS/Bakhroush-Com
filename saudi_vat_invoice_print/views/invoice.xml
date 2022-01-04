@@ -16,7 +16,7 @@
                     <group>
                         <field name="amount_text"/>
                         <field name="amount_in_ar"/>
-                        <field name="qr_image" widget="image"/>
+<!--                        <field name="qr_image" widget="image"/>-->
                     </group>
                 </page>
 
