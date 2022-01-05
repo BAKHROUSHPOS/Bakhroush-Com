@@ -128,7 +128,7 @@
             <field name="inherit_id" ref="account.view_move_form"/>
             <field name="arch" type="xml">
                 <field name="invoice_date" position="after">
-                    <field name="branch_id" required="1" groups="aspl_company_branch_ee.group_multi_branches"
+                    <field name="branch_id" groups="aspl_company_branch_ee.group_multi_branches"
                            options="{'no_create':True,'no_edit':True}"/>
                 </field>
                 <xpath expr="//notebook/page//field[@name='line_ids']/tree/field[@name='partner_id']" position="after">
