@@ -263,7 +263,6 @@ class StockPicking(models.Model):
     driver_name = fields.Many2one(
         'hr.employee',
         string='Driver Name',
-        required=True,
         domain=lambda self: self.get_employee()
     )
     method = fields.Selection(
