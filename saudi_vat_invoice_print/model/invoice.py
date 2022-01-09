@@ -57,6 +57,7 @@ class AccountMove(models.Model):
     price_before_discount = fields.Monetary('Total ( Excluded VAT)',compute='_compute_all_price')
     # qr_image = fields.Binary("QR Code", compute='_generate_qr_code')
     delivery_date = fields.Date('Delivery Date')
+    invoice_date_time = fields.Datetime('Invoice Date Time')
 
 
     def _data_hex(self, value, tag):

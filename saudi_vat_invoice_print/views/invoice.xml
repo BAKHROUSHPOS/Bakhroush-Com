@@ -62,6 +62,7 @@
             </xpath>
             <xpath expr="//field[@name='invoice_date']"
                    position="after">
+                <field name="invoice_date_time"  attrs="{'required': [('move_type','=','out_invoice')]}"/>
                 <field name="delivery_date"/>
             </xpath>
         </field>
