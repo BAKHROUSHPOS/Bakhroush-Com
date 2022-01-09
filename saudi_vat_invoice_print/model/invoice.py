@@ -113,7 +113,11 @@ class AccountMove(models.Model):
         localFormat = "%Y-%m-%d %H:%M:%S"
 
         # Convert date to current user timezone or Saudi Arabia in default case.
-        utcmoment_naive = datetime.strptime(self.create_date, localFormat)
+        if self.invoice_date_time:
+            utcmoment_naive = datetime.strptime(str(self.invoice_date_time), localFormat)
+        else:
+            utcmoment_naive = datetime.strptime(self.create_date, localFormat)
+
         utcmoment = utcmoment_naive.replace(tzinfo=pytz.utc)
 
         tz_ = self.env.user.tz or self._context.get('tz', DEFAULTE_TZ)
