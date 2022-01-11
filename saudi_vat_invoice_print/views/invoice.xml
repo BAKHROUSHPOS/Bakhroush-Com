@@ -16,7 +16,7 @@
                     <group>
                         <field name="amount_text"/>
                         <field name="amount_in_ar"/>
-                        <field name="qr_image" widget="image"/>
+<!--                        <field name="qr_image" widget="image"/>-->
                     </group>
                 </page>
 
@@ -62,6 +62,7 @@
             </xpath>
             <xpath expr="//field[@name='invoice_date']"
                    position="after">
+                <field name="invoice_date_time"  attrs="{'required': [('move_type','=','out_invoice')]}"/>
                 <field name="delivery_date"/>
             </xpath>
         </field>

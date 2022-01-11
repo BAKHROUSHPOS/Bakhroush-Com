@@ -67,8 +67,8 @@ class AccountMove(models.Model):
 class AccountMoveLine(models.Model):
     _inherit = 'account.move.line'
 
-    branch_id = fields.Many2one('company.branch', string="Branch", related='move_id.branch_id', store=True,
-                                readonly=True)
+    branch_id = fields.Many2one('company.branch', string="Branch", store=True,
+                                )
     purchase_id = fields.Many2one('purchase.order', string="Purchase Order", store=True,
                                   related='purchase_line_id.order_id')
 

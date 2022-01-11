@@ -57,7 +57,7 @@
                     <field name="method"/>
                     <field name="corresponding"/>
                     <field name="car_no"/>
-                    <field name="driver_name"/>
+                    <field name="driver_name" required="1"/>
 <!--                    <field name="dummy_driver_name" widget="many2many_tags"/>-->
                     <field name="balance_amount"/>
                     <field name="picking_total_value"/>
