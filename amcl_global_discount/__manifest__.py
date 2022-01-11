@@ -10,7 +10,7 @@
     'author': 'Acespritech Solutions Pvt. Ltd.',
     'depends': ['base', 'sale_management', 'sale_purchase', 'purchase', 'product', 'account'],
     'data': [
-        'views/res_config_settings_view.xml',,
+        'views/res_config_settings_view.xml',
         'views/sale_view.xml',
         'views/purchase_view.xml',
         'views/invoice_view.xml',
