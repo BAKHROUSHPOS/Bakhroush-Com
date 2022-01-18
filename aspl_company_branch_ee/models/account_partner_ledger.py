@@ -32,7 +32,6 @@ class ReportPartnerLedger(models.AbstractModel):
         tables, where_clause, where_params = self._query_get(new_options, domain=domain)
         ct_query = self.env['res.currency']._get_query_currency_table(options)
         branch_ids = self.get_branch_ids()
-
         query = '''
             SELECT
                 account_move_line.id,
@@ -65,8 +64,7 @@ class ReportPartnerLedger(models.AbstractModel):
             LEFT JOIN res_partner partner               ON partner.id = account_move_line.partner_id
             LEFT JOIN account_account account           ON account.id = account_move_line.account_id
             LEFT JOIN account_journal journal           ON journal.id = account_move_line.journal_id
-            -- WHERE  account_move_line.branch_id IN ()
-            WHERE %s and account_move_line.branch_id IN %s
+            WHERE %s and account_move_line__move_id.branch_id IN %s
             ORDER BY account_move_line.date, account_move_line.id
         ''' % (ct_query, where_clause, branch_ids)
 
