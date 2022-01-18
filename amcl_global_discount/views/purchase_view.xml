@@ -17,15 +17,7 @@
                                attrs="{'readonly': [('state','!=','draft')]}"/>
                     </group>
                 </group>
-                <field name="notes" position="replace">
-                    <group>
-                        <field name="notes" class="oe_inline" placeholder="Define your terms and conditions ..."/>
-                    </group>
-                </field>
-                <xpath expr="//field[@name='partner_ref']" position="after">
-                    <field name="revision"/>
-                </xpath>
-                <field name="tax_totals_json" position="after">
+                <field name="amount_total" position="after">
                     <field name="discount" widget="monetary"/>
                     <div class="oe_subtotal_footer_separator oe_inline o_td_label">
                     </div>
