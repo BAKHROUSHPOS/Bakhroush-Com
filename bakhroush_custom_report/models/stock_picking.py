@@ -263,7 +263,6 @@ class StockPicking(models.Model):
     driver_name = fields.Many2one(
         'hr.employee',
         string='Driver Name',
-        required=True,
         domain=lambda self: self.get_employee()
     )
     method = fields.Selection(
@@ -425,6 +424,8 @@ class StockPicking(models.Model):
     def button_validate(self):
         # Clean-up the context key at validation to avoid forcing the creation of immediate
         # transfers.
+        if not self.driver_name and self.picking_type_id.code == 'outgoing':
+            raise UserError(_('Please select the driver name.'))
         ctx = dict(self.env.context)
         ctx.pop('default_immediate_transfer', None)
         self = self.with_context(ctx)
