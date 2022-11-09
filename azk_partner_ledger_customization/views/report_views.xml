@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+ 	<template id="az_main_template_inherited" inherit_id="account_reports.main_template"  >
+ 		<xpath expr="//div[hasclass('o_account_reports_header')]" position="before">
+ 			<div class="print_only" t-if="az_print_mode == True" >
+	 			<style>
+	 				body {
+						   font-family: times new roman !important;
+						}
+	 				th,td{
+	 					border: 1px solid #dee2e6 !important;
+	 					font-size: 17px;
+	 					font-family: times new roman !important;
+	 				}
+ 				</style> 
+ 			</div>
+ 			<!-- <t t-set="company" t-value="request.env.company" />
+ 			<div class="print_only">
+	 			 <div t-attf-class="header o_company_#{company.id}_layout" t-att-style="report_header_style">
+		            <div class="row">
+		                <div class="col-3 mb4">
+		                    <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" style="max-height: 45px;" alt="Logo"/>
+		                </div>
+		                <div class="col-9 text-right" style="margin-top:22px;" t-field="company.report_header" name="moto"/>
+		            </div>
+		            <div t-if="company.logo or company.report_header" class="row zero_min_height">
+		                <div class="col-12">
+		                    <div style="border-bottom: 1px solid black;"/>
+		                </div>
+		            </div>
+		            <div class="row">
+		                <div class="col-6" name="company_address">
+		                    <div t-field="company.partner_id"
+		                        t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": true}'
+		                    />
+		                </div>
+		            </div>
+		        </div>
+		        <br/>
+	        </div> -->
+ 		</xpath>
+ 	</template>
+ 	
+</odoo>
+
