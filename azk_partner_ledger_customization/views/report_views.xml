@@ -2,45 +2,78 @@
 <odoo>
 
  	<template id="az_main_template_inherited" inherit_id="account_reports.main_template"  >
- 		<xpath expr="//div[hasclass('o_account_reports_header')]" position="before">
- 			<div class="print_only" t-if="az_print_mode == True" >
+ 			<xpath expr="//div[hasclass('o_account_reports_header')]" position="before">
+ 			<div class="print_only" t-if="az_print_mode == True">
 	 			<style>
 	 				body {
-						   font-family: times new roman !important;
+						   font-family: Odoo Unicode Support Noto !important;
 						}
 	 				th,td{
-	 					border: 1px solid #dee2e6 !important;
+	 					border: 1px solid #000000 !important;
 	 					font-size: 17px;
-	 					font-family: times new roman !important;
+	 					font-family: Odoo Unicode Support Noto !important;
+	 					
 	 				}
  				</style> 
  			</div>
- 			<!-- <t t-set="company" t-value="request.env.company" />
- 			<div class="print_only">
-	 			 <div t-attf-class="header o_company_#{company.id}_layout" t-att-style="report_header_style">
-		            <div class="row">
-		                <div class="col-3 mb4">
-		                    <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" style="max-height: 45px;" alt="Logo"/>
-		                </div>
-		                <div class="col-9 text-right" style="margin-top:22px;" t-field="company.report_header" name="moto"/>
-		            </div>
-		            <div t-if="company.logo or company.report_header" class="row zero_min_height">
-		                <div class="col-12">
-		                    <div style="border-bottom: 1px solid black;"/>
-		                </div>
-		            </div>
-		            <div class="row">
-		                <div class="col-6" name="company_address">
-		                    <div t-field="company.partner_id"
-		                        t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": true}'
-		                    />
-		                </div>
-		            </div>
-		        </div>
-		        <br/>
-	        </div> -->
+ 		
  		</xpath>
+ 		<xpath expr="//div[hasclass('o_account_reports_summary')]" position="replace">
+ 			<!--  <attribulte name="style" add="display: none" /> -->
+ 		</xpath>
+ 		<xpath expr="//div[hasclass('o_account_reports_header')]" position="replace">
+ 			<div class="print_only" t-if="az_print_mode == True">
+ 			   <t t-set="company" t-value="request.env.company"/>
+	 			 	 <div t-attf-class="o_company_#{company.id}_layout header" t-att-style="report_header_style">
+	            		<div class="o_background_header">
+				            <div class="float-right">
+				                <h3 class="mt0 text-right" t-field="company.report_header"/>
+				            </div>
+		            		<img t-if="company.logo" t-att-src="image_data_uri(company.logo)" style="max-height: 96px;max-width: 200px;margin-right: 16px;" class="float-left" alt="Logo"/>
+				            <div class="float-left company_address">
+				                <div>
+				                    <strong t-field="company.partner_id.name"/>
+				                </div>
+				                <span t-field="company.partner_id"
+				                    t-options='{"widget": "contact", "fields": ["address"], "no_marker": true}'/>
+				            </div>
+		            		<div class="clearfix mb8"/>
+	            		</div>
+	        		</div>
+
+	 			 <hr style="  height: 3px;background-color: #eee;"/>
+	 			 <br/>
+	 			 
+	 			 <div class="row">
+	 			 	<t t-set="date_from" t-value="options.get('date').get('date_from')" />
+	 			 	<t t-set="date_to" t-value="options.get('date').get('date_to')" />
+	 			 	<t t-set="branches" t-value="options.get('branches')" />
+	 			 	<t t-set="selected_branches" t-value="[b['name'] for b in branches if b.get('selected') and b.get('selected')==True ]" />
+	 			 	<t t-set="selected_branches_names" t-value="','.join(selected_branches) if selected_branches else 'الكل'" />
+	 			    <div class="col-md-12" style="text-align: center; font-weight: bold; font-size: 16px;text-decoration: underline;direction:rtl">
+	 			       كشف حساب تفصيلي للكميات للفترة  من <t t-esc="date_from" /> الى <t t-esc="date_to" /> الفرع: <t t-esc="selected_branches_names" />
+	 			    </div>
+	 			 </div>
+	 			
+	 			 <br/>
+ 			  </div>
+ 		</xpath>
+ 		
  	</template>
  	
+ 	<template id="az_main_table_header_inherited" inherit_id="account_reports.main_table_header"  >
+ 		<xpath expr="//thead/t" position="before">
+ 			<div class="print_only" t-if="az_print_mode == True">
+	 			<tr>
+	 				<td t-att-colspan="len(lines.get('columns_header')[0])">
+	 					<div class="col-md-12" style="height:50px;text-align: center; font-weight: bold; font-size: 16px;background-color: #eee;direction:rtl">
+	 			 	 	<t t-set="partners" t-value="','.join(options.get('selected_partner_ids')) if options.get('selected_partner_ids') else ''" />
+	 			 	 	اسم العميل: <t t-esc="partners"/>
+	 			 	 </div>
+	 				</td>
+	 			</tr>
+ 			</div>
+ 		</xpath>
+ 	</template>
 </odoo>
 
