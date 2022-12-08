@@ -10,7 +10,7 @@
 						}
 	 				th,td{
 	 					border: 1px solid #000000 !important;
-	 					font-size: 17px;
+						font-size: 10px;
 	 					font-family: Odoo Unicode Support Noto !important;
 	 					
 	 				}
@@ -34,8 +34,10 @@
 				                <div>
 				                    <strong t-field="company.partner_id.name"/>
 				                </div>
-				                <span t-field="company.partner_id"
-				                    t-options='{"widget": "contact", "fields": ["address"], "no_marker": true}'/>
+				                <span t-field="company.partner_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;], &quot;no_marker&quot;: true}"/>
+				                <div>
+				                    CR No. <span t-field="company.company_registry"/>
+				                </div>
 				            </div>
 		            		<div class="clearfix mb8"/>
 	            		</div>
@@ -50,8 +52,8 @@
 	 			 	<t t-set="branches" t-value="options.get('branches')" />
 	 			 	<t t-set="selected_branches" t-value="[b['name'] for b in branches if b.get('selected') and b.get('selected')==True ]" />
 	 			 	<t t-set="selected_branches_names" t-value="','.join(selected_branches) if selected_branches else 'الكل'" />
-	 			    <div class="col-md-12" style="text-align: center; font-weight: bold; font-size: 16px;text-decoration: underline;direction:rtl">
-	 			       كشف حساب تفصيلي للكميات للفترة  من <t t-esc="date_from" /> الى <t t-esc="date_to" /> الفرع: <t t-esc="selected_branches_names" />
+	 			    <div class="col-md-12" style="font-family: Odoo Unicode Support Noto !important;text-align: center; font-weight: bold; font-size: 18px;text-decoration: underline;direction:rtl">
+	 			       كشف حساب تفصيلي للفترة من <t t-esc="date_from" /> إلى <t t-esc="date_to" /> الفرع: <t t-esc="selected_branches_names" />
 	 			    </div>
 	 			 </div>
 	 			
@@ -66,9 +68,9 @@
  			<div class="print_only" t-if="az_print_mode == True">
 	 			<tr>
 	 				<td t-att-colspan="len(lines.get('columns_header')[0])">
-	 					<div class="col-md-12" style="height:50px;text-align: center; font-weight: bold; font-size: 16px;background-color: #eee;direction:rtl">
+	 					<div class="col-md-12" style="font-family: Odoo Unicode Support Noto !important;height:50px;text-align: center; font-weight: bold; font-size: 16px;background-color: #eee;direction:rtl">
 	 			 	 	<t t-set="partners" t-value="','.join(options.get('selected_partner_ids')) if options.get('selected_partner_ids') else ''" />
-	 			 	 	اسم العميل: <t t-esc="partners"/>
+	 			 	 	اسم المعني: <t t-esc="partners"/>
 	 			 	 </div>
 	 				</td>
 	 			</tr>
