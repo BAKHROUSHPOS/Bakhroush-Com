@@ -2,92 +2,131 @@
 <odoo>
 	<template id="journal_entries_report_id">
         <t t-call="web.html_container">
-		<t t-call="web.external_layout">
-<!--			<link rel='stylesheet' href="/journal_entries_print/static/src/css/report_css.css"/>-->
-            <t t-foreach="docs" t-as="o">
-                <div class="page" style="font-size:15px;">
-                <div>
-					        <h3>
-							    <span t-field="o.name"/>
+			<t t-call="web.external_layout">
+				<t t-foreach="docs" t-as="o">
+					<div class="page" style="font-size:15px;">
+						<div>
+							<h3>
+								<span t-field="o.name"/>
 							</h3>
-				</div>
-					<br></br>
-                	<div class="row">
-	            			<table width="100%" class="table-bordered">
-							   
-	            				<tr>
-	            					<td>Journal: <span t-field="o.journal_id.name" />
-	            					</td>
-	            					<td>
-	            						Date: <span t-field="o.date"/>
-	            					</td>
-	            				</tr>
-	            				<tr>
-	            					<td>
-	            						Partner: <span t-field="o.partner_id.name"/>
-	            					</td>
-	            					<td>
-	            						Reference: <span t-field="o.ref"/>
-	            					</td>
-	            				</tr>
-	            			</table>                	
-                	</div>
-                	<div class="row">
-                    <style>
-                    .tblbordr {
-                        text-align: center;
-                        border: 2px solid black;
-                    }
-                    </style>
+						</div>
 						<br></br>
-                		<table width="100%" class="border-collapse:separate;">
-                			<thead >
-                				<tr >
-                					<th>Account</th>
-                					<th>Date</th>
-                					<th>Partner</th>
-                					<th>Lable</th>
-                					<th>Analytic Account</th>
-                					<th>Debit</th>
-                					<th>Credit</th>
-                				</tr>
-                			</thead>
-                			<tbody>
-                				 <t t-foreach="o.line_ids" t-as="line">
-                				 	<tr>
-                				 		<td>
-                				 			<span t-field="line.account_id.name"/>
-                				 		</td>
-                				 		<td>
-                				 			<span t-field="line.date"/>
-                				 		</td>
-                				 		<td>
-                				 			<span t-field="line.partner_id.name"/>
-                				 		</td>
-                				 		<td>
-                				 			<span t-field="line.name"/>
-                				 		</td>
-                				 		<td>
-                				 			<span t-field="line.analytic_account_id.name"/>
-                				 		</td>
-                				 		<td>
-                				 			<span t-field="line.debit"/>
-                				 			
-                				 		</td>
-                				 		<td>
-                				 			<span t-field="line.credit"/>
-                				 			
-                				 		</td>
-                				 	</tr>
-                				 </t>
-                			</tbody>
-                		</table>
-                	</div>
-                </div>
-            </t>
+						<div class="row">
+							<table width="100%" class="table-bordered">
+							
+								<tr>
+									<td>Journal: <span t-field="o.journal_id.name" />
+									</td>
+									<td>
+										Date: <span t-field="o.date"/>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										Partner: <span t-field="o.partner_id.name"/>
+									</td>
+									<td>
+										Reference: <span t-field="o.ref"/>
+									</td>
+								</tr>
+							</table>                	
+						</div>
+						<br></br>
+						<br></br>
+						<div class="row">
+							<style>
+								.tblbordr {
+									text-align: center;
+									border: 2px solid black;
+								}
+								.aztblbordr th,td {
+									border: 1px solid black;
+									padding-left: 4px;
+									padding-right: 4px;
+								}
+							</style>
+							<br></br>
+							<table width="100%" class="border-collapse:separate; aztblbordr">
+								<thead >
+									<tr>
+										<th>Account</th>
+										<th>Date</th>
+										<th>Partner</th>
+										<th>Lable</th>
+										<th>Analytic Account</th>
+										<th>Debit</th>
+										<th>Credit</th>
+									</tr>
+								</thead>
+								<tbody>
+									<t t-set="dr_total" t-value="0"/>
+									<t t-set="cr_total" t-value="0"/>
+									<t t-foreach="o.line_ids" t-as="line">
+										<tr>
+											<td>
+												<span t-field="line.account_id.name"/>
+											</td>
+											<td>
+												<span t-field="line.date"/>
+											</td>
+											<td>
+												<span t-field="line.partner_id.name"/>
+											</td>
+											<td>
+												<span t-field="line.name"/>
+											</td>
+											<td>
+												<span t-field="line.analytic_account_id.name"/>
+											</td>
+											<td>
+												<span t-field="line.debit"/>
+												<t t-set="dr_total" t-value="dr_total + line.debit"/>
+											</td>
+											<td>
+												<span t-field="line.credit"/>
+												<t t-set="cr_total" t-value="cr_total + line.credit"/>
+											</td>
+										</tr>
+									</t>
+									<tr>
+										<td/>
+										<td/>
+										<td/>
+										<td/>
+										<td>
+											Total
+										</td>
+										<td>
+											<span t-esc="dr_total" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+										</td>
+										<td>
+											<span t-esc="cr_total" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</t>
 			</t>
         </t>
     </template>
+
+	<record id="az_print_journal_entires_a4" model="report.paperformat">
+		<field name="name">Journal Entries A4</field>
+		<field name="default" eval="False"/>
+		<field name="format">A4</field>
+		<field name="page_height">0</field>
+		<field name="page_width">0</field>
+		<field name="orientation">Portrait</field>
+		<field name="margin_top">35</field>
+		<field name="margin_bottom">15</field>
+		<field name="margin_left">2</field>
+		<field name="margin_right">2</field>
+		<field name="header_line" eval="True"/>
+		<field name="header_spacing">30</field>
+		<field name="dpi">90</field>
+	</record>
 
     <report
         id="journal_entries_moce_print_id"
@@ -96,5 +135,6 @@
         report_type = "qweb-pdf"
         name = "print_journal_entires.journal_entries_report_id"  
         file = "print_journal_entires.journal_entries_report_id"
+		paperformat = "print_journal_entires.az_print_journal_entires_a4"
     />
 </odoo>
