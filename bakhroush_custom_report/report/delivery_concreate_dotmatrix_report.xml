@@ -4,15 +4,15 @@
         <field name="name">Delivery Slip - Bakhroush (Concrete)</field>
         <field name="model">stock.picking</field>
         <field name="report_type">qweb-pdf</field>
-        <field name="report_name">bakhroush_custom_report.report_deliveryslip_concrete_bakhroush</field>
-        <field name="report_file">bakhroush_custom_report.report_deliveryslip_concrete_bakhroush</field>
+        <field name="report_name">bakhroush_custom_report.slip_concrete_bakhroush</field>
+        <field name="report_file">bakhroush_custom_report.slip_concrete_bakhroush</field>
         <field name="print_report_name">'Delivery Slip - %s - %s' % (object.partner_id.name or '', object.name)</field>
         <field name="binding_model_id" ref="stock.model_stock_picking"/>
         <field name="paperformat_id" ref="bakhroush_custom_report.paperformat_bakhroush_1"/>
         <field name="binding_type">report</field>
     </record>
 
-    <template id="report_deliveryslip_concrete_bakhroush">
+    <template id="slip_concrete_bakhroush">
         <t t-foreach="docs" t-as="o">
             <t t-call="bakhroush_custom_report.report_delivery_document_concrete_bakhroush" t-lang="o.partner_id.lang"/>
         </t>
@@ -135,8 +135,8 @@
                                 <td class="text-center">
                                     <span t-field="move.clas"/>
                                 </td>
-                                <td class="text-center">
-                                    <span t-field="move.quantity_of_cement"/>
+                                <td class="text-center" style="margin-top: -5mm;-webkit-line-clamp: 3;display: -webkit-box;-webkit-box-orient: vertical;overflow: hidden;text-overflow: clip;width: 100%;word-break: break-word;line-height: 1.1;height: 15mm;">
+                                    <span t-field="move.product_id.name"/>
                                 </td>
                                 <td class="text-center">
                                     <t t-if="move.opc">

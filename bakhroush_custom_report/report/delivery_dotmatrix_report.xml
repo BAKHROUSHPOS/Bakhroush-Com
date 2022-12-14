@@ -21,8 +21,8 @@
         <field name="name">Delivery Slip - Bakhroush (Normal)</field>
         <field name="model">stock.picking</field>
         <field name="report_type">qweb-pdf</field>
-        <field name="report_name">bakhroush_custom_report.report_deliveryslip_dot_bakhroush</field>
-        <field name="report_file">bakhroush_custom_report.report_deliveryslip_dot_bakhroush</field>
+        <field name="report_name">bakhroush_custom_report.slip_dot_bakhroush</field>
+        <field name="report_file">bakhroush_custom_report.slip_dot_bakhroush</field>
         <field name="print_report_name">'Delivery Slip - %s - %s' % (object.partner_id.name or '', object.name)</field>
         <field name="binding_model_id" ref="stock.model_stock_picking"/>
         <field name="paperformat_id" ref="bakhroush_custom_report.paperformat_bakhroush_normal"/>
@@ -30,7 +30,7 @@
     </record>
 
 
-    <template id="report_deliveryslip_dot_bakhroush">
+    <template id="slip_dot_bakhroush">
         <t t-foreach="docs" t-as="o">
             <t t-call="bakhroush_custom_report.report_delivery_document_dot_bakhroush" t-lang="o.partner_id.lang"/>
         </t>

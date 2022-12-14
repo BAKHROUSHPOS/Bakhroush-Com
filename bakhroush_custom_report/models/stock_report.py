@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from odoo import tools
-from odoo import api, fields, models
+from odoo import api, fields, models, _
+from odoo.exceptions import UserError
 
 class StockReport(models.Model):
     _inherit = 'stock.report'
@@ -51,3 +52,31 @@ class StockReport(models.Model):
         group_by_str = super(StockReport, self)._group_by()
         group_by_str += """,sp.driver_name"""
         return group_by_str
+
+class DeliverySlipReport(models.Model):
+    _name = "report.bakhroush_custom_report.slip_dot_bakhroush"
+    _description = "Delivery Slip"
+
+    @api.model
+    def _get_report_values(self, docids, data=None):
+        note_ids = self.env['stock.picking'].browse(docids)
+        for note_id in note_ids:
+            if note_id.state != 'done':
+                raise UserError(_("يجب عليك تأكيد الشحنة حتى يمكنك طباعتها"))
+        return {
+            'docs': note_ids,
+        }
+
+class DeliverySlipConcreteReport(models.Model):
+    _name = "report.bakhroush_custom_report.slip_concrete_bakhroush"
+    _description = "Delivery Slip Concrete"
+
+    @api.model
+    def _get_report_values(self, docids, data=None):
+        note_ids = self.env['stock.picking'].browse(docids)
+        for note_id in note_ids:
+            if note_id.state != 'done':
+                raise UserError(_("يجب عليك تأكيد الشحنة حتى يمكنك طباعتها"))
+        return {
+            'docs': note_ids,
+        }
