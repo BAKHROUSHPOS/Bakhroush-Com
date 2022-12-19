@@ -116,7 +116,7 @@ class AccountMove(models.Model):
         if self.invoice_date_time:
             utcmoment_naive = datetime.strptime(str(self.invoice_date_time), localFormat)
         else:
-            utcmoment_naive = datetime.strptime(self.create_date, localFormat)
+            utcmoment_naive = datetime.strptime(self.create_date.strftime(localFormat), localFormat)
 
         utcmoment = utcmoment_naive.replace(tzinfo=pytz.utc)
 

@@ -59,8 +59,8 @@
                     <field name="car_no"/>
                     <field name="driver_name"/>
 <!--                    <field name="dummy_driver_name" widget="many2many_tags"/>-->
-                    <field name="balance_amount" groups="base.user_admin"/>
-                    <field name="picking_total_value" groups="base.user_admin"/>
+                    <field name="balance_amount" groups="account.group_account_manager"/>
+                    <field name="picking_total_value" groups="account.group_account_manager"/>
                     <field name="addition_approval" invisible="1"/>
                     <field name="dummy_src_location" invisible="1"/>
                     <field name="invoice_id"/>
