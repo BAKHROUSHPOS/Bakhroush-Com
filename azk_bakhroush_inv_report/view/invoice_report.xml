@@ -1,0 +1,466 @@
+<odoo>
+        <!-- Bakhroush Tax invoice external layout -->
+       <template id="external_layout_standard">
+            <div t-attf-class="header o_company_#{company.id}_layout" t-att-style="report_header_style">
+                <div class="row">
+                    <div class="col-3 mb4">
+                        <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" style="max-height: 45px;" alt="Logo"/>
+                    </div>
+                    <div class="col-9 text-right" style="margin-top:22px;" t-field="company.report_header" name="moto"/>
+                </div>
+                <div t-if="company.logo or company.report_header" class="row zero_min_height">
+                    <div class="col-12">
+                        <div style="border-bottom: 1px solid black;"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6" name="company_address">
+                        <div t-field="company.partner_id"
+                            t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": true}'
+                        />
+                    </div>
+                </div>
+            </div>
+    
+            <div t-attf-class="article o_report_layout_standard o_company_#{company.id}_layout"  t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="'en_US'">
+                <div class="pt-5">
+                    <!-- This div ensures that the address is not cropped by the header. -->
+                    <t t-call="web.address_layout"/>
+                </div>
+                <t t-raw="0"/>
+            </div>
+    
+            <div t-attf-class="footer o_standard_footer o_company_#{company.id}_layout">
+                <div class="text-center" style="border-top: 1px solid black;">
+                    <ul class="list-inline mb4">
+                        <!-- using the list-inline-item class from bootstrap causes weird behaviours in pdf report
+                             adding d-inline class fixes the problem-->
+                        <li t-if="company.phone" class="list-inline-item d-inline"><span class="o_force_ltr" t-field="company.phone"/></li>
+                        <li t-if="company.email" class="list-inline-item d-inline"><span t-field="company.email"/></li>
+                        <li t-if="company.website" class="list-inline-item d-inline"><span t-field="company.website"/></li>
+                        <li t-if="company.vat" class="list-inline-item d-inline"><t t-esc="company.country_id.vat_label or 'Tax ID'"/>: <span t-field="company.vat"/></li>
+                    </ul>
+    
+                    <div name="financial_infos">
+                        <span t-field="company.report_footer"/>
+                    </div>
+    
+                    <div t-if="report_type == 'pdf'" class="text-muted">
+                        Page: <span class="page"/> / <span class="topage"/>
+                    </div>
+                </div>
+            </div>
+        </template>
+        
+	 	 <record id="az_invoice_paperformat_vat" model="report.paperformat">
+            <field name="name">Bakhroush VAT INVOICE FORMAT</field>
+            <field name="default" eval="False"/>
+            <field name="format">A4</field>
+            <field name="page_height">0</field>
+            <field name="page_width">0</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">0</field>
+            <field name="margin_bottom">15</field>
+            <field name="margin_left">2</field>
+            <field name="margin_right">2</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">30</field>
+            <field name="dpi">90</field>
+        </record>
+        
+        <!-- report action  -->
+        <record id="az_bakhroush_action_tax_invoice_report" model="ir.actions.report">
+            <field name="name"> Bakhroush Tax Invoice - فاتورة ضريبية</field>
+            <field name="model">account.move</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">azk_bakhroush_inv_report.bakhroush_account_move_report</field>
+            <field name="report_file">azk_bakhroush_inv_report.bakhroush_account_move_report</field>
+            <field name="print_report_name">'Invoice - %s' % (object.name).replace('/', '')</field>
+            <field name="binding_model_id" ref="account.model_account_move"/>
+            <field name="paperformat_id" ref="azk_bakhroush_inv_report.az_invoice_paperformat_vat"/>
+            <field name="binding_type">report</field>
+        </record>
+        
+         <template id="az_bakhroush_external_layout_background" inherit_id="web.external_layout_background">
+                 
+            <xpath expr="//div[@class='o_background_header']" position="attributes">
+            	<attribute name="t-att-style" >'display: None;' if az_report_no_header == 'no_header' else '' </attribute>
+            </xpath>
+
+        </template>
+        
+         <template id="az_bakhroush_external_layout_standard" inherit_id="web.external_layout_standard">
+                 
+            <xpath expr="//div[contains(@t-attf-class,'header')]" position="attributes">
+            		<attribute name="t-att-style" >'display: None;' if az_report_no_header == 'no_header' else '' </attribute>
+            </xpath>
+
+        </template>
+        
+        <template id="az_bakhroush_external_layout_standard" inherit_id="azk_bakhroush_inv_report.external_layout_standard">
+            <xpath expr="//div[contains(@t-attf-class,'header')]" position="attributes">
+                <attribute name="t-att-style" >'display: None;' if az_report_no_header == 'no_header' else '' </attribute>
+            </xpath>
+        </template>
+
+        <template id="einv_bakhroush_external_layout_standard" inherit_id="azk_bakhroush_inv_report.external_layout_standard">
+            <xpath expr="//div[contains(@t-attf-class,'footer')]/div/ul" position="before">
+                <div t-call="einv_sa.financial_layout_row">
+                </div>
+            </xpath>
+            <xpath expr="//li[@t-if='company.vat']" position="replace"/>
+        </template>
+
+		<template id="azk_bakhroush_inv_report.inv_qr_logo">
+		
+            <div class="row p-1 my-2 mb-4 ">
+            	<div class="col-4 text-left">
+            		 <img t-if="doc.company_id.logo" t-att-src="image_data_uri(doc.company_id.logo)" style="height: 130px;width:130px" alt="Logo"/>
+            	</div>
+                 <div class="col-4 text-center"  style="font-size:1.2rem !important; padding-top: 60pt;">
+                 	<Strong>فاتورة ضريبية</Strong><br/>
+                 	<Strong>Tax Invoice</Strong>
+                    <span t-if="doc.move_type=='out_refund'"> - Credit Note إشعار دائن</span>
+                    <span t-if="doc.move_type=='in_refund'"> - Debit Note إشعار مدين</span>
+                 </div>
+                 <div class="col-4 text-right">
+                    <t t-if="doc.state=='posted'">
+                        <img t-att-src="'/report/barcode/?type=QR&amp;width=130&amp;height=130&amp;value=' +doc.generate_tlv_code()" class="float-right my-1"/>
+                    </t>
+                 </div>
+               
+            </div>
+           
+            <div class="oe_structure"/>
+        </template>
+        
+         <template id="azk_bakhroush_inv_report.client_info">
+             <div class="row my-1 mb-2 ">
+                <div class="col-6 ">
+                    <div class="bg-gray" style="width:100%; height:100%; padding:10px">
+                         <div class="row row_no_margin">
+                            <div class="col-6 az_lable_logo_color col_no_pad bold">Bill From</div>
+                            <div class="col-6 text-right az_lable_logo_color col_no_pad bold" >فاتورة من</div>
+                        </div>
+                         <div class="row row_no_margin">
+                            <div class="col-3 col_no_pad">Name</div>
+                            <div class="col-6 col_no_pad text-center"><strong><span t-field="doc.company_id.name"/></strong></div>
+                            <div class="col-3 col_no_pad text-right">الاسم</div>
+                        </div>
+                         <div class="row row_no_margin">
+                            <div class="col-3 col_no_pad">Address</div>
+                            <div class="col-6 col_no_pad text-center"><div t-field="doc.company_id.partner_id" t-options="{'widget': 'contact', 'fields': ['address'], 'no_marker': true}"/></div>
+                            <div class="col-3 col_no_pad text-right">العنوان</div>
+                        </div>
+                         <div class="row row_no_margin">
+                            <div class="col-3 col_no_pad">VAT No.</div>
+                            <div class="col-6 col_no_pad text-center"><span t-field="doc.company_id.vat"/></div>
+                            <div class="col-3 col_no_pad text-right">الرقم الضريبي</div>
+                        </div>
+                         <div class="row row_no_margin">
+                            <div class="col-3 col_no_pad ">CR No.</div>
+                            <div class="col-6 col_no_pad  text-center"><span t-field="doc.company_id.partner_id.cr_number"/></div>
+                            <div class="col-3 col_no_pad  text-right">السجل التجاري</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-6 ">
+                    <div class="bg-gray" style="width:100%; height:100%; padding:10px">
+                        <div class="row row_no_margin">
+                            <div class="col-6 col_no_pad  az_lable_logo_color bold">Bill To</div>
+                            <div class="col-6 col_no_pad  text-right az_lable_logo_color bold">فاتورة الى</div>
+                        </div>
+                         <div class="row row_no_margin">
+                            <div class="col-3 col_no_pad ">Name</div>
+                            <div class="col-6 col_no_pad  text-center"><strong><span t-field="doc.partner_id.name"/></strong></div>
+                            <div class="col-3 col_no_pad  text-right">الاسم</div>
+                        </div>
+                         <div class="row row_no_margin">
+                            <div class="col-3 col_no_pad ">Address</div>
+                            <div class="col-6 col_no_pad  text-center"><div t-field="doc.partner_id.contact_address"/></div>
+                            <div class="col-3 col_no_pad  text-right">العنوان</div>
+                        </div>
+                         <div class="row row_no_margin">
+                            <div class="col-3 col_no_pad ">VAT No.</div>
+                            <div class="col-6 col_no_pad text-center"><span t-field="doc.partner_id.vat"/></div>
+                            <div class="col-3 col_no_pad text-right">الرقم الضريبي</div>
+                        </div>
+                         <div class="row row_no_margin">
+                            <div class="col-3 col_no_pad ">CR No.</div>
+                            <div class="col-6 col_no_pad text-center"><span t-field="doc.partner_id.cr_number"/></div>
+                            <div class="col-3 col_no_pad text-right">السجل التجاري</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="oe_structure"/>
+        </template>
+        
+        <template id="azk_bakhroush_inv_report.inv_details">
+            <style>
+              .az_ribbon {
+                width: 220px;
+                position: absolute;
+                background: #E45D2D;
+                font-weight: bold;
+              }
+              .az_top_right {
+                top: -11px;
+                right: 100px;
+                -webkit-transform-origin: 36% 100px;
+                -webkit-transform: translate(45%) rotate(45deg);
+              }
+              .az_top_left {
+                top: -8px;
+                -webkit-transform-origin: 85% 1px;
+                -webkit-transform: translate(-45%) rotate(-45deg);
+              }
+            </style>
+            <div class="row my-1 mb-4 " style=" padding: 12px">
+           		<div class="col-12 bg-gray" style="border-radius: 10px 10px 0 0;padding-left: 0;">
+					<div class="col-6 " style=" padding:10px 0 10px 10px; overflow: hidden;">
+                        <div class="text-center az_ribbon az_top_left">
+                            <strong><span style="color: white;" t-field="doc.payment_state"></span></strong>
+                        </div>
+                        <div class="text-center az_ribbon az_top_right">
+                            <strong>
+                                <t t-if="doc.payment_state=='not_paid'">
+                                    <span dir="rtl" style="color: white;">مستحق السداد</span>
+                                </t>
+                                <t t-elif="doc.payment_state=='paid'">
+                                    <span dir="rtl" style="color: white;">مسدد</span>
+                                </t>
+                                <t t-elif="doc.payment_state=='partial'">
+                                    <span dir="rtl" style="color: white;">مسدد جزئياً</span>
+                                </t>
+                                <t t-else="else">
+                                    <t t-set="pystat" t-value="doc.payment_state"/>
+                                    <span style="color: white;" t-esc="doc.payment_state"></span>
+                                </t>
+                            </strong>
+                        </div>
+						<div style="width:100%; height:100%; padding:0 20px 0 0">
+							 <div class="row row_no_margin">
+								<div class="col-4 col_no_pad ">Invoice Number</div>
+								<div class="col-4 col_no_pad  text-center"><strong><span t-field="doc.name"></span></strong></div>
+								<div class="col-4 col_no_pad  text-right">رقم الفاتورة</div>
+							</div>
+							<div class="row row_no_margin">
+							   <div class="col-4 col_no_pad ">Invoice Date</div>
+								<div class="col-4 col_no_pad  text-center"><span  dir="rtl" t-field="doc.invoice_date"></span></div>
+								<div class="col-4 col_no_pad  text-right">تاريخ الفاتورة</div>
+							</div>
+							<div class="row row_no_margin">
+								<div class="col-4 col_no_pad ">Supply Date</div>
+								<div class="col-4 col_no_pad  text-center"><span dir="rtl"  t-field="doc.invoice_date_due"></span></div>
+								<div class="col-4 col_no_pad  text-right">تاريخ التوريد</div>
+							</div>
+							<div class="row row_no_margin">
+								<div class="col-4 col_no_pad ">Payment Status</div>
+								<div class="col-4 col_no_pad  text-center">
+                                    <strong>
+                                        <t t-if="doc.payment_state=='not_paid'">
+                                            <span dir="rtl">مستحق السداد</span>
+                                        </t>
+                                        <t t-elif="doc.payment_state=='paid'">
+                                            <span dir="rtl">مسدد</span>
+                                        </t>
+                                        <t t-elif="doc.payment_state=='partial'">
+                                            <span dir="rtl">مسدد جزئياً</span>
+                                        </t>
+                                        <t t-else="else">
+                                            <t t-set="pystat" t-value="doc.payment_state"/>
+                                            <span t-esc="doc.payment_state"></span>
+                                        </t>
+                                    </strong>
+                                </div>
+								<div class="col-4 col_no_pad  text-right">حالة الدفع</div>
+							</div>
+							<div class="row row_no_margin">
+								<div class="col-4 col_no_pad ">Created By</div>
+								<div class="col-4 col_no_pad  text-center"><span t-field="doc.create_uid.partner_id.name"></span></div>
+								<div class="col-4 col_no_pad  text-right"> تم الانشاء بواسطة</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-6 "/>
+            	</div>
+            </div>
+            <div class="oe_structure"/>
+        </template>
+       
+
+
+        <template id="azk_bakhroush_inv_report.inv_lines">
+            <style>
+             .az_bg_logo_color {
+               background-color: #E45D2D;
+             }
+             .border-radius {
+               border-radius: 10px 10px 0 0;
+             }
+             .white-color {
+              color: white !important;
+             }
+             td {
+              color: black;
+             }
+           </style>
+            <table class="table table-sm o_main_table " name="invoice_line_ids_table">
+                <thead class="text-center">
+                	 <!--<tr>
+                	 	<td colspan="8" style="height: 40px;  border-top: none;"/>
+                	 </tr>-->
+                    <tr>
+                        <td class="text-left az_bg_logo_color border-raduis white-color">#</td>
+                        <td class="text-left az_bg_logo_color white-color"><div class="mw-100">تفاصيل السلع أو الخدمات</div><div class="mw-100 ">
+                          NATURE OF GOODS OR SERVICES  </div></td>
+                        <td class="az_bg_logo_color white-color"><div class="mw-100"/>سعر الوحدة<div class="mw-100 "> UNIT PRICE</div></td>
+                        <td class="az_bg_logo_color white-color"><div class="mw-100">الكمية</div><div class="mw-100 "> QUANTITY</div></td>
+                        <td class="az_bg_logo_color white-color"><div class="mw-100">   المبلغ الخاضع
+                            للضريبة</div><div class="mw-100 ">TAXABLE AMOUNT</div></td>
+                        <td class="az_bg_logo_color white-color"><div class="mw-100">الضريبة@ نسبة الضريبة</div><div class="mw-100 ">TAX @ TAX RATE </div></td>
+                        <td class="az_bg_logo_color white-color"><div class="mw-100">المجموع </div><div class="mw-100 ">TOTAL </div></td>
+
+                    </tr>
+                </thead>
+                <tbody class="invoice_line_ids_tbody text-center">
+                    <t t-set="count" t-value="1"/>
+                    <tr t-foreach="doc.invoice_line_ids" t-as="line">
+                        <t t-set="taxes" t-value="sum(line.tax_ids.mapped('amount'))"/>
+                        <td class="text-left bg-gray bold"><span t-esc="count"/></td>
+                        <td class="text-left bg-gray bold"><span t-field="line.name"/></td>
+                        <td class="bg-gray bold"><span t-esc="line.price_unit"/></td>
+                        <td class="bg-gray bold"><span t-field="line.quantity"/></td>
+                        <td class="bg-gray bold"><span t-esc="line.price_subtotal"/></td>
+                        <td class="bg-gray bold"><span t-esc="line.einv_amount_tax"/> @ <span t-esc="taxes"/>%</td>
+                        <td class="bg-gray bold"><span t-esc="line.price_total"/></td>
+                        <t t-set="count" t-value="count + 1"/>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="oe_structure"/>
+        </template>
+
+
+        <template id="azk_bakhroush_inv_report.inv_total">
+            <div style="page-break-inside: avoid;" class="mt-4">
+               
+                <div class="row">
+                    <div class="col-5"/>
+                    <div class="col-7">
+                        <div class="row">
+                            <div class="col-4 col_total_pad">Subtotal Excl. VAT</div>
+                            <div class="col-4 col_total_pad text-center"><span t-esc="'{:,.2f}'.format(doc.einv_amount_sale_total)"/></div>
+                            <div class="col-4 col_total_pad text-right">إجمالي القيمة بدون الضريبة</div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-4 col_total_pad">Taxable Amount</div>
+                            <div class="col-4 col_total_pad text-center"><span t-esc="'{:,.2f}'.format(doc.amount_untaxed)"/></div>
+                            <div class="col-4 col_total_pad text-right">المبلغ خاضع للضريبة</div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-4 col_total_pad">Total VAT (SAR)</div>
+                            <div class="col-4 col_total_pad text-center"><span t-esc="'{:,.2f}'.format(doc.amount_tax_signed)"/></div>
+                             <div class="col-4  col_total_pad text-right" dir="rtl">إجمالي الضريبة(ر.س)</div>
+                        </div>
+                        <div class="row az_lable_logo_color mt-2" style="border-top: 1px solid gray;">
+                            <div class="col-4 col_total_pad">Total Including VAT (SAR)</div>
+                            <div class="col-4 col_total_pad text-center"><span t-esc="'{:,.2f}'.format(doc.amount_total)"/></div>
+                            <div class="col-4 col_total_pad text-right" dir="rtl"><span>الضريبة مع المجموع</span><span>(ر.س)</span></div>
+                        </div>
+                        <div class="row mt-2"> 
+                            <div class="col-12 text-left col_total_pad" style="font-size: small; color: gray;">Total (in words)</div>
+                        </div>
+                         <div class="row">
+                            <div class="col-12 text-left col_total_pad"><span t-esc="doc.currency_id.amount_to_text(doc.amount_total)"/></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="oe_structure"/>
+
+        </template>
+
+        <!-- main document template -->
+        <template id="azk_bakhroush_inv_report.account_move_report_document">
+            <t t-debug=""/>
+            <t t-set="az_report_no_header" t-value="'no_header'"/>
+              
+			<t t-if="not company">
+				<!-- Multicompany -->
+				<t t-if="company_id">
+					<t t-set="company" t-value="company_id"/>
+				</t>
+				<t t-elif="o and 'company_id' in o and o.company_id.sudo()">
+					<t t-set="company" t-value="o.company_id.sudo()"/>
+				</t>
+				<t t-else="else">
+					<t t-set="company" t-value="res_company"/>
+				</t>
+			</t>
+              
+            <t t-call="azk_bakhroush_inv_report.external_layout_standard">
+                <t t-set="doc" t-value="doc"/>
+                <t t-set="o" t-value="doc"/>
+                <div class="page">
+        			<style>
+						* {
+						  font-family: "Odoo Unicode Support Noto";
+						  font-size: 0.9rem !important;
+						}
+						.col_no_pad{
+							padding-left: 1px !important;
+							padding-right: 1px !important;
+						}
+						.col_total_pad{
+							padding-left: 5px !important;
+							padding-right: 5px !important;
+						}
+						.row_no_margin{
+							margin-left: 1px;
+							margin-right: 1px
+						}
+						.az_lable_logo_color{
+							color: #E45D2D;
+						}
+						.table_header_color{
+							background-color: #E45D2D;
+						}
+						.bold {
+						  font-weight: bold
+						}
+						.line-height {
+						  line-height: 1.2;
+						}
+						.bg-gray {
+						  --bs-bg-opacity: 1;
+						  background-color: #F0F0F0	 !important;
+						}
+        			</style>
+                    <!-- Invoice fields-->
+                     <t t-call="azk_bakhroush_inv_report.inv_qr_logo"/>
+                    <t t-call="azk_bakhroush_inv_report.client_info"/>
+                    <t t-call="azk_bakhroush_inv_report.inv_details"/>
+
+                    <!-- Invoice fields-->
+                    <t t-call="azk_bakhroush_inv_report.inv_lines"/>
+
+                    <!-- Invoice total-->
+                    <t t-call="azk_bakhroush_inv_report.inv_total"/>
+                </div>
+
+            </t>
+        </template>
+
+        <!-- main template -->
+        <template id="azk_bakhroush_inv_report.bakhroush_account_move_report">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="azk_bakhroush_inv_report.account_move_report_document"/>
+                </t>
+            </t>
+        </template>
+</odoo>
