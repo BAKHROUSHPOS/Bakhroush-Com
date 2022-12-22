@@ -2,3 +2,7 @@
 	path = einv
 	url = git@git.azka.tech:Odoo3rdParties/einv.git
 	branch = 14.0
+[submodule "az_customers_credit_limit"]
+	path = az_customers_credit_limit
+	url = git@git.azka.tech:Azkatech/customers_credit_limit.git
+	branch = 14.0
