@@ -117,11 +117,11 @@
             	<div class="col-4 text-left">
             		 <img t-if="doc.company_id.logo" t-att-src="image_data_uri(doc.company_id.logo)" style="height: 130px;width:130px" alt="Logo"/>
             	</div>
-                 <div class="col-4 text-center"  style="font-size:1.2rem !important; padding-top: 60pt;">
-                 	<Strong>فاتورة ضريبية</Strong><br/>
-                 	<Strong>Tax Invoice</Strong>
-                    <span t-if="doc.move_type=='out_refund'"> - Credit Note إشعار دائن</span>
-                    <span t-if="doc.move_type=='in_refund'"> - Debit Note إشعار مدين</span>
+                 <div class="col-4 text-center" style="padding-top: 30pt;">
+                 	<Strong style="font-size: 30px !important;">فاتورة ضريبية</Strong><br/>
+                 	<Strong style="font-size: 30px !important;">Tax Invoice</Strong>
+                    <span t-if="doc.move_type=='out_refund'" style="font-size: 30px !important;"> - Credit Note إشعار دائن</span>
+                    <span t-if="doc.move_type=='in_refund'" style="font-size: 30px !important;"> - Debit Note إشعار مدين</span>
                  </div>
                  <div class="col-4 text-right">
                     <t t-if="doc.state=='posted'">
@@ -202,12 +202,18 @@
               .az_ribbon {
                 width: 220px;
                 position: absolute;
-                background: #E45D2D;
+                background:#A0A0A0;
                 font-weight: bold;
               }
               .az_top_right {
-                top: -11px;
-                right: 100px;
+                top: -27px;
+                right: 70px;
+                -webkit-transform-origin: 36% 100px;
+                -webkit-transform: translate(45%) rotate(45deg);
+              }
+              .az_top_right_2nd {
+                top: -16px;
+                right: 85px;
                 -webkit-transform-origin: 36% 100px;
                 -webkit-transform: translate(45%) rotate(45deg);
               }
@@ -218,28 +224,42 @@
               }
             </style>
             <div class="row my-1 mb-4 " style=" padding: 12px">
-           		<div class="col-12 bg-gray" style="border-radius: 10px 10px 0 0;padding-left: 0;">
-					<div class="col-6 " style=" padding:10px 0 10px 10px; overflow: hidden;">
-                        <div class="text-center az_ribbon az_top_left">
-                            <strong><span style="color: white;" t-field="doc.payment_state"></span></strong>
-                        </div>
-                        <div class="text-center az_ribbon az_top_right">
-                            <strong>
-                                <t t-if="doc.payment_state=='not_paid'">
-                                    <span dir="rtl" style="color: white;">مستحق السداد</span>
-                                </t>
-                                <t t-elif="doc.payment_state=='paid'">
-                                    <span dir="rtl" style="color: white;">مسدد</span>
-                                </t>
-                                <t t-elif="doc.payment_state=='partial'">
-                                    <span dir="rtl" style="color: white;">مسدد جزئياً</span>
-                                </t>
-                                <t t-else="else">
-                                    <t t-set="pystat" t-value="doc.payment_state"/>
-                                    <span style="color: white;" t-esc="doc.payment_state"></span>
-                                </t>
-                            </strong>
-                        </div>
+           		<div class="col-12 bg-gray" style="border-radius: 10px 10px 0 0;padding-left: 0; overflow: hidden;">
+                    <div class="text-center az_ribbon az_top_right_2nd">
+                        <strong>
+                            <t t-if="doc.payment_state=='not_paid'">
+                                <span dir="rtl" style="color: white;">Not Paid</span>
+                            </t>
+                            <t t-elif="doc.payment_state=='paid'">
+                                <span dir="rtl" style="color: white;">Paid</span>
+                            </t>
+                            <t t-elif="doc.payment_state=='partial'">
+                                <span dir="rtl" style="color: white;">Partially Paid</span>
+                            </t>
+                            <t t-else="else">
+                                <t t-set="pystat" t-value="doc.payment_state"/>
+                                <span style="color: white;" t-esc="doc.payment_state"></span>
+                            </t>
+                        </strong>
+                    </div>
+                    <div class="text-center az_ribbon az_top_right">
+                        <strong>
+                            <t t-if="doc.payment_state=='not_paid'">
+                                <span dir="rtl" style="color: white;">مستحق السداد</span>
+                            </t>
+                            <t t-elif="doc.payment_state=='paid'">
+                                <span dir="rtl" style="color: white;">مسدد</span>
+                            </t>
+                            <t t-elif="doc.payment_state=='partial'">
+                                <span dir="rtl" style="color: white;">مسدد جزئياً</span>
+                            </t>
+                            <t t-else="else">
+                                <t t-set="pystat" t-value="doc.payment_state"/>
+                                <span style="color: white;" t-esc="doc.payment_state"></span>
+                            </t>
+                        </strong>
+                    </div>
+					<div class="col-6 " style=" padding:10px 0 10px 10px;">
 						<div style="width:100%; height:100%; padding:0 20px 0 0">
 							 <div class="row row_no_margin">
 								<div class="col-4 col_no_pad ">Invoice Number</div>
@@ -295,7 +315,7 @@
         <template id="azk_bakhroush_inv_report.inv_lines">
             <style>
              .az_bg_logo_color {
-               background-color: #E45D2D;
+               background-color: #757575;
              }
              .border-radius {
                border-radius: 10px 10px 0 0;
@@ -320,7 +340,9 @@
                         <td class="az_bg_logo_color white-color"><div class="mw-100">الكمية</div><div class="mw-100 "> QUANTITY</div></td>
                         <td class="az_bg_logo_color white-color"><div class="mw-100">   المبلغ الخاضع
                             للضريبة</div><div class="mw-100 ">TAXABLE AMOUNT</div></td>
-                        <td class="az_bg_logo_color white-color"><div class="mw-100">الضريبة@ نسبة الضريبة</div><div class="mw-100 ">TAX @ TAX RATE </div></td>
+                      <!--   <td class="az_bg_logo_color white-color"><div class="mw-100">الضريبة@ نسبة الضريبة</div><div class="mw-100 ">TAX @ TAX RATE </div></td> -->
+                      	<td  class="mw-100 az_bg_logo_color white-color"><div> نسبة الضريبة</div><div class="mw-100 ">TAX RATE % </div></td>
+                        <td class="mw-100  az_bg_logo_color white-color"><div >الضريبة</div><div class="mw-100 ">TAX </div></td>
                         <td class="az_bg_logo_color white-color"><div class="mw-100">المجموع </div><div class="mw-100 ">TOTAL </div></td>
 
                     </tr>
@@ -334,7 +356,12 @@
                         <td class="bg-gray bold"><span t-esc="line.price_unit"/></td>
                         <td class="bg-gray bold"><span t-field="line.quantity"/></td>
                         <td class="bg-gray bold"><span t-esc="line.price_subtotal"/></td>
-                        <td class="bg-gray bold"><span t-esc="line.einv_amount_tax"/> @ <span t-esc="taxes"/>%</td>
+                      <!--   <td class="bg-gray bold"><span t-esc="line.einv_amount_tax"/> @ <span t-esc="taxes"/>%</td> -->
+                       <td t-attf-class="{{ 'd-none d-md-table-cell bg-gray bold' if report_type == 'html' else 'bg-gray bold' }}">
+                            <span t-esc="', '.join(map(lambda x: (x.description or x.name), line.tax_ids))"
+                                  id="line_tax_ids"/>
+                        </td>
+                        <td class="bg-gray bold"><span t-field="line.einv_amount_tax"/></td>
                         <td class="bg-gray bold"><span t-esc="line.price_total"/></td>
                         <t t-set="count" t-value="count + 1"/>
                     </tr>
@@ -365,8 +392,8 @@
                             <div class="col-4 col_total_pad text-center"><span t-esc="'{:,.2f}'.format(doc.amount_tax_signed)"/></div>
                              <div class="col-4  col_total_pad text-right" dir="rtl">إجمالي الضريبة(ر.س)</div>
                         </div>
-                        <div class="row az_lable_logo_color mt-2" style="border-top: 1px solid gray;">
-                            <div class="col-4 col_total_pad">Total Including VAT (SAR)</div>
+                        <div class="row az_lable_logo_color mt-2" style="border-top: 1px solid gray; font-weight: bold;">
+                            <div class="col-4 col_total_pad" style="font-size: 0.79rem !important;">Total Including VAT (SAR)</div>
                             <div class="col-4 col_total_pad text-center"><span t-esc="'{:,.2f}'.format(doc.amount_total)"/></div>
                             <div class="col-4 col_total_pad text-right" dir="rtl"><span>الضريبة مع المجموع</span><span>(ر.س)</span></div>
                         </div>
@@ -424,7 +451,7 @@
 							margin-right: 1px
 						}
 						.az_lable_logo_color{
-							color: #E45D2D;
+							color: black;
 						}
 						.table_header_color{
 							background-color: #E45D2D;
