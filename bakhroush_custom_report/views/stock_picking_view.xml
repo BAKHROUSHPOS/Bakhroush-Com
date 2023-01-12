@@ -27,7 +27,7 @@
                 <attribute name="groups">bakhroush_custom_report.group_scrap_manager</attribute>
             </xpath>
             <xpath expr="//button[@name='%(stock.act_stock_return_picking)d']" position="attributes">
-                <attribute name="groups">bakhroush_custom_report.group_retrun_manager</attribute>
+                <attribute name="groups">bakhroush_custom_report.group_return_manager</attribute>
             </xpath>
             <xpath expr="//field[@name='picking_type_id']" position="after">
                 <field name="source_warehouse"
@@ -209,7 +209,8 @@
         groups="bakhroush_custom_report.group_scrap_manager"
         sequence="99"/>
 
-    <menuitem action="stock.action_inventory_form" id="stock.menu_action_inventory_form" parent="bakhroush_custom_report.group_inventory_adjustment_manager" sequence="30"/>
+    <menuitem action="stock.action_inventory_form" id="stock.menu_action_inventory_form" groups="bakhroush_custom_report.group_inventory_adjustment_manager" 
+                parent="stock.menu_stock_warehouse_mgmt"/>
 
     <record id="stock.stock_picking_type_action" model="ir.actions.act_window">
             <field name="name">Inventory Overview</field>

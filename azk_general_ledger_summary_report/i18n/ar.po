@@ -1,0 +1,10 @@
+#. module: azk_general_ledger_summary_report
+#: code:addons/azk_general_ledger_summary_report/models/account_general_ledger.py:0
+#, python-format
+msgid "Print Summary"
+msgstr "ملخص الطباعة"
+
+#. module: azk_general_ledger_summary_report
+#: model:ir.actions.report,name:azk_general_ledger_summary_report.action_report_general_ledger_summary
+msgid "General Ledger Summary"
+msgstr "ملخص_دفتر_الأستاذ_العام"

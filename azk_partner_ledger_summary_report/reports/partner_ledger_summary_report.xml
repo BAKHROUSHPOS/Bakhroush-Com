@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_report_partner_ledger_summary" model="ir.actions.report">
+        <field name="name">Partner Ledger Summary</field>
+        <field name="model">res.partner</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">azk_partner_ledger_summary_report.az_partner_ledger_summary</field>
+        <field name="report_file">azk_partner_ledger_summary_report.az_partner_ledger_summary</field>
+    </record>
+    
+    <template id="az_partner_ledger_summary">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <style>
+                    * {
+                        font-family: Odoo Unicode Support Noto !important;
+                    }
+                    .bordered {
+                        border: 1px solid gray;
+                    }
+                    .text-right {
+                        text-align: right;
+                    }
+                    .text-left {
+                        text-align: left;
+                    }
+                    td {
+                        border: 1px solid gray;
+                        padding: 5px;
+                    }
+                    .bold {
+                        font-weight: bold;
+                    }
+                </style>
+                <t t-set="date_from" t-value="options.get('date', {}).get('date_from')" />
+                <t t-set="date_to" t-value="options.get('date', {}).get('date_to')" />
+                <t t-set="branches" t-value="options.get('branches', [])" />
+                <t t-set="selected_branches" t-value="[b['name'] for b in branches if b.get('selected') and b.get('selected')==True ]" />
+                <t t-set="selected_branches_names" t-value="','.join(selected_branches) if selected_branches else 'الكل'" />
+                <div class="col-md-12 bold" style="text-align: center; font-size: 18px; text-decoration: underline; direction:rtl">
+                  كشف بحسابات العملاء للفترة من <t t-esc="date_from"/> إلى <t t-esc="date_to"/> الفرع: <t t-esc="selected_branches_names"/>
+                </div>
+                <t t-if="summary_lines">
+                    <table style="width: 100%; margin-top: 5mm;">
+                        <thead>
+                            <td class="bold text-left">اسم الحساب</td>
+                            <td class="bold text-right">رصيد</td>
+                            <td class="bold text-right">ما قبله</td>
+                            <td class="bold text-right">دائن</td>
+                            <td class="bold text-right">مدين</td>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="summary_lines" t-as="line">
+                                <tr>
+                                    <td t-esc="line.get('name')"/>
+                                    <t t-set="columns_to_print" t-value="['balance', 'initial_balance', 'credit', 'debit']"/>
+                                    <t t-foreach="columns_to_print" t-as="col">
+                                        <td class="text-right" t-esc="line.get(col)"/>
+                                    </t>
+                                </tr>
+                            </t>
+                            <tr>
+                                <td class="bold text-left">Totals</td>
+                                <t t-foreach="totals.values()" t-as="col">
+                                    <td class="text-right" t-esc="col"/>
+                                </t>
+                            </tr>
+                        </tbody>
+                    </table>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

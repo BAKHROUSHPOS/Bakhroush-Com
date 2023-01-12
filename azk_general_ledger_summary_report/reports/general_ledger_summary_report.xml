@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_report_general_ledger_summary" model="ir.actions.report">
+        <field name="name">General Ledger Summary</field>
+        <field name="model">res.partner</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">azk_general_ledger_summary_report.az_general_ledger_summary</field>
+        <field name="report_file">azk_general_ledger_summary_report.az_general_ledger_summary</field>
+    </record>
+    
+    <template id="az_general_ledger_summary">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <style>
+                    * {
+                        font-family: Odoo Unicode Support Noto !important;
+                    }
+                    .bordered {
+                        border: 1px solid gray;
+                    }
+                    .text-right {
+                        text-align: right;
+                    }
+                    .text-left {
+                        text-align: left;
+                    }
+                    td {
+                        border: 1px solid gray;
+                        padding: 5px;
+                    }
+                    .bold {
+                        font-weight: bold;
+                    }
+                </style>
+                <t t-set="date_from" t-value="options.get('date', {}).get('date_from')" />
+                <t t-set="date_to" t-value="options.get('date', {}).get('date_to')" />
+                <t t-set="branches" t-value="options.get('branches', [])" />
+                <t t-set="selected_branches" t-value="[b['name'] for b in branches if b.get('selected') and b.get('selected')==True ]" />
+                <t t-set="selected_branches_names" t-value="','.join(selected_branches) if selected_branches else 'الكل'" />
+                <div class="col-md-12 bold" style="text-align: center; font-size: 18px; text-decoration: underline; direction:rtl">
+                   كشف حساب تفصيلي للفترة من <t t-esc="date_from" /> إلى <t t-esc="date_to" /> الفرع: <t t-esc="selected_branches_names" />
+                </div>
+                <t t-if="summary_lines">
+                    <table style="width: 100%; margin-top: 5mm;">
+                        <thead>
+                            <td class="bold text-left">رقم الحساب</td>
+                            <td class="bold text-left">اسم الحساب</td>
+                            <td class="bold text-right">رصيد</td>
+                            <td class="bold text-right">ما قبله</td>
+                            <td class="bold text-right">دائن</td>
+                            <td class="bold text-right">مدين</td>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="summary_lines" t-as="line">
+                                <tr>
+                                    <td t-esc="line.get('account_number')"/>
+                                    <td t-esc="line.get('account_name')"/>
+                                    <t t-if="line.get('balance') &lt; 0">
+                                        <td class="text-right">
+                                            (<span t-esc="'{:,.2f}'.format(abs(line.get('balance')))"/>)
+                                        </td>
+                                    </t>
+                                    <t t-else="">
+                                        <td class="text-right" t-esc="'{:,.2f}'.format(abs(line.get('balance')))"/>
+                                    </t>
+                                    <t t-if="line.get('initial_balance') &lt; 0">
+                                        <td class="text-right">
+                                            (<span t-esc="'{:,.2f}'.format(abs(line.get('initial_balance')))"/>)
+                                        </td>
+                                    </t>
+                                    <t t-else="">
+                                        <td class="text-right" t-esc="'{:,.2f}'.format(abs(line.get('initial_balance')))"/>
+                                    </t>
+                                    <t t-if="line.get('credit') &lt; 0">
+                                        <td class="text-right">
+                                            (<span t-esc="'{:,.2f}'.format(abs(line.get('credit')))"/>)
+                                        </td>
+                                    </t>
+                                    <t t-else="">
+                                        <td class="text-right" t-esc="'{:,.2f}'.format(abs(line.get('credit')))"/>
+                                    </t>
+                                    <t t-if="line.get('debit') &lt; 0">
+                                        <td class="text-right">
+                                            (<span t-esc="'{:,.2f}'.format(abs(line.get('debit')))"/>)
+                                        </td>
+                                    </t>
+                                    <t t-else="">
+                                        <td class="text-right" t-esc="'{:,.2f}'.format(abs(line.get('debit')))"/>
+                                    </t>
+                                </tr>
+                            </t>
+                            <tr>
+                        		<td ><b>Totals</b></td>
+                        		<td></td>	
+                        		
+                       			 <t t-if="round(totals.get('balance'), 2) &lt; 0">
+                                       <td class="text-right">
+                                           (<span t-esc="'{:,.2f}'.format(abs(totals.get('balance')))"/>)
+                                       </td>
+                                   </t>
+                                   <t t-else="">
+                                       <td class="text-right" t-esc="'{:,.2f}'.format(abs(totals.get('balance')))"/>
+                                   </t>
+                        		
+                        		 <t t-if="round(totals.get('initial_balance'), 2) &lt; 0">
+                                       <td class="text-right">
+                                           (<span t-esc="'{:,.2f}'.format(abs(totals.get('initial_balance')))"/>)
+                                       </td>
+                                   </t>
+                                   <t t-else="">
+                                       <td class="text-right" t-esc="'{:,.2f}'.format(abs(totals.get('initial_balance')))"/>
+                                   </t>
+                                   
+                        		 	<t t-if="totals.get('credit') &lt; 0">
+                                       <td class="text-right">
+                                           (<span t-esc="'{:,.2f}'.format(abs(totals.get('credit')))"/>)
+                                       </td>
+                                   </t>
+                                   <t t-else="">
+                                       <td class="text-right" t-esc="'{:,.2f}'.format(abs(totals.get('debit')))"/>
+                                   </t>
+                       				<t t-if="totals.get('credit') &lt; 0">
+                                       <td class="text-right">
+                                           (<span t-esc="'{:,.2f}'.format(abs(totals.get('debit')))"/>)
+                                       </td>
+                                   </t>
+                                   <t t-else="">
+                                       <td class="text-right" t-esc="'{:,.2f}'.format(abs(totals.get('debit')))"/>
+                                   </t>
+                        	</tr>
+                        </tbody>
+                       
+                    </table>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>
