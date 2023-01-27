@@ -12,11 +12,11 @@
     # Website
     'author': 'Aneesh.AV',
     # Dependencies
-    'depends': ['base','product','stock','saudi_vat_invoice_print','sale','mrp','aspl_company_branch_ee','purchase','contacts'],
+    'depends': ['base','product','stock','saudi_vat_invoice_print','sale','mrp','aspl_company_branch_ee','purchase','contacts', 'hr'],
     # Data
     'data': [
-        'security/ir.model.access.csv',
         'views/data.xml',
+        'security/ir.model.access.csv',
         'report/delivery_report.xml',
         'report/delivery_dotmatrix_report.xml',
         'report/delivery_concreate_dotmatrix_report.xml',
@@ -27,8 +27,9 @@
         'views/res_partner_view.xml',
         'views/product_view.xml',
         'views/payment_terms.xml',
-        'views/branch.xml'
-         ],
+        'views/branch.xml',
+        'wizards/credit_limit_wizard.xml',
+        ],
     'installable': True,
     'application': True,
 }

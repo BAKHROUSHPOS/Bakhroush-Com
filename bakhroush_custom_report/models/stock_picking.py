@@ -403,10 +403,13 @@ class StockPicking(models.Model):
     def _pre_action_done_hook(self):
         print(self.sale_id.payment_term_id.force_invoice)
         print(self.env.context)
-        if not self.sale_id.payment_term_id.force_invoice and self.picking_total_value > self.balance_amount and not self.env.user.has_group('account.group_account_manager'):
-            raise ValidationError(
-                        _("No enough credit to for the customer, Contact Finance dep. \n\n"
-                          "لا يوجد رصيد لدي العميل، يرجي مراجعة الأدارة المالية"))
+        if not self.env.context.get("bypass_credit_validation") and not self.sale_id.payment_term_id.force_invoice and self.picking_total_value > self.balance_amount:
+            message = "No enough credit to for the customer, Contact Finance dep. \n\n لا يوجد رصيد لدي العميل، يرجي مراجعة الأدارة المالية"
+            credit_limit_wizard_id = self.env['credit.limit.wizard'].create({'message': message, 'picking_id': self.id})
+            credit_limit_wizard_id._compute_can_validate()
+            action = self.env.ref('bakhroush_custom_report.credit_limit_validation_action').sudo().read()[0]
+            action['res_id'] = credit_limit_wizard_id.id
+            return action
         else:
             if not self.env.context.get('skip_immediate'):
                 pickings_to_immediate = self._check_immediate()
@@ -493,11 +496,14 @@ class StockPicking(models.Model):
             pickings_to_backorder = self
 
         if not self.invoice_id:
-            if not self.sale_id.payment_term_id.force_invoice and self.picking_total_value > self.balance_amount and not self.env.user.has_group(
-                    'account.group_account_manager'):
-                raise ValidationError(
-                    _("No enough credit to for the customer, Contact Finance dep. \n\n"
-                      "لا يوجد رصيد لدي العميل، يرجي مراجعة الأدارة المالية"))
+            if not self.env.context.get("bypass_credit_validation") and not self.sale_id.payment_term_id.force_invoice and self.picking_total_value > self.balance_amount:
+                message = "No enough credit to for the customer, Contact Finance dep. \n\n لا يوجد رصيد لدي العميل، يرجي مراجعة الأدارة المالية"
+                credit_limit_wizard_id = self.env['credit.limit.wizard'].create({'message': message, 'picking_id': self.id})
+                credit_limit_wizard_id._compute_can_validate()
+                action = self.env.ref('bakhroush_custom_report.credit_limit_validation_action').sudo().read()[0]
+                action['res_id'] = credit_limit_wizard_id.id
+                return action
+            
             else:
                 if self.sale_id.payment_term_id.force_invoice:
                     if pickings_not_to_backorder:

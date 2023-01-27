@@ -23,3 +23,4 @@ base.access_res_partner_group_partner_manager,res_partner group_partner_manager,
 access_res_partner_group_contact_manager,res_partner group_contact_manager,base.model_res_partner,group_contact_manager,1,1,1,1
 access_fleet_vehicle_user,fleet_vehicle_user,fleet.model_fleet_vehicle,base.group_user,1,0,0,0
 base.access_ir_ui_view_group_user,ir_ui_view account_user,base.model_ir_ui_view,account.group_account_user,1,0,0,0
+access.credit.limit.wizard.model,credit.limit.wizard,model_credit_limit_wizard,,1,1,1,1
