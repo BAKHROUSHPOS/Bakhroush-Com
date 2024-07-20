@@ -1,4 +1,4 @@
-[submodule "einv"]
-	path = einv
-	url = git@git.azka.tech:Odoo3rdParties/einv.git
-	branch = 14.0
+#[submodule "einv"]
+#	path = einv
+#	url = git@git.azka.tech:Odoo3rdParties/einv.git
+#	branch = 14.0
